@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Public\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\HomeController;
@@ -28,9 +29,17 @@ Route::get('/session', function () {
 
 });
 
-Route::get('/', function () {
-    return view('welcome');
-})->name('public.welcome');
+Route::get('/', [WelcomeController::class, 'index'])->name('public.welcome');
+Route::get('/about', [WelcomeController::class, 'about'])->name('public.about');
+Route::get('/contact', [WelcomeController::class, 'contact'])->name('public.contact');
+Route::get('/events', [WelcomeController::class, 'events'])->name('public.events');
+Route::get('/members', [WelcomeController::class, 'members'])->name('public.members');
+Route::get('/members/{id}', [WelcomeController::class, 'memberDetails'])->name('public.members.details');
+Route::get('/projects', [WelcomeController::class, 'projects'])->name('public.projects');
+Route::get('/projects/{id}', [WelcomeController::class, 'projectDetails'])->name('public.projects.details');
+Route::get('/gallery', [WelcomeController::class, 'gallery'])->name('public.gallery');
+Route::get('/blog', [WelcomeController::class, 'blog'])->name('public.blog');
+Route::get('/blog/{id}', [WelcomeController::class, 'blogDetails'])->name('public.blog.details');
 
 
 
