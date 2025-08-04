@@ -24,6 +24,65 @@
                     Dashboard
                 </a>
             </li>
+            <li>
+                <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white
+                {{ in_array(Route::currentRouteName(), ['admin.events.index', 'admin.events.create', 'admin.events.edit']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
+                    href="{{ route('admin.events.index') }}">
+                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 0a1 1 0 0 1 1 1v1h4a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4V1a1 1 0 0 1 2 0v2h4V1a1 1 0 0 1 .293-.707A.997.997 0 0 1 8 .001zM2.5 4v11h11V4H2.5z" />
+                    </svg>
+                    Events
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white
+                {{ in_array(Route::currentRouteName(), ['admin.members.index', 'admin.members.create', 'admin.members.edit']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
+                    href="{{ route('admin.members.index') }}">
+                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm4 8a4 4 0 0 0-8 0h8z"/>
+                    </svg>
+                    Members
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white
+                {{ in_array(Route::currentRouteName(), ['admin.projects.index', 'admin.projects.create', 'admin.projects.edit']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
+                    href="{{ route('admin.projects.index') }}">
+                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" viewBox="0 0 16 16">
+                        <rect x="2" y="2" width="12" height="12" rx="2"/>
+                        <path d="M2 6h12M6 2v12"/>
+                    </svg>
+                    Projects
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white
+                {{ in_array(Route::currentRouteName(), ['admin.blogs.index', 'admin.blogs.create', 'admin.blogs.edit']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
+                    href="{{ route('admin.blogs.index') }}">
+                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" viewBox="0 0 16 16">
+                        <rect x="2" y="2" width="12" height="12" rx="2"/>
+                        <path d="M4 4h8M4 8h8M4 12h4"/>
+                    </svg>
+                    Blogs
+                </a>
+            </li>
+            <li>
+                <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white
+                {{ in_array(Route::currentRouteName(), ['admin.galleries.index', 'admin.galleries.create', 'admin.galleries.edit']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
+                    href="{{ route('admin.galleries.index') }}">
+                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                        fill="currentColor" viewBox="0 0 16 16">
+                        <rect x="2" y="4" width="12" height="9" rx="1" />
+                        <rect x="4" y="2" width="8" height="2" rx="1" />
+                        <circle cx="8" cy="8.5" r="2" />
+                    </svg>
+                    Galleries
+                </a>
+            </li>
             <li class="hs-accordion {{ in_array(Route::currentRouteName(), ['admin.role', 'admin.role.createPage', 'admin.role.edit', 'admin.permission', 'admin.permission.createPage', 'admin.permission.edit', 'admin.user', 'admin.user.createPage', 'admin.users.show']) ? 'hs-accordion-active' : '' }}"
                 id="account-accordion">
                 <a class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-blue-600 hs-accordion-active:hover:bg-transparent text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:hs-accordion-active:text-white"

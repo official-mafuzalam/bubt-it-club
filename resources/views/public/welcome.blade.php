@@ -225,7 +225,7 @@
                     <a href="#"
                         class="bg-white text-blue-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition duration-300">Register
                         Now</a>
-                    <a href="#"
+                    <a href="{{ route('public.contact') }}"
                         class="border border-white text-white px-8 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-800 transition duration-300">Contact
                         Us</a>
                 </div>

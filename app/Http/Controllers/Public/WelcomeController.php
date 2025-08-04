@@ -48,7 +48,7 @@ class WelcomeController extends Controller
     {
         $pageTitle = 'Contact Us';
         $pageDescription = 'Get in touch with BUBT IT Club leadership team';
-        
+
         return view('public.contact', compact('pageTitle', 'pageDescription'));
     }
 
@@ -59,15 +59,23 @@ class WelcomeController extends Controller
      */
     public function events(): View
     {
-        // $events = Event::query()
-        //     ->where('is_published', true)
-        //     ->orderBy('event_date', 'desc')
-        //     ->paginate(6);
+        $events = Event::query()
+            ->where('is_published', true)
+            ->where('start_date', '>=', now()) // Only upcoming events
+            ->orderBy('start_date', 'asc') // Order by soonest first
+            ->paginate(6);
+
+        $pastEvents = Event::query()
+            ->where('is_published', true)
+            ->where('end_date', '<', now()) // Only past events
+            ->orderBy('start_date', 'desc') // Order by most recent first
+            ->take(3)
+            ->get();
 
         $pageTitle = 'Upcoming Events';
         $pageDescription = 'Discover upcoming workshops, seminars, and competitions organized by BUBT IT Club';
 
-        return view('public.events.index', compact('events', 'pageTitle', 'pageDescription'));
+        return view('public.events.index', compact('events', 'pastEvents', 'pageTitle', 'pageDescription'));
     }
 
     /**
@@ -134,9 +142,9 @@ class WelcomeController extends Controller
      */
     public function projectDetails(string $id): View
     {
-            // $project = Project::query()
-            //     ->with(['members', 'technologies'])
-            //     ->findOrFail($id);
+        // $project = Project::query()
+        //     ->with(['members', 'technologies'])
+        //     ->findOrFail($id);
 
         // $pageTitle = "Project - {$project['title']}";
         // $pageDescription = $project['short_description'];

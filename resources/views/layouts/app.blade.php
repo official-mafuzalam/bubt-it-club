@@ -19,7 +19,7 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
-                        <img class="h-10 w-auto" src="https://bubt.edu.bd/assets/img/logo.png" alt="BUBT Logo">
+                        <img class="h-10 w-auto" src="{{ asset('assets/logo.png') }}" alt="BUBT IT Club Logo">
                         <span class="ml-2 text-xl font-bold text-blue-800">BUBT IT Club</span>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                         class="{{ request()->routeIs('public.members') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Members</a>
                     <a href="{{ route('public.blog') }}"
                         class="{{ request()->routeIs('public.blog') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Blog</a>
-                    <a href="#"
+                    <a href="{{ route('admin.index') }}"
                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">Join
                         Us</a>
                 </div>
@@ -66,7 +66,8 @@
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Members</a>
                 <a href="{{ route('public.blog') }}"
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Blog</a>
-                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white">Join
+                <a href="{{ route('admin.index') }}"
+                    class="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white">Join
                     Us</a>
             </div>
         </div>

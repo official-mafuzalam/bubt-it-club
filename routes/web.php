@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\BlogPostController;
+use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\Admin\GalleryController;
+use App\Http\Controllers\Admin\MemberController;
+use App\Http\Controllers\Admin\ProjectController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Public\WelcomeController;
 use Illuminate\Support\Facades\Route;
@@ -50,6 +55,21 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
     Route::prefix('admin')->group(function () {
 
         Route::get('/', [HomeController::class, 'index'])->name('admin.index');
+
+        // Events
+        Route::resource('events', EventController::class)->names('admin.events');
+
+        // Members
+        Route::resource('members', MemberController::class)->names('admin.members');
+
+        // Projects
+        Route::resource('projects', ProjectController::class)->names('admin.projects');
+
+        // Blogs
+        Route::resource('blogs', BlogPostController::class)->names('admin.blogs');
+
+        // Galleries
+        Route::resource('galleries', GalleryController::class)->names('admin.galleries');
 
 
         // Profile
