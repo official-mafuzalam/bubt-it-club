@@ -59,10 +59,10 @@ class WelcomeController extends Controller
      */
     public function events(): View
     {
-        $events = Event::query()
-            ->where('is_published', true)
-            ->orderBy('event_date', 'desc')
-            ->paginate(6);
+        // $events = Event::query()
+        //     ->where('is_published', true)
+        //     ->orderBy('event_date', 'desc')
+        //     ->paginate(6);
 
         $pageTitle = 'Upcoming Events';
         $pageDescription = 'Discover upcoming workshops, seminars, and competitions organized by BUBT IT Club';
@@ -77,11 +77,11 @@ class WelcomeController extends Controller
      */
     public function members(): View
     {
-        $members = Member::query()
-            ->where('is_active', true)
-            ->orderBy('batch', 'desc')
-            ->orderBy('name', 'asc')
-            ->paginate(12);
+        // $members = Member::query()
+        //     ->where('is_active', true)
+        //     ->orderBy('batch', 'desc')
+        //     ->orderBy('name', 'asc')
+        //     ->paginate(12);
 
         $pageTitle = 'Our Members';
         $pageDescription = 'Meet the talented members of BUBT IT Club';
@@ -97,12 +97,12 @@ class WelcomeController extends Controller
      */
     public function memberDetails(string $id): View
     {
-        $member = Member::query()
-            ->with(['projects', 'events'])
-            ->findOrFail($id);
+        // $member = Member::query()
+        //     ->with(['projects', 'events'])
+        //     ->findOrFail($id);
 
-        $pageTitle = "Member Profile - {$member->name}";
-        $pageDescription = "Learn about {$member->name}'s contributions to BUBT IT Club";
+        // $pageTitle = "Member Profile - {$member['name']}";
+        // $pageDescription = "Learn about {$member['name']}'s contributions to BUBT IT Club";
 
         return view('public.members.show', compact('member', 'pageTitle', 'pageDescription'));
     }
@@ -114,11 +114,11 @@ class WelcomeController extends Controller
      */
     public function projects(): View
     {
-        $projects = Project::query()
-            ->with(['members', 'technologies'])
-            ->where('is_published', true)
-            ->orderBy('created_at', 'desc')
-            ->paginate(6);
+        // $projects = Project::query()
+        //     ->with(['members', 'technologies'])
+        //     ->where('is_published', true)
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(6);
 
         $pageTitle = 'Our Projects';
         $pageDescription = 'Explore innovative projects created by BUBT IT Club members';
@@ -134,12 +134,12 @@ class WelcomeController extends Controller
      */
     public function projectDetails(string $id): View
     {
-        $project = Project::query()
-            ->with(['members', 'technologies'])
-            ->findOrFail($id);
+            // $project = Project::query()
+            //     ->with(['members', 'technologies'])
+            //     ->findOrFail($id);
 
-        $pageTitle = "Project - {$project->title}";
-        $pageDescription = $project->short_description;
+        // $pageTitle = "Project - {$project['title']}";
+        // $pageDescription = $project['short_description'];
 
         return view('public.projects.show', compact('project', 'pageTitle', 'pageDescription'));
     }
@@ -151,10 +151,10 @@ class WelcomeController extends Controller
      */
     public function gallery(): View
     {
-        $galleries = Gallery::query()
-            ->where('is_active', true)
-            ->orderBy('created_at', 'desc')
-            ->paginate(12);
+        // $galleries = Gallery::query()
+        //     ->where('is_active', true)
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate(12);
 
         $pageTitle = 'Gallery';
         $pageDescription = 'Photos from our events and activities';
@@ -169,11 +169,11 @@ class WelcomeController extends Controller
      */
     public function blog(): View
     {
-        $posts = BlogPost::query()
-            ->with(['author', 'categories'])
-            ->where('is_published', true)
-            ->orderBy('published_at', 'desc')
-            ->paginate(6);
+        // $posts = BlogPost::query()
+        //     ->with(['author', 'categories'])
+        //     ->where('is_published', true)
+        //     ->orderBy('published_at', 'desc')
+        //     ->paginate(6);
 
         $pageTitle = 'Blog';
         $pageDescription = 'Latest articles and news from BUBT IT Club';
@@ -189,15 +189,27 @@ class WelcomeController extends Controller
      */
     public function blogDetails(string $id): View
     {
-        $post = BlogPost::query()
-            ->with(['author', 'categories', 'comments'])
-            ->findOrFail($id);
+        // $post = BlogPost::query()
+        //     ->with(['author', 'categories', 'comments'])
+        //     ->findOrFail($id);
 
-        $pageTitle = $post->title;
-        $pageDescription = $post->excerpt;
+        $post = [
+            'title' => 'Sample Blog Post',
+            'excerpt' => 'This is a sample blog post excerpt.',
+            'content' => 'This is the full content of the sample blog post.',
+            'author' => 'John Doe',
+            'categories' => ['Category 1', 'Category 2'],
+            'comments' => [
+                ['author' => 'Alice', 'content' => 'Great post!'],
+                ['author' => 'Bob', 'content' => 'Thanks for sharing!'],
+            ],
+        ];
+
+        $pageTitle = $post['title'];
+        $pageDescription = $post['excerpt'];
 
         // Increment view count
-        $post->increment('views');
+        // $post->increment('views');
 
         return view('public.blog.show', compact('post', 'pageTitle', 'pageDescription'));
     }

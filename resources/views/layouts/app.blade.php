@@ -24,15 +24,18 @@
                     </div>
                 </div>
                 <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
-                    <a href="#"
-                        class="text-blue-800 border-b-2 border-blue-600 px-3 py-2 text-sm font-medium">Home</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">About</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Events</a>
-                    <a href="#"
-                        class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Projects</a>
-                    <a href="#"
-                        class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Members</a>
-                    <a href="#" class="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Blog</a>
+                    <a href="{{ route('public.welcome') }}"
+                        class="{{ request()->routeIs('public.welcome') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Home</a>
+                    <a href="{{ route('public.about') }}"
+                        class="{{ request()->routeIs('public.about') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">About</a>
+                    <a href="{{ route('public.events') }}"
+                        class="{{ request()->routeIs('public.events') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Events</a>
+                    <a href="{{ route('public.projects') }}"
+                        class="{{ request()->routeIs('public.projects') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Projects</a>
+                    <a href="{{ route('public.members') }}"
+                        class="{{ request()->routeIs('public.members') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Members</a>
+                    <a href="{{ route('public.blog') }}"
+                        class="{{ request()->routeIs('public.blog') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Blog</a>
                     <a href="#"
                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">Join
                         Us</a>
@@ -51,17 +54,17 @@
         <!-- Mobile menu -->
         <div class="md:hidden hidden" id="mobile-menu">
             <div class="pt-2 pb-3 space-y-1">
-                <a href="#"
+                <a href="{{ route('public.welcome') }}"
                     class="bg-blue-50 text-blue-800 block px-3 py-2 rounded-md text-base font-medium">Home</a>
-                <a href="#"
+                <a href="{{ route('public.about') }}"
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">About</a>
-                <a href="#"
+                <a href="{{ route('public.events') }}"
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Events</a>
-                <a href="#"
+                <a href="{{ route('public.projects') }}"
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-                <a href="#"
+                <a href="{{ route('public.members') }}"
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Members</a>
-                <a href="#"
+                <a href="{{ route('public.blog') }}"
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Blog</a>
                 <a href="#" class="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white">Join
                     Us</a>
