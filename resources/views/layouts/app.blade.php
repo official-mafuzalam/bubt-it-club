@@ -32,8 +32,8 @@
                         class="{{ request()->routeIs('public.events') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Events</a>
                     <a href="{{ route('public.projects') }}"
                         class="{{ request()->routeIs('public.projects') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Projects</a>
-                    <a href="{{ route('public.members') }}"
-                        class="{{ request()->routeIs('public.members') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Members</a>
+                    <a href="{{ route('public.members.index') }}"
+                        class="{{ request()->routeIs('public.members.index') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Members</a>
                     <a href="{{ route('public.blog') }}"
                         class="{{ request()->routeIs('public.blog') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Blog</a>
                     <a href="{{ route('admin.index') }}"
@@ -62,7 +62,7 @@
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Events</a>
                 <a href="{{ route('public.projects') }}"
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-                <a href="{{ route('public.members') }}"
+                <a href="{{ route('public.members.index') }}"
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Members</a>
                 <a href="{{ route('public.blog') }}"
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Blog</a>

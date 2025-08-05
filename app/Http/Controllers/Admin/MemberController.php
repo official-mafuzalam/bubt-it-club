@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Member;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
 {
@@ -12,7 +16,11 @@ class MemberController extends Controller
      */
     public function index()
     {
-        //
+        $members = Member::latest()
+            ->filter(request(['search']))
+            ->paginate(10);
+
+        return view('admin.members.index', compact('members'));
     }
 
     /**
@@ -20,7 +28,11 @@ class MemberController extends Controller
      */
     public function create()
     {
-        //
+        $departments = ['CSE', 'EEE', 'BBA', 'English', 'LLB', 'Architecture'];
+        $positions = ['President', 'Vice President', 'General Secretary', 'Treasurer', 'Executive Member', 'Member'];
+        $categories = ['Coding', 'Design', 'Management', 'Networking', 'Content Writing', 'Graphics', 'Photography'];
+
+        return view('admin.members.create', compact('departments', 'positions', 'categories'));
     }
 
     /**
@@ -28,38 +40,156 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:members,email',
+            'password' => 'required|string|min:8|confirmed',
+            'student_id' => 'required|string|unique:members,student_id',
+            'department' => 'required|string|max:255',
+            'intake' => 'required|integer|min:1|max:99',
+            'phone' => 'nullable|string|max:20',
+            'gender' => 'required|in:male,female,other',
+            'position' => 'nullable|string|max:255',
+            'bio' => 'nullable|string|max:1000',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'social_links.*' => 'nullable|url',
+            'favorite_categories' => 'nullable|array',
+            'favorite_categories.*' => 'string|max:255',
+            'is_active' => 'boolean',
+            'joined_at' => 'required|date',
+        ]);
+
+        // Handle file upload
+        if ($request->hasFile('photo')) {
+            $validated['photo_url'] = $request->file('photo')->store('member-photos', 'public');
+        }
+
+        // Hash password
+        $validated['password'] = Hash::make($validated['password']);
+
+        // Convert arrays to JSON
+        $validated['social_links'] = $request->social_links ? json_encode($request->social_links) : null;
+        $validated['favorite_categories'] = $request->favorite_categories ? json_encode($request->favorite_categories) : null;
+
+        Member::create($validated);
+
+        return redirect()->route('admin.members.index')
+            ->with('success', 'Member created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Member $member)
     {
-        //
+        return view('admin.members.show', compact('member'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Member $member)
     {
-        //
+        $departments = ['CSE', 'EEE', 'BBA', 'English', 'LLB', 'Architecture'];
+        $positions = ['President', 'Vice President', 'General Secretary', 'Treasurer', 'Executive Member', 'Member'];
+        $categories = ['Coding', 'Design', 'Management', 'Networking', 'Content Writing', 'Graphics', 'Photography'];
+
+        return view('admin.members.edit', compact('member', 'departments', 'positions', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Member $member)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => ['required', 'email', Rule::unique('members')->ignore($member->id)],
+            'password' => 'nullable|string|min:8|confirmed',
+            'student_id' => ['required', 'string', 'regex:/^\d{10}$/', Rule::unique('members')->ignore($member->id)],
+            'department' => 'required|string|max:255',
+            'intake' => 'required|integer|min:1|max:99',
+            'phone' => 'nullable|string|max:20',
+            'gender' => 'required|in:male,female,other',
+            'position' => 'nullable|string|max:255',
+            'bio' => 'nullable|string|max:1000',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'social_links.*' => 'nullable|url',
+            'favorite_categories' => 'nullable|array',
+            'favorite_categories.*' => 'string|max:255',
+            'is_active' => 'boolean',
+            'joined_at' => 'required|date',
+        ]);
+
+        // Handle file upload
+        if ($request->hasFile('photo')) {
+            // Delete old photo if exists
+            if ($member->photo_url) {
+                Storage::disk('public')->delete($member->photo_url);
+            }
+            $validated['photo_url'] = $request->file('photo')->store('member-photos', 'public');
+        }
+
+        // Update password if provided
+        if ($request->filled('password')) {
+            $validated['password'] = Hash::make($validated['password']);
+        } else {
+            unset($validated['password']);
+        }
+
+        // Convert arrays to JSON
+        $validated['social_links'] = $request->social_links ? json_encode($request->social_links) : $member->social_links;
+        $validated['favorite_categories'] = $request->favorite_categories ? json_encode($request->favorite_categories) : $member->favorite_categories;
+
+        $member->update($validated);
+
+        return redirect()->route('admin.members.index')
+            ->with('success', 'Member updated successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Member $member)
     {
-        //
+        // Delete photo if exists
+        if ($member->photo_url) {
+            Storage::disk('public')->delete($member->photo_url);
+        }
+
+        $member->delete();
+
+        return redirect()->route('admin.members.index')
+            ->with('success', 'Member deleted successfully.');
+    }
+
+    /**
+     * Restore the specified soft deleted resource.
+     */
+    public function restore($id)
+    {
+        $member = Member::withTrashed()->findOrFail($id);
+        $member->restore();
+
+        return redirect()->route('admin.members.index')
+            ->with('success', 'Member restored successfully.');
+    }
+
+    /**
+     * Permanently delete the specified resource.
+     */
+    public function forceDelete($id)
+    {
+        $member = Member::withTrashed()->findOrFail($id);
+
+        // Delete photo if exists
+        if ($member->photo_url) {
+            Storage::disk('public')->delete($member->photo_url);
+        }
+
+        $member->forceDelete();
+
+        return redirect()->route('admin.members.index')
+            ->with('success', 'Member permanently deleted.');
     }
 }

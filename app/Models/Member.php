@@ -13,15 +13,17 @@ class Member extends Model
     protected $fillable = [
         'name',
         'email',
+        'password',
         'student_id',
         'department',
-        'batch',
+        'intake',
         'phone',
         'gender',
         'position',
         'bio',
         'photo_url',
         'social_links',
+        'favorite_categories', //like: ['coding', 'design', 'management']
         'is_active',
         'joined_at'
     ];
@@ -29,7 +31,9 @@ class Member extends Model
     protected $casts = [
         'social_links' => 'array',
         'joined_at' => 'date',
-        'is_active' => 'boolean'
+        'is_active' => 'boolean',
+        'password' => 'hashed',
+        'favorite_categories' => 'array',
     ];
 
     public function projects()
@@ -49,5 +53,16 @@ class Member extends Model
     public function getBatchYearAttribute()
     {
         return '20' . substr($this->student_id, 0, 2);
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%' . $search . '%')
+                    ->orWhere('email', 'like', '%' . $search . '%')
+                    ->orWhere('student_id', 'like', '%' . $search . '%');
+            });
+        });
     }
 }

@@ -62,7 +62,7 @@ class EventController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category' => 'required|in:workshop,seminar,hackathon,competition,other',
             'max_participants' => 'nullable|integer|min:1',
-            'is_published' => 'boolean',
+            'is_published' => 'required|in:on,off',
         ]);
 
         // Begin database transaction

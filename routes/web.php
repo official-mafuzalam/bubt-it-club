@@ -1,17 +1,20 @@
 <?php
 
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\EventController;
 use App\Http\Controllers\Admin\GalleryController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\ProjectController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Public\WelcomeController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Admin\RoleController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Public\WelcomeController;
+use App\Http\Controllers\Public\EventController as PublicEventController;
+use App\Http\Controllers\Public\MemberController as PublicMemberController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,12 +40,22 @@ Route::get('/session', function () {
 Route::get('/', [WelcomeController::class, 'index'])->name('public.welcome');
 Route::get('/about', [WelcomeController::class, 'about'])->name('public.about');
 Route::get('/contact', [WelcomeController::class, 'contact'])->name('public.contact');
-Route::get('/events', [WelcomeController::class, 'events'])->name('public.events');
-Route::get('/members', [WelcomeController::class, 'members'])->name('public.members');
-Route::get('/members/{id}', [WelcomeController::class, 'memberDetails'])->name('public.members.details');
+
+Route::get('/events', [PublicEventController::class, 'events'])->name('public.events');
+Route::get('/events/{event}', [PublicEventController::class, 'eventDetails'])->name('public.events.show');
+Route::get('/events/{event}/register', [PublicEventController::class, 'showRegistrationForm'])->name('public.events.register.form');
+Route::post('/events/{event}/register', [PublicEventController::class, 'register'])->name('public.events.register');
+
+Route::get('/members', [PublicMemberController::class, 'index'])->name('public.members.index');
+Route::get('/members/register', [PublicMemberController::class, 'showRegistrationForm'])->name('public.members.register.form');
+Route::post('/members/register', [PublicMemberController::class, 'register'])->name('public.members.register');
+Route::get('/members/{member}', [PublicMemberController::class, 'show'])->name('public.members.show');
+
 Route::get('/projects', [WelcomeController::class, 'projects'])->name('public.projects');
 Route::get('/projects/{id}', [WelcomeController::class, 'projectDetails'])->name('public.projects.details');
+
 Route::get('/gallery', [WelcomeController::class, 'gallery'])->name('public.gallery');
+
 Route::get('/blog', [WelcomeController::class, 'blog'])->name('public.blog');
 Route::get('/blog/{id}', [WelcomeController::class, 'blogDetails'])->name('public.blog.details');
 

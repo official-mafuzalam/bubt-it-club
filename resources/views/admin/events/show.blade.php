@@ -80,14 +80,13 @@
                                 <div>
                                     <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Participants</h3>
                                     <p class="text-gray-800 dark:text-white">
-                                        {{ $event->registrations_count ?? 0 }} registered
+                                        {{ $event->registrations->count() }} registered
                                         @if ($event->max_participants)
                                             / {{ $event->max_participants }} max
                                         @endif
                                     </p>
                                 </div>
                             </div>
-
                             <div>
                                 <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Description</h3>
                                 <p class="text-gray-800 dark:text-white whitespace-pre-line">{{ $event->description }}

@@ -9,90 +9,110 @@
         </header>
 
         <!-- Members Content -->
-        <section class="py-16 bg-white">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex flex-col md:flex-row justify-between items-center mb-8">
-                    <h2 class="text-2xl font-bold text-gray-900">Active Members</h2>
-                    <div class="mt-4 md:mt-0 flex space-x-4">
-                        <select
-                            class="px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                            <option>All Batches</option>
-                            <option>2023</option>
-                            <option>2022</option>
-                            <option>2021</option>
-                            <option>2020</option>
-                        </select>
-                        <select
-                            class="px-4 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500">
-                            <option>All Departments</option>
-                            <option>CSE</option>
-                            <option>EEE</option>
-                            <option>BBA</option>
-                        </select>
-                    </div>
-                </div>
+        <section class="py-10 bg-white">
 
-                <div class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    @foreach ($members as $member)
-                        <div
-                            class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition duration-300 text-center">
-                            <div class="p-6">
-                                <img class="h-32 w-32 rounded-full mx-auto mb-4 border-4 border-blue-100"
-                                    src="{{ $member->photo_url ?? 'https://randomuser.me/api/portraits/' . ($member->gender == 'female' ? 'women' : 'men') . '/' . $loop->iteration . '.jpg' }}"
-                                    alt="{{ $member->name }}">
-                                <h3 class="text-lg font-semibold text-gray-900">{{ $member->name }}</h3>
-                                <p class="text-blue-600 mb-1">{{ $member->department }} - Batch {{ $member->batch }}</p>
-                                <p class="text-sm text-gray-500 mb-3">{{ $member->position ?? 'Member' }}</p>
-                                <div class="flex justify-center space-x-3">
-                                    <a href="#" class="text-gray-400 hover:text-blue-600">
-                                        <i class="fab fa-facebook-f"></i>
-                                    </a>
-                                    <a href="#" class="text-gray-400 hover:text-blue-600">
-                                        <i class="fab fa-linkedin-in"></i>
-                                    </a>
-                                    <a href="#" class="text-gray-400 hover:text-blue-600">
-                                        <i class="fab fa-github"></i>
-                                    </a>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <!-- Executive Committee -->
+                <h2 class="text-2xl font-bold text-gray-900 mb-8">Executive Committee 2023</h2>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    @foreach ([1, 2, 3, 4, 5, 6] as $executive)
+                        <div class="bg-gray-50 p-6 rounded-lg hover:shadow-md transition duration-300">
+                            <div class="flex items-start">
+                                <img class="h-16 w-16 rounded-full"
+                                    src="https://randomuser.me/api/portraits/{{ $loop->odd ? 'men' : 'women' }}/{{ $executive }}0.jpg"
+                                    alt="Executive">
+                                <div class="ml-4">
+                                    <h3 class="text-lg font-semibold">Executive {{ $executive }}</h3>
+                                    <p class="text-blue-600">
+                                        {{ ['President', 'Vice President', 'General Secretary', 'Treasurer', 'Event Coordinator', 'PR Officer'][$loop->index] }}
+                                    </p>
+                                    <p class="text-sm text-gray-500 mt-1">CSE Department,
+                                        Batch-20{{ 20 + $executive }}</p>
                                 </div>
-                            </div>
-                            <div class="bg-gray-50 px-4 py-3 text-center">
-                                <a href="{{ route('public.members.show', $member->id) }}"
-                                    class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
-                                    View Profile
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </a>
                             </div>
                         </div>
                     @endforeach
                 </div>
 
-                <div class="mt-12">
-                    {{ $members->links() }}
+                <!-- Filters -->
+                <div class="bg-gray-50 rounded-lg shadow mb-6 p-4 mt-8">
+                    <form action="{{ route('public.members.index') }}" method="GET"
+                        class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label for="department"
+                                class="block text-sm font-medium text-gray-700 mb-1">Department</label>
+                            <select id="department" name="department"
+                                class="w-full rounded-md border-gray-300 shadow-sm">
+                                <option value="">All Departments</option>
+                                @foreach ($departments as $dept)
+                                    <option value="{{ $dept }}"
+                                        {{ request('department') == $dept ? 'selected' : '' }}>
+                                        {{ $dept }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div>
+                            <label for="batch" class="block text-sm font-medium text-gray-700 mb-1">Batch</label>
+                            <select id="intake" name="intake" class="w-full rounded-md border-gray-300 shadow-sm">
+                                <option value="">All Intakes</option>
+                                @foreach ($intakes as $intake)
+                                    <option value="{{ $intake }}"
+                                        {{ request('intake') == $intake ? 'selected' : '' }}>
+                                        {{ $intake }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit"
+                                class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700">
+                                Filter
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
-                <!-- Executive Committee -->
-                <div class="mt-16 pt-8 border-t border-gray-200">
-                    <h2 class="text-2xl font-bold text-gray-900 mb-8">Executive Committee 2023</h2>
-
-                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        @foreach ([1, 2, 3, 4, 5, 6] as $executive)
-                            <div class="bg-gray-50 p-6 rounded-lg hover:shadow-md transition duration-300">
-                                <div class="flex items-start">
-                                    <img class="h-16 w-16 rounded-full"
-                                        src="https://randomuser.me/api/portraits/{{ $loop->odd ? 'men' : 'women' }}/{{ $executive }}0.jpg"
-                                        alt="Executive">
-                                    <div class="ml-4">
-                                        <h3 class="text-lg font-semibold">Executive {{ $executive }}</h3>
-                                        <p class="text-blue-600">
-                                            {{ ['President', 'Vice President', 'General Secretary', 'Treasurer', 'Event Coordinator', 'PR Officer'][$loop->index] }}
-                                        </p>
-                                        <p class="text-sm text-gray-500 mt-1">CSE Department,
-                                            Batch-20{{ 20 + $executive }}</p>
-                                    </div>
+                <!-- Members Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    @forelse($members as $member)
+                        <div
+                            class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition duration-300">
+                            <div class="p-6 text-center">
+                                <div
+                                    class="mx-auto h-32 w-32 rounded-full overflow-hidden border-4 border-blue-100 mb-4">
+                                    @if ($member->photo_url)
+                                        <img src="{{ asset('storage/' . $member->photo_url) }}"
+                                            alt="{{ $member->name }}" class="h-full w-full object-cover">
+                                    @else
+                                        <div
+                                            class="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500">
+                                            <i class="fas fa-user text-4xl"></i>
+                                        </div>
+                                    @endif
                                 </div>
+                                <h3 class="text-lg font-semibold text-gray-900">{{ $member->name }}</h3>
+                                <p class="text-blue-600">{{ $member->department }} - Intake {{ $member->intake }}</p>
+                                @if ($member->position)
+                                    <p class="text-sm text-gray-500 mt-1">{{ $member->position }}</p>
+                                @endif
+                                <a href="{{ route('public.members.show', $member) }}"
+                                    class="mt-4 inline-block text-blue-600 hover:text-blue-800 text-sm font-medium">
+                                    View Profile
+                                </a>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @empty
+                        <div class="col-span-full text-center py-12">
+                            <p class="text-gray-500">No members found matching your criteria.</p>
+                        </div>
+                    @endforelse
+                </div>
+
+                <!-- Pagination -->
+                <div class="mt-8">
+                    {{ $members->links() }}
                 </div>
             </div>
         </section>
@@ -103,7 +123,7 @@
                 <h2 class="text-3xl font-bold text-gray-900 mb-4">Want to Become a Member?</h2>
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">Join our community of tech enthusiasts and
                     enhance your skills through various activities.</p>
-                <a href="#"
+                <a href="{{route('public.members.register.form')}}"
                     class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                     Apply Now
                     <i class="fas fa-arrow-right ml-2"></i>

@@ -30,10 +30,17 @@ class Event extends Model
         'is_published' => 'boolean'
     ];
 
-    // public function registrations()
-    // {
-    //     return $this->hasMany(EventRegistration::class);
-    // }
+    public function registrations()
+    {
+        return $this->hasMany(EventRegistration::class);
+    }
+
+    public function getRemainingSeatsAttribute()
+    {
+        if (!$this->max_participants)
+            return null;
+        return $this->max_participants - $this->registrations()->count();
+    }
 
     public function getStatusAttribute()
     {
