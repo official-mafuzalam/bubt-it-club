@@ -30,10 +30,10 @@ class Member extends Model
 
     protected $casts = [
         'social_links' => 'array',
+        'favorite_categories' => 'array',
         'joined_at' => 'date',
         'is_active' => 'boolean',
         'password' => 'hashed',
-        'favorite_categories' => 'array',
     ];
 
     public function projects()
@@ -65,4 +65,25 @@ class Member extends Model
             });
         });
     }
+
+    // Add these accessor methods to ensure proper array conversion
+    // public function getSocialLinksAttribute($value)
+    // {
+    //     if (is_array($value)) {
+    //         return $value;
+    //     }
+
+    //     $decoded = json_decode($value, true);
+    //     return is_array($decoded) ? $decoded : [];
+    // }
+
+    // public function getFavoriteCategoriesAttribute($value)
+    // {
+    //     if (is_array($value)) {
+    //         return $value;
+    //     }
+
+    //     $decoded = json_decode($value, true);
+    //     return is_array($decoded) ? $decoded : [];
+    // }
 }

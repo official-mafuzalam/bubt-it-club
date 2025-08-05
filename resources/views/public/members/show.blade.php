@@ -33,10 +33,14 @@
                                     <i class="fas fa-phone mr-2"></i> Call
                                 </a>
                             @endif
-                            @if ($member->social_links)
-                                @foreach ($member->social_links as $platform => $url)
-                                    @if ($url)
-                                        <a href="{{ $url }}" target="_blank"
+                            @php
+                                // Decode the JSON string to an array
+                                $socialLinks = json_decode($member->social_links, true) ?? [];
+                            @endphp
+                            @if (!empty($socialLinks))
+                                @foreach ($socialLinks as $platform => $link)
+                                    @if ($link)
+                                        <a href="{{ $link }}" target="_blank"
                                             class="inline-flex items-center text-white">
                                             <i class="fab fa-{{ $platform }} mr-2"></i> {{ ucfirst($platform) }}
                                         </a>
