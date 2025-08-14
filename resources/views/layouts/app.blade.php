@@ -29,11 +29,11 @@
                     <a href="{{ route('public.about') }}"
                         class="{{ request()->routeIs('public.about') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">About</a>
                     <a href="{{ route('public.events') }}"
-                        class="{{ request()->routeIs('public.events') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Events</a>
+                        class="{{ request()->routeIs(['public.events', 'public.events.show', 'public.events.register.form']) ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Events</a>
                     <a href="{{ route('public.projects') }}"
                         class="{{ request()->routeIs('public.projects') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Projects</a>
                     <a href="{{ route('public.members.index') }}"
-                        class="{{ request()->routeIs('public.members.index') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Members</a>
+                        class="{{ request()->routeIs(['public.members.index', 'public.members.show', 'public.members.register.form']) ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Members</a>
                     <a href="{{ route('public.blog') }}"
                         class="{{ request()->routeIs('public.blog') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Blog</a>
                     <a href="{{ route('admin.index') }}"
@@ -72,13 +72,97 @@
             </div>
         </div>
     </nav>
+
+    <!-- Alert Messages -->
+    @if ($errors->any())
+        <div class="fixed bottom-4 right-4 z-50 transition-all duration-300 transform translate-y-0 opacity-100">
+            <div class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                @foreach ($errors->all() as $error)
+                    <div class="text-sm text-red-700 font-medium">
+                        {{ $error }}
+                    </div>
+                @endforeach
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    @endif
+
+    @if (session('success'))
+        <div class="fixed bottom-4 right-4 z-50 transition-all duration-300 transform translate-y-0 opacity-100">
+            <div class="bg-blue-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>{{ session('success') }}</span>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    @endif
+
+    @if (session('success-trash'))
+        <div class="fixed bottom-4 right-4 z-50 transition-all duration-300 transform translate-y-0 opacity-100">
+            <div class="bg-red-400 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>{{ session('success-trash') }}</span>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    @endif
+
+    @if (session('success-delete'))
+        <div class="fixed bottom-4 right-4 z-50 transition-all duration-300 transform translate-y-0 opacity-100">
+            <div class="bg-red-600 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span>{{ session('success-delete') }}</span>
+                <button onclick="this.parentElement.parentElement.remove()" class="ml-4">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    @endif
+
+
     <!-- Page Content -->
     @if (isset($main))
         <main>
             {{ $main }}
         </main>
     @endif
-
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white pt-12 pb-6">
@@ -162,6 +246,17 @@
         document.querySelector('[aria-controls="mobile-menu"]').addEventListener('click', function() {
             const menu = document.getElementById('mobile-menu');
             menu.classList.toggle('hidden');
+        });
+
+        // Auto-close notifications after 5 seconds
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                const notifications = document.querySelectorAll(
+                    '[class*="fixed"][class*="bottom-4"][class*="right-4"]');
+                notifications.forEach(notification => {
+                    notification.remove();
+                });
+            }, 5000);
         });
     </script>
 </body>

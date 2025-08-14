@@ -20,6 +20,8 @@ class Event extends Model
         'image_url',
         'category',
         'is_published',
+        'is_registration_open',
+        'is_paid',
         'max_participants',
         'registered_count'
     ];

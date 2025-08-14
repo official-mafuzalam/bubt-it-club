@@ -15,12 +15,12 @@ return new class extends Migration {
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('student_id')->unique();
+            $table->bigInteger('student_id')->unique();
             $table->string('department');
-            $table->integer('intake');
+            $table->string('intake');
             $table->string('phone')->nullable();
             $table->enum('gender', ['male', 'female', 'other']);
-            $table->string('position')->nullable();
+            $table->string('position')->default('general_member');
             $table->text('bio')->nullable();
             $table->string('photo_url')->nullable();
             $table->json('social_links')->nullable();

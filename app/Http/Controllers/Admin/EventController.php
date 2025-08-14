@@ -62,7 +62,7 @@ class EventController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category' => 'required|in:workshop,seminar,hackathon,competition,other',
             'max_participants' => 'nullable|integer|min:1',
-            'is_published' => 'required|in:on,off',
+            'is_published' => 'nullable|in:on,off',
         ]);
 
         // Begin database transaction
@@ -140,7 +140,7 @@ class EventController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category' => 'required|in:workshop,seminar,hackathon,competition,other',
             'max_participants' => 'nullable|integer|min:1',
-            'is_published' => 'required|in:on,off',
+            'is_published' => 'nullable|in:on,off',
         ]);
 
         $event->title = $validated['title'];
@@ -181,5 +181,32 @@ class EventController extends Controller
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event deleted successfully!');
+    }
+
+    public function togglePublish(Event $event)
+    {
+        $event->is_published = !$event->is_published;
+        $event->save();
+
+        return redirect()->route('admin.events.index')
+            ->with('success', 'Event publication status updated successfully!');
+    }
+
+    public function togglePaid(Event $event)
+    {
+        $event->is_paid = !$event->is_paid;
+        $event->save();
+
+        return redirect()->route('admin.events.index')
+            ->with('success', 'Event payment status updated successfully!');
+    }
+
+    public function toggleRegistration(Event $event)
+    {
+        $event->is_registration_open = !$event->is_registration_open;
+        $event->save();
+
+        return redirect()->route('admin.events.index')
+            ->with('success', 'Event registration status updated successfully!');
     }
 }

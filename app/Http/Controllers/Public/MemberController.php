@@ -45,7 +45,7 @@ class MemberController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('public.members.register');
+        return view('public.members.register')->with('success', 'Registration successful! Welcome to BUBT IT Club.');
     }
 
     /**
@@ -87,7 +87,7 @@ class MemberController extends Controller
         ]);
 
         // Log in the member (optional)
-        auth()->login($member);
+        // auth()->login($member);
 
         return redirect()->route('public.members.show', $member)
             ->with('success', 'Registration successful! Welcome to BUBT IT Club.');

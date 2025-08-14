@@ -71,6 +71,11 @@ class EventController extends Controller
     public function showRegistrationForm(Event $event)
     {
         // Check if registration is possible
+        if (!$event->is_registration_open) {
+            return redirect()->route('public.events.show', $event->id)
+                ->with('error', 'Registration for this event is closed.');
+        }
+
         if ($event->start_date < now()) {
             return redirect()->route('public.events.show', $event->id)
                 ->with('error', 'This event has already occurred.');
@@ -90,9 +95,13 @@ class EventController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'student_id' => 'nullable|string|max:50',
-            'department' => 'nullable|string|max:100',
+            'phone' => 'required|string|max:20',
+            'student_id' => 'required|string|max:50',
+            'intake' => 'required|string|max:50',
+            'section' => 'required|integer|min:1|max:10',
+            'department' => 'required|string|max:100',
+            'payment_method' => 'nullable|string|max:50',
+            'transaction_id' => 'nullable|string|max:50',
             'additional_info' => 'nullable|string',
         ]);
 
@@ -110,12 +119,15 @@ class EventController extends Controller
 
         // Create registration
         $registration = $event->registrations()->create([
-            'user_id' => auth()->id(),
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phone' => $validated['phone'],
             'student_id' => $validated['student_id'],
+            'intake' => $validated['intake'],
+            'section' => $validated['section'],
             'department' => $validated['department'],
+            'payment_method' => $validated['payment_method'],
+            'transaction_id' => $validated['transaction_id'],
             'additional_info' => $validated['additional_info'],
         ]);
 

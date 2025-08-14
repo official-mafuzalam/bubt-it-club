@@ -108,6 +108,30 @@
                                             Delete Event
                                         </button>
                                     </form>
+                                    <form action="{{ route('admin.events.toggle-publish', $event->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                            class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-150">
+                                            {{ $event->is_published ? 'Unpublish' : 'Publish' }}
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('admin.events.toggle-paid', $event->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                            class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-150">
+                                            {{ $event->is_paid ? 'Unmark as Paid' : 'Mark as Paid' }}
+                                        </button>
+                                    </form>
+                                    <form action="{{ route('admin.events.toggle-registration', $event->id) }}"
+                                        method="POST">
+                                        @csrf
+                                        <button type="submit"
+                                            class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-150">
+                                            {{ $event->is_registration_open ? 'Close Registration' : 'Open Registration' }}
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>

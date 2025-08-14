@@ -52,24 +52,28 @@
                 </div>
 
                 <div class="grid md:grid-cols-3 gap-8">
-                    @foreach ([1, 2, 3] as $leader)
+                    @foreach ($members as $member)
                         <div class="bg-white p-6 rounded-lg shadow-sm text-center">
                             <img class="h-32 w-32 rounded-full mx-auto mb-4"
-                                src="https://randomuser.me/api/portraits/{{ $loop->odd ? 'men' : 'women' }}/{{ $leader * 10 }}.jpg"
-                                alt="Team Member">
-                            <h3 class="text-xl font-semibold mb-1">Member Name {{ $leader }}</h3>
-                            <p class="text-blue-600 mb-2">President</p>
-                            <p class="text-gray-600">CSE Department, Batch-20{{ $leader }}</p>
+                                src="{{ asset('storage/' . $member->photo_url) }}" alt="{{ $member->name }}">
+                            <h3 class="text-xl font-semibold mb-1">{{ $member->name }}</h3>
+                            <p class="text-blue-600 mb-2">{{ $member->position }}</p>
+                            <p class="text-gray-600">{{ $member->department }}, Batch-{{ $member->intake }}</p>
                             <div class="flex justify-center space-x-3 mt-4">
-                                <a href="#" class="text-gray-400 hover:text-blue-600">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a href="#" class="text-gray-400 hover:text-blue-600">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                                <a href="#" class="text-gray-400 hover:text-blue-600">
-                                    <i class="fab fa-github"></i>
-                                </a>
+                                @php
+                                    // Decode the JSON string to an array
+                                    $socialLinks = json_decode($member->social_links, true) ?? [];
+                                @endphp
+                                @if (!empty($socialLinks))
+                                    @foreach ($socialLinks as $platform => $link)
+                                        @if ($link)
+                                            <a href="{{ $link }}" target="_blank"
+                                                class="inline-flex items-center text-blue">
+                                                <i class="fab fa-{{ $platform }} mr-2"></i>
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                @endif
                             </div>
                         </div>
                     @endforeach

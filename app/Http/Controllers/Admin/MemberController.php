@@ -90,6 +90,7 @@ class MemberController extends Controller
      */
     public function edit(Member $member)
     {
+        // dd($member->toArray());
         $departments = ['CSE', 'EEE', 'BBA', 'English', 'LLB', 'Architecture'];
         $positions = ['President', 'Vice President', 'General Secretary', 'Treasurer', 'Executive Member', 'Member'];
         $categories = ['Coding', 'Design', 'Management', 'Networking', 'Content Writing', 'Graphics', 'Photography'];
@@ -106,7 +107,7 @@ class MemberController extends Controller
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', Rule::unique('members')->ignore($member->id)],
             'password' => 'nullable|string|min:8|confirmed',
-            'student_id' => ['required', 'string', 'regex:/^\d{10}$/', Rule::unique('members')->ignore($member->id)],
+            'student_id' => ['required', 'string', Rule::unique('members')->ignore($member->id)],
             'department' => 'required|string|max:255',
             'intake' => 'required|integer|min:1|max:99',
             'phone' => 'nullable|string|max:20',

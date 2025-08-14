@@ -66,6 +66,16 @@ class Member extends Model
         });
     }
 
+    public function scopeExecutiveMembers($query)
+    {
+        $query->where('position', '!=', 'general_member');
+    }
+
+    public function scopeGeneralMembers($query)
+    {
+        $query->where('position', 'general_member');
+    }
+
     // Add these accessor methods to ensure proper array conversion
     // public function getSocialLinksAttribute($value)
     // {

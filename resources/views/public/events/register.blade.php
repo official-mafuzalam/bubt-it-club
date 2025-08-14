@@ -34,25 +34,25 @@
                                 <!-- Name -->
                                 <div class="mt-1 sm:mt-0 sm:col-span-2">
                                     <label for="name" class="block text-sm font-medium text-gray-700">Full Name
-                                        *</label>
+                                        <span class="text-red-500">*</span></label>
                                     <input type="text" name="name" id="name" required
-                                        value="{{ old('name', auth()->user() ? auth()->user()->name : '') }}"
+                                        value="{{ old('name') }}"
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                 </div>
 
                                 <!-- Email -->
                                 <div class="mt-4 sm:mt-0 sm:col-span-2">
                                     <label for="email" class="block text-sm font-medium text-gray-700">Email
-                                        *</label>
+                                        <span class="text-red-500">*</span></label>
                                     <input type="email" name="email" id="email" required
-                                        value="{{ old('email', auth()->user() ? auth()->user()->email : '') }}"
+                                        value="{{ old('email') }}"
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                 </div>
 
                                 <!-- Phone -->
                                 <div class="mt-4 sm:mt-0 sm:col-span-2">
-                                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone
-                                        Number</label>
+                                    <label for="phone" class="block text-sm font-medium text-gray-700">Phone Number
+                                        <span class="text-red-500">*</span></label>
                                     <input type="tel" name="phone" id="phone" value="{{ old('phone') }}"
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                 </div>
@@ -66,17 +66,33 @@
 
                                 <!-- Student ID -->
                                 <div class="mt-1 sm:mt-0 sm:col-span-2">
-                                    <label for="student_id" class="block text-sm font-medium text-gray-700">Student
-                                        ID</label>
+                                    <label for="student_id" class="block text-sm font-medium text-gray-700">Student ID
+                                        <span class="text-red-500">*</span></label>
                                     <input type="text" name="student_id" id="student_id"
                                         value="{{ old('student_id') }}"
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                 </div>
 
+                                <!-- Intake -->
+                                <div class="mt-4 sm:mt-0 sm:col-span-2">
+                                    <label for="intake" class="block text-sm font-medium text-gray-700">Intake <span
+                                            class="text-red-500">*</span></label>
+                                    <input type="text" name="intake" id="intake" value="{{ old('intake') }}"
+                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                </div>
+
+                                <!-- Section -->
+                                <div class="mt-4 sm:mt-0 sm:col-span-2">
+                                    <label for="section" class="block text-sm font-medium text-gray-700">Section <span
+                                            class="text-red-500">*</span></label>
+                                    <input type="number" name="section" id="section" value="{{ old('section') }}"
+                                        class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                </div>
+
                                 <!-- Department -->
                                 <div class="mt-4 sm:mt-0 sm:col-span-2">
-                                    <label for="department"
-                                        class="block text-sm font-medium text-gray-700">Department</label>
+                                    <label for="department" class="block text-sm font-medium text-gray-700">Department
+                                        <span class="text-red-500">*</span></label>
                                     <select id="department" name="department"
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                         <option value="">Select Department</option>
@@ -93,6 +109,44 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <!-- Payment Information -->
+                            @if ($event->is_paid)
+                                <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                    <div class="sm:col-span-3">
+                                        <h4 class="text-md font-medium text-gray-900 mb-4">Payment Information</h4>
+                                        <p class="text-sm text-gray-600">Please provide your payment details to complete
+                                            the
+                                            registration.</p>
+                                    </div>
+
+                                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                        <label for="payment_method"
+                                            class="block text-sm font-medium text-gray-700">Payment
+                                            Method <span class="text-red-500">*</span></label>
+                                        <select id="payment_method" name="payment_method" required
+                                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                            <option value="">Select Payment Method</option>
+                                            <option value="bKash"
+                                                {{ old('payment_method') == 'bKash' ? 'selected' : '' }}>bKash</option>
+                                            <option value="Nagad"
+                                                {{ old('payment_method') == 'Nagad' ? 'selected' : '' }}>Nagad</option>
+                                            <option value="hand_cash"
+                                                {{ old('payment_method') == 'hand_cash' ? 'selected' : '' }}>Hand Cash
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                        <label for="transaction_id"
+                                            class="block text-sm font-medium text-gray-700">Transaction ID <span
+                                                class="text-red-500">*</span></label>
+                                        <input type="text" id="transaction_id" name="transaction_id"
+                                            value="{{ old('transaction_id') }}"
+                                            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                    </div>
+                                </div>
+                            @endif
 
                             <!-- Additional Information -->
                             <div class="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

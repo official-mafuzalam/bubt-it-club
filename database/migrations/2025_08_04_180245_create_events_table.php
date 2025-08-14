@@ -21,6 +21,8 @@ return new class extends Migration {
             $table->string('image_url')->nullable();
             $table->enum('category', ['workshop', 'seminar', 'hackathon', 'competition', 'other']);
             $table->boolean('is_published')->default(false);
+            $table->boolean('is_registration_open')->default(false);
+            $table->boolean('is_paid')->default(false);
             $table->integer('max_participants')->nullable();
             $table->integer('registered_count')->default(0);
             $table->timestamps();

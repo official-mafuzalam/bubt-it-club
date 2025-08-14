@@ -34,10 +34,14 @@ class WelcomeController extends Controller
      */
     public function about(): View
     {
+        $members = Member::query()
+            ->executiveMembers()
+            ->get();
+
         $pageTitle = 'About BUBT IT Club';
         $pageDescription = 'Learn about our mission, vision, and the team behind BUBT IT Club';
 
-        return view('public.about', compact('pageTitle', 'pageDescription'));
+        return view('public.about', compact('pageTitle', 'pageDescription', 'members'));
     }
 
     /**

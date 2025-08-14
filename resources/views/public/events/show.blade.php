@@ -85,43 +85,45 @@
                     <!-- Sidebar -->
                     <div class="space-y-6">
                         <!-- Registration Panel -->
-                        <div class="bg-gray-50 rounded-lg shadow-sm p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Event Registration</h3>
+                        @if ($event->is_registration_open)
+                            <div class="bg-gray-50 rounded-lg shadow-sm p-6">
+                                <h3 class="text-xl font-bold text-gray-900 mb-4">Event Registration</h3>
 
-                            @if ($event->start_date < now())
-                                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
-                                    <p class="text-yellow-700">This event has already occurred</p>
+                                @if ($event->start_date < now())
+                                    <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+                                        <p class="text-yellow-700">This event has already occurred</p>
+                                    </div>
+                                @elseif($event->max_participants && $event->registrations()->count() >= $event->max_participants)
+                                    <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
+                                        <p class="text-red-700">This event is fully booked</p>
+                                    </div>
+                                @else
+                                    <p class="text-gray-600 mb-4">
+                                        @if ($event->max_participants)
+                                            {{ $event->max_participants - $event->registrations()->count() }} spots
+                                            remaining
+                                        @else
+                                            Unlimited seats available
+                                        @endif
+                                    </p>
+
+                                    <a href="{{ route('public.events.register', $event->id) }}"
+                                        class="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700">
+                                        Register Now
+                                    </a>
+                                @endif
+
+                                <div class="mt-4 pt-4 border-t border-gray-200">
+                                    <p class="text-sm text-gray-500">
+                                        <i class="fas fa-users mr-2"></i>
+                                        {{ $event->registrations()->count() }} registered
+                                        @if ($event->max_participants)
+                                            of {{ $event->max_participants }} total
+                                        @endif
+                                    </p>
                                 </div>
-                            @elseif($event->max_participants && $event->registrations()->count() >= $event->max_participants)
-                                <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-4">
-                                    <p class="text-red-700">This event is fully booked</p>
-                                </div>
-                            @else
-                                <p class="text-gray-600 mb-4">
-                                    @if ($event->max_participants)
-                                        {{ $event->max_participants - $event->registrations()->count() }} spots
-                                        remaining
-                                    @else
-                                        Unlimited seats available
-                                    @endif
-                                </p>
-
-                                <a href="{{ route('public.events.register', $event->id) }}"
-                                    class="w-full inline-flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-blue-600 hover:bg-blue-700">
-                                    Register Now
-                                </a>
-                            @endif
-
-                            <div class="mt-4 pt-4 border-t border-gray-200">
-                                <p class="text-sm text-gray-500">
-                                    <i class="fas fa-users mr-2"></i>
-                                    {{ $event->registrations()->count() }} registered
-                                    @if ($event->max_participants)
-                                        of {{ $event->max_participants }} total
-                                    @endif
-                                </p>
                             </div>
-                        </div>
+                        @endif
 
                         <!-- Event Details Card -->
                         <div class="bg-gray-50 rounded-lg shadow-sm p-6">

@@ -19,8 +19,10 @@
                     <div class="text-center md:text-left">
                         <h1 class="text-4xl font-bold mb-2">{{ $member->name }}</h1>
                         <p class="text-xl mb-2">{{ $member->department }} - Batch {{ $member->batch }}</p>
-                        @if ($member->position)
-                            <p class="text-lg mb-4">{{ $member->position }}</p>
+                        @if ($member->position == 'general_member')
+                            <p class="text-lg mb-4">General Member</p>
+                        @else
+                            <p class="text-lg mb-4">{{ ucfirst(str_replace('_', ' ', $member->position)) }}</p>
                         @endif
                         <div class="flex flex-wrap justify-center md:justify-start gap-4">
                             @if ($member->email)
@@ -48,6 +50,22 @@
                                 @endforeach
                             @endif
                         </div>
+                        {{-- Favorite Categories --}}
+                        @php
+                            $member->favorite_categories = json_decode($member->favorite_categories, true) ?? [];
+                        @endphp
+                        @if ($member->favorite_categories && count($member->favorite_categories) > 0)
+                            <div class="mt-4">
+                                <div class="flex flex-wrap gap-2">
+                                    @foreach ($member->favorite_categories as $category)
+                                        <span
+                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                            {{ $category }}
+                                        </span>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -191,8 +209,8 @@
                                     </p>
                                 </div>
                                 <div>
-                                    <h4 class="text-sm font-medium text-gray-500">Batch</h4>
-                                    <p class="text-gray-900">{{ $member->batch }}</p>
+                                    <h4 class="text-sm font-medium text-gray-500">Intake</h4>
+                                    <p class="text-gray-900">{{ $member->intake }}</p>
                                 </div>
                                 <div>
                                     <h4 class="text-sm font-medium text-gray-500">Member Since</h4>
@@ -227,38 +245,8 @@
                                         </p>
                                     </div>
                                 @endif
-                                @if ($member->social_links)
-                                    <div>
-                                        <h4 class="text-sm font-medium text-gray-500 mb-2">Social Media</h4>
-                                        <div class="flex space-x-4">
-                                            @foreach ($member->social_links as $platform => $url)
-                                                @if ($url)
-                                                    <a href="{{ $url }}" target="_blank"
-                                                        class="text-gray-600 hover:text-blue-600">
-                                                        <i class="fab fa-{{ $platform }} text-2xl"></i>
-                                                    </a>
-                                                @endif
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                @endif
                             </div>
                         </div>
-
-                        <!-- Skills/Interests -->
-                        @if ($member->favorite_categories && count($member->favorite_categories) > 0)
-                            <div class="bg-gray-50 rounded-lg shadow-sm p-6">
-                                <h3 class="text-xl font-bold text-gray-900 mb-4">Interests</h3>
-                                <div class="flex flex-wrap gap-2">
-                                    @foreach ($member->favorite_categories as $category)
-                                        <span
-                                            class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                            {{ $category }}
-                                        </span>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
                     </div>
                 </div>
             </div>
