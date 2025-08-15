@@ -11,6 +11,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use App\Http\Controllers\Controller;
+use App\Models\BlogCategory;
+use App\Models\BlogComment;
 
 class WelcomeController extends Controller
 {
@@ -151,53 +153,81 @@ class WelcomeController extends Controller
 
     /**
      * Display a listing of blog posts.
-     *
-     * @return View
      */
-    public function blog(): View
+    public function blog(Request $request)
     {
-        // $posts = BlogPost::query()
-        //     ->with(['author', 'categories'])
-        //     ->where('is_published', true)
-        //     ->orderBy('published_at', 'desc')
-        //     ->paginate(6);
+        // Get featured post
+        $featuredPost = BlogPost::published()
+            ->with(['author', 'categories'])
+            ->latest('published_at')
+            ->first();
 
-        $pageTitle = 'Blog';
-        $pageDescription = 'Latest articles and news from BUBT IT Club';
+        // Get all published posts
+        $query = BlogPost::published()
+            ->with(['author', 'categories'])
+            ->latest('published_at');
 
-        return view('public.blog.index', compact('posts', 'pageTitle', 'pageDescription'));
+        // Filter by category if requested
+        if ($request->has('category')) {
+            $query->forCategory($request->category);
+        }
+
+        $posts = $query->paginate(9);
+
+        // Get categories with published posts
+        $categories = BlogCategory::withPublishedPosts()
+            ->withCount([
+                'posts' => function ($query) {
+                    $query->published();
+                }
+            ])
+            ->get();
+
+        return view('public.blogs.index', compact('featuredPost', 'posts', 'categories'));
     }
 
     /**
      * Display the specified blog post.
-     *
-     * @param  string  $id
-     * @return View
      */
-    public function blogDetails(string $id): View
+    public function blogDetails($slug)
     {
-        // $post = BlogPost::query()
-        //     ->with(['author', 'categories', 'comments'])
-        //     ->findOrFail($id);
-
-        $post = [
-            'title' => 'Sample Blog Post',
-            'excerpt' => 'This is a sample blog post excerpt.',
-            'content' => 'This is the full content of the sample blog post.',
-            'author' => 'John Doe',
-            'categories' => ['Category 1', 'Category 2'],
-            'comments' => [
-                ['author' => 'Alice', 'content' => 'Great post!'],
-                ['author' => 'Bob', 'content' => 'Thanks for sharing!'],
-            ],
-        ];
-
-        $pageTitle = $post['title'];
-        $pageDescription = $post['excerpt'];
+        $post = BlogPost::published()
+            ->with(['author', 'categories'])
+            ->where('slug', $slug)
+            ->firstOrFail();
 
         // Increment view count
-        // $post->increment('views');
+        $post->increment('views');
 
-        return view('public.blog.show', compact('post', 'pageTitle', 'pageDescription'));
+        // Get related posts (same categories)
+        $relatedPosts = BlogPost::published()
+            ->where('id', '!=', $post->id)
+            ->whereHas('categories', function ($q) use ($post) {
+                $q->whereIn('id', $post->categories->pluck('id'));
+            })
+            ->with(['author', 'categories'])
+            ->inRandomOrder()
+            ->take(3)
+            ->get();
+
+        return view('public.blogs.show', compact('post', 'relatedPosts'));
+    }
+
+    public function addComment(Request $request, $slug)
+    {
+        $post = BlogPost::where('slug', $slug)->firstOrFail();
+
+        $validated = $request->validate([
+            'member_id' => 'required|integer|exists:members,student_id',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|exists:members,email',
+            'content' => 'required|string|max:1000',
+        ]);
+
+        $comment = new BlogComment($validated);
+        $post->comments()->save($comment);
+
+        return redirect()->back()
+            ->with('success', 'Comment posted successfully!');
     }
 }

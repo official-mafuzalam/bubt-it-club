@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class BlogPost extends Model
 {
@@ -27,6 +28,26 @@ class BlogPost extends Model
         'is_published' => 'boolean'
     ];
 
+    /**
+     * Scope a query to only include published posts.
+     */
+    public function scopePublished(Builder $query): void
+    {
+        $query->where('is_published', true)
+            ->whereNotNull('published_at')
+            ->where('published_at', '<=', now());
+    }
+
+    /**
+     * Scope a query to only include posts from a specific category.
+     */
+    public function scopeForCategory(Builder $query, $categorySlug): void
+    {
+        $query->whereHas('categories', function ($q) use ($categorySlug) {
+            $q->where('slug', $categorySlug);
+        });
+    }
+
     public function author()
     {
         return $this->belongsTo(Member::class, 'author_id');
@@ -34,7 +55,7 @@ class BlogPost extends Model
 
     public function categories()
     {
-        return $this->belongsToMany(BlogCategory::class);
+        return $this->belongsToMany(BlogCategory::class, 'blog_post_category');
     }
 
     public function comments()

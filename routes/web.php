@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\Admin\BlogCategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\BlogPostController;
@@ -56,8 +57,9 @@ Route::get('/projects/{project}', [WelcomeController::class, 'projectDetails'])-
 
 Route::get('/gallery', [WelcomeController::class, 'gallery'])->name('public.gallery');
 
-Route::get('/blog', [WelcomeController::class, 'blog'])->name('public.blog');
-Route::get('/blog/{id}', [WelcomeController::class, 'blogDetails'])->name('public.blog.details');
+Route::get('/blog', [WelcomeController::class, 'blog'])->name('public.blogs.index');
+Route::get('/blog/{slug}', [WelcomeController::class, 'blogDetails'])->name('public.blogs.show');
+Route::post('/blog/{slug}/comment', [WelcomeController::class, 'addComment'])->name('public.blogs.comments.store');
 
 
 
@@ -80,13 +82,15 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
 
         // Projects
         Route::resource('projects', ProjectController::class)->names('admin.projects');
-        // Additional project routes
         Route::patch('projects/{project}/restore', [ProjectController::class, 'restore'])->name('admin.projects.restore');
         Route::delete('projects/{project}/force-delete', [ProjectController::class, 'forceDelete'])->name('admin.projects.forceDelete');
         Route::patch('projects/{project}/toggle-publish', [ProjectController::class, 'togglePublish'])->name('admin.projects.togglePublish');
 
         // Blogs
         Route::resource('blogs', BlogPostController::class)->names('admin.blog.posts');
+        Route::patch('blog/posts/{post}/toggle-publish', [BlogPostController::class, 'togglePublish'])
+            ->name('admin.blog.posts.togglePublish');
+        Route::resource('blog/categories', BlogCategoryController::class)->names('admin.blog.categories');
 
         // Galleries
         Route::resource('galleries', GalleryController::class)->names('admin.galleries');
