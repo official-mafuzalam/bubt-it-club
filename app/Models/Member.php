@@ -36,6 +36,11 @@ class Member extends Model
         'password' => 'hashed',
     ];
 
+    public static function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
+
     public function projects()
     {
         return $this->belongsToMany(Project::class, 'project_member')

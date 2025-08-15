@@ -42,44 +42,48 @@
             </div>
         </section>
 
-        <!-- Leadership Team -->
-        <section class="py-16 bg-gray-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Leadership Team</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Meet the dedicated students who guide the IT Club
-                    </p>
-                </div>
+        @if (!$members->empty())
+            <!-- Leadership Team -->
+            <section class="py-16 bg-gray-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Our Leadership Team</h2>
+                        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Meet the dedicated students who guide the IT
+                            Club
+                        </p>
+                    </div>
 
-                <div class="grid md:grid-cols-3 gap-8">
-                    @foreach ($members as $member)
-                        <div class="bg-white p-6 rounded-lg shadow-sm text-center">
-                            <img class="h-32 w-32 rounded-full mx-auto mb-4"
-                                src="{{ asset('storage/' . $member->photo_url) }}" alt="{{ $member->name }}">
-                            <h3 class="text-xl font-semibold mb-1">{{ $member->name }}</h3>
-                            <p class="text-blue-600 mb-2">{{ $member->position }}</p>
-                            <p class="text-gray-600">{{ $member->department }}, Batch-{{ $member->intake }}</p>
-                            <div class="flex justify-center space-x-3 mt-4">
-                                @php
-                                    // Decode the JSON string to an array
-                                    $socialLinks = json_decode($member->social_links, true) ?? [];
-                                @endphp
-                                @if (!empty($socialLinks))
-                                    @foreach ($socialLinks as $platform => $link)
-                                        @if ($link)
-                                            <a href="{{ $link }}" target="_blank"
-                                                class="inline-flex items-center text-blue">
-                                                <i class="fab fa-{{ $platform }} mr-2"></i>
-                                            </a>
-                                        @endif
-                                    @endforeach
-                                @endif
+                    <div class="grid md:grid-cols-3 gap-8">
+                        @foreach ($members as $member)
+                            <div class="bg-white p-6 rounded-lg shadow-sm text-center">
+                                <img class="h-32 w-32 rounded-full mx-auto mb-4"
+                                    src="{{ asset('storage/' . $member->photo_url) }}" alt="{{ $member->name }}">
+                                <h3 class="text-xl font-semibold mb-1">{{ $member->name }}</h3>
+                                <p class="text-blue-600 mb-2">{{ $member->position }}</p>
+                                <p class="text-gray-600">{{ $member->department }}, Batch-{{ $member->intake }}</p>
+                                <div class="flex justify-center space-x-3 mt-4">
+                                    @php
+                                        // Decode the JSON string to an array
+                                        $socialLinks = json_decode($member->social_links, true) ?? [];
+                                    @endphp
+                                    @if (!empty($socialLinks))
+                                        @foreach ($socialLinks as $platform => $link)
+                                            @if ($link)
+                                                <a href="{{ $link }}" target="_blank"
+                                                    class="inline-flex items-center text-blue">
+                                                    <i class="fab fa-{{ $platform }} mr-2"></i>
+                                                </a>
+                                            @endif
+                                        @endforeach
+                                    @endif
+                                </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
                 </div>
-            </div>
-        </section>
+            </section>
+
+        @endif
 
         <!-- Achievements -->
         <section class="py-16 bg-white">

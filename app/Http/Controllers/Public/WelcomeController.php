@@ -101,11 +101,10 @@ class WelcomeController extends Controller
      */
     public function projects(): View
     {
-        // $projects = Project::query()
-        //     ->with(['members', 'technologies'])
-        //     ->where('is_published', true)
-        //     ->orderBy('created_at', 'desc')
-        //     ->paginate(6);
+        $projects = Project::query()
+            ->where('is_published', true)
+            ->orderBy('created_at', 'desc')
+            ->paginate(6);
 
         $pageTitle = 'Our Projects';
         $pageDescription = 'Explore innovative projects created by BUBT IT Club members';
@@ -119,16 +118,17 @@ class WelcomeController extends Controller
      * @param  string  $id
      * @return View
      */
-    public function projectDetails(string $id): View
+    public function projectDetails(string $project): View
     {
-        // $project = Project::query()
-        //     ->with(['members', 'technologies'])
-        //     ->findOrFail($id);
+        $project = Project::query()
+            ->where('slug', $project)
+            ->where('is_published', true)
+            ->first();
 
         // $pageTitle = "Project - {$project['title']}";
         // $pageDescription = $project['short_description'];
 
-        return view('public.projects.show', compact('project', 'pageTitle', 'pageDescription'));
+        return view('public.projects.show', compact('project'));
     }
 
     /**

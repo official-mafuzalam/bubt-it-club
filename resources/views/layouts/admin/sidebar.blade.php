@@ -60,8 +60,8 @@
             </li>
             <li>
                 <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white
-                {{ in_array(Route::currentRouteName(), ['admin.blogs.index', 'admin.blogs.create', 'admin.blogs.edit']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
-                    href="{{ route('admin.blogs.index') }}">
+                {{ in_array(Route::currentRouteName(), ['admin.blog.posts.index', 'admin.blog.posts.create', 'admin.blog.posts.edit']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
+                    href="{{ route('admin.blog.posts.index') }}">
                     <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                         fill="currentColor" viewBox="0 0 16 16">
                         <rect x="2" y="2" width="12" height="12" rx="2"/>

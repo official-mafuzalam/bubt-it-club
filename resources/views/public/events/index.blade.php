@@ -60,7 +60,7 @@
                                         <h3 class="text-xl font-semibold mb-2">{{ $event->title }}</h3>
                                         <p class="text-gray-600 mb-4">{{ Str::limit($event->description, 100) }}</p>
                                         <div class="flex justify-between items-center">
-                                            <a href="{{ route('public.events.show', $event->id) }}"
+                                            <a href="{{ route('public.events.show', $event->slug) }}"
                                                 class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
                                                 View Details
                                                 <i class="fas fa-arrow-right ml-2"></i>
@@ -104,7 +104,7 @@
                                             </div>
                                         </div>
                                         <div class="mt-4 md:mt-0">
-                                            <a href="{{ route('public.events.show', $event->id) }}"
+                                            <a href="{{ route('public.events.show', $event->slug) }}"
                                                 class="text-blue-600 hover:text-blue-800 font-medium inline-flex items-center">
                                                 View Details
                                                 <i class="fas fa-arrow-right ml-2"></i>

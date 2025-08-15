@@ -45,8 +45,13 @@ class EventController extends Controller
      * @param  Event  $event
      * @return View
      */
-    public function eventDetails(Event $event): View
+    public function eventDetails(string $event): View
     {
+        $event = Event::query()
+            ->where('slug', $event)
+            ->where('is_published', true)
+            ->firstOrFail();
+
         // Ensure only published events are visible
         if (!$event->is_published) {
             abort(404);

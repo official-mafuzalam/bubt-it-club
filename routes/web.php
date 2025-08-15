@@ -52,7 +52,7 @@ Route::post('/members/register', [PublicMemberController::class, 'register'])->n
 Route::get('/members/{member}', [PublicMemberController::class, 'show'])->name('public.members.show');
 
 Route::get('/projects', [WelcomeController::class, 'projects'])->name('public.projects');
-Route::get('/projects/{id}', [WelcomeController::class, 'projectDetails'])->name('public.projects.details');
+Route::get('/projects/{project}', [WelcomeController::class, 'projectDetails'])->name('public.projects.show');
 
 Route::get('/gallery', [WelcomeController::class, 'gallery'])->name('public.gallery');
 
@@ -80,9 +80,13 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
 
         // Projects
         Route::resource('projects', ProjectController::class)->names('admin.projects');
+        // Additional project routes
+        Route::patch('projects/{project}/restore', [ProjectController::class, 'restore'])->name('admin.projects.restore');
+        Route::delete('projects/{project}/force-delete', [ProjectController::class, 'forceDelete'])->name('admin.projects.forceDelete');
+        Route::patch('projects/{project}/toggle-publish', [ProjectController::class, 'togglePublish'])->name('admin.projects.togglePublish');
 
         // Blogs
-        Route::resource('blogs', BlogPostController::class)->names('admin.blogs');
+        Route::resource('blogs', BlogPostController::class)->names('admin.blog.posts');
 
         // Galleries
         Route::resource('galleries', GalleryController::class)->names('admin.galleries');
