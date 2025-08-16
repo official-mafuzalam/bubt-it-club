@@ -23,10 +23,15 @@ class WelcomeController extends Controller
      */
     public function index(): View
     {
+        $events = Event::query()
+            ->upcoming()
+            ->take(3)
+            ->get();
+
         $pageTitle = 'Welcome to BUBT IT Club';
         $pageDescription = 'Explore our mission, vision, and the latest updates from BUBT IT Club';
 
-        return view('public.welcome', compact('pageTitle', 'pageDescription'));
+        return view('public.welcome', compact('events', 'pageTitle', 'pageDescription'));
     }
 
     /**
@@ -39,6 +44,8 @@ class WelcomeController extends Controller
         $members = Member::query()
             ->executiveMembers()
             ->get();
+
+        // dd($members->toArray());
 
         $pageTitle = 'About BUBT IT Club';
         $pageDescription = 'Learn about our mission, vision, and the team behind BUBT IT Club';
@@ -229,5 +236,15 @@ class WelcomeController extends Controller
 
         return redirect()->back()
             ->with('success', 'Comment posted successfully!');
+    }
+
+    public function privacyPolicy(): View
+    {
+        return view('public.privacy-policy');
+    }
+
+    public function termsOfService(): View
+    {
+        return view('public.terms-of-service');
     }
 }

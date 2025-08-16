@@ -28,6 +28,10 @@ class MemberController extends Controller
             ->orderBy('name')
             ->paginate(12);
 
+        $executiveMembers = Member::query()
+            ->executiveMembers()
+            ->get();
+
         $departments = Member::select('department')
             ->distinct()
             ->pluck('department');
@@ -37,7 +41,7 @@ class MemberController extends Controller
             ->orderBy('intake', 'desc')
             ->pluck('intake');
 
-        return view('public.members.index', compact('members', 'departments', 'intakes'));
+        return view('public.members.index', compact('members', 'departments', 'intakes', 'executiveMembers'));
     }
 
     /**

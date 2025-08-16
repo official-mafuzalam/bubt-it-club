@@ -196,7 +196,7 @@
                         @php
                             $favoriteCategories = is_array($member->favorite_categories)
                                 ? $member->favorite_categories
-                                : (json_decode($member->favorite_categories, true) ?? []);
+                                : json_decode($member->favorite_categories, true) ?? [];
                         @endphp
                         @if (!empty($favoriteCategories))
                             <div class="mt-6">

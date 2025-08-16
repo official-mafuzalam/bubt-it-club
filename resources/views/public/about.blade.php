@@ -42,7 +42,7 @@
             </div>
         </section>
 
-        @if (!$members->empty())
+        @if (!$members->isEmpty())
             <!-- Leadership Team -->
             <section class="py-16 bg-gray-50">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -58,7 +58,8 @@
                             <div class="bg-white p-6 rounded-lg shadow-sm text-center">
                                 <img class="h-32 w-32 rounded-full mx-auto mb-4"
                                     src="{{ asset('storage/' . $member->photo_url) }}" alt="{{ $member->name }}">
-                                <h3 class="text-xl font-semibold mb-1">{{ $member->name }}</h3>
+                                <a href="{{ route('public.members.show', $member->id) }}"
+                                    class="text-xl text-blue-500 font-semibold mb-1">{{ $member->name }}</a>
                                 <p class="text-blue-600 mb-2">{{ $member->position }}</p>
                                 <p class="text-gray-600">{{ $member->department }}, Batch-{{ $member->intake }}</p>
                                 <div class="flex justify-center space-x-3 mt-4">
@@ -82,7 +83,6 @@
                     </div>
                 </div>
             </section>
-
         @endif
 
         <!-- Achievements -->

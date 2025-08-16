@@ -11,6 +11,41 @@ use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
 {
+    protected $departments = [
+        'CSE',
+        'EEE',
+        'Mathematics & Statistics',
+        'Textile Engineering',
+        'Civil Engineering',
+        'Architecture',
+        'BBA',
+        'English',
+        'Economics',
+        'Law & Justice',
+        'Finance',
+        'Management',
+        'Accounting',
+        'Marketing'
+    ];
+    protected $positions = [
+        'President',
+        'Vice President',
+        'Vice President (Female)',
+        'General Secretary',
+        'Joint Secretary 1',
+        'Joint Secretary 2',
+        'Treasurer',
+        'Joint Treasurer',
+        'Organizing Secretary',
+        'Event Secretary',
+        'Media Secretary',
+        'Office Secretary',
+        'Social Welfare Secretary',
+        'Executive Member',
+        'General Member'
+    ];
+    protected $categories = ['Coding', 'Design', 'Management', 'Networking', 'Content Writing', 'Graphics', 'Photography', 'Anchoring'];
+
     /**
      * Display a listing of the resource.
      */
@@ -28,10 +63,9 @@ class MemberController extends Controller
      */
     public function create()
     {
-        $departments = ['CSE', 'EEE', 'BBA', 'English', 'LLB', 'Architecture'];
-        $positions = ['President', 'Vice President', 'General Secretary', 'Treasurer', 'Executive Member', 'Member'];
-        $categories = ['Coding', 'Design', 'Management', 'Networking', 'Content Writing', 'Graphics', 'Photography'];
-
+        $departments = $this->departments;
+        $positions = $this->positions;
+        $categories = $this->categories;
         return view('admin.members.create', compact('departments', 'positions', 'categories'));
     }
 
@@ -90,10 +124,9 @@ class MemberController extends Controller
      */
     public function edit(Member $member)
     {
-        // dd($member->toArray());
-        $departments = ['CSE', 'EEE', 'BBA', 'English', 'LLB', 'Architecture'];
-        $positions = ['President', 'Vice President', 'General Secretary', 'Treasurer', 'Executive Member', 'Member'];
-        $categories = ['Coding', 'Design', 'Management', 'Networking', 'Content Writing', 'Graphics', 'Photography'];
+        $departments = $this->departments;
+        $positions = $this->positions;
+        $categories = $this->categories;
 
         return view('admin.members.edit', compact('member', 'departments', 'positions', 'categories'));
     }

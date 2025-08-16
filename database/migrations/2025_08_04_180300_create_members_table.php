@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('intake');
             $table->string('phone')->nullable();
             $table->enum('gender', ['male', 'female', 'other']);
-            $table->string('position')->default('general_member');
+            $table->string('position')->default('General Member');
             $table->text('bio')->nullable();
             $table->string('photo_url')->nullable();
             $table->json('social_links')->nullable();

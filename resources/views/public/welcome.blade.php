@@ -16,10 +16,10 @@
                             and
                             Technology</p>
                         <div class="flex space-x-4">
-                            <a href="#"
+                            <a href="{{ route('public.events') }}"
                                 class="bg-white text-blue-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition duration-300">Explore
                                 Events</a>
-                            <a href="#"
+                            <a href="{{ route('public.about') }}"
                                 class="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-800 transition duration-300">Learn
                                 More</a>
                         </div>
@@ -76,84 +76,93 @@
         </section>
 
         <!-- Upcoming Events -->
-        <section class="py-16 bg-gray-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-gray-900 mb-4">Upcoming Events</h2>
-                    <p class="text-lg text-gray-600 max-w-2xl mx-auto">Join our upcoming events to learn, compete, and
-                        network.</p>
-                </div>
+        @if ($events->isNotEmpty())
+            <section class="py-16 bg-gray-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-12">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-4">Upcoming Events</h2>
+                        <p class="text-lg text-gray-600 max-w-2xl mx-auto">Join our upcoming events to learn, compete,
+                            and
+                            network.</p>
+                    </div>
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Event Card 1 -->
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                        <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                            alt="Hackathon" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <div class="flex items-center text-sm text-gray-500 mb-2">
-                                <i class="far fa-calendar-alt mr-2"></i>
-                                <span>June 15, 2023</span>
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Event Card 1 -->
+                        <div
+                            class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                                alt="Hackathon" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex items-center text-sm text-gray-500 mb-2">
+                                    <i class="far fa-calendar-alt mr-2"></i>
+                                    <span>June 15, 2023</span>
+                                </div>
+                                <h3 class="text-xl font-semibold mb-2">Annual Hackathon 2023</h3>
+                                <p class="text-gray-600 mb-4">24-hour coding competition to solve real-world problems
+                                    with
+                                    innovative solutions.</p>
+                                <a href="#"
+                                    class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
+                                    Learn More
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
                             </div>
-                            <h3 class="text-xl font-semibold mb-2">Annual Hackathon 2023</h3>
-                            <p class="text-gray-600 mb-4">24-hour coding competition to solve real-world problems with
-                                innovative solutions.</p>
-                            <a href="#"
-                                class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
-                                Learn More
-                                <i class="fas fa-arrow-right ml-2"></i>
-                            </a>
+                        </div>
+
+                        <!-- Event Card 2 -->
+                        <div
+                            class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                                alt="Workshop" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex items-center text-sm text-gray-500 mb-2">
+                                    <i class="far fa-calendar-alt mr-2"></i>
+                                    <span>June 22, 2023</span>
+                                </div>
+                                <h3 class="text-xl font-semibold mb-2">Web Development Workshop</h3>
+                                <p class="text-gray-600 mb-4">Hands-on training on modern web development with Laravel
+                                    and
+                                    Vue.js.</p>
+                                <a href="#"
+                                    class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
+                                    Learn More
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Event Card 3 -->
+                        <div
+                            class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
+                                alt="Seminar" class="w-full h-48 object-cover">
+                            <div class="p-6">
+                                <div class="flex items-center text-sm text-gray-500 mb-2">
+                                    <i class="far fa-calendar-alt mr-2"></i>
+                                    <span>July 5, 2023</span>
+                                </div>
+                                <h3 class="text-xl font-semibold mb-2">AI & Machine Learning Seminar</h3>
+                                <p class="text-gray-600 mb-4">Learn about the latest trends in AI from industry experts.
+                                </p>
+                                <a href="#"
+                                    class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
+                                    Learn More
+                                    <i class="fas fa-arrow-right ml-2"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Event Card 2 -->
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                        <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                            alt="Workshop" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <div class="flex items-center text-sm text-gray-500 mb-2">
-                                <i class="far fa-calendar-alt mr-2"></i>
-                                <span>June 22, 2023</span>
-                            </div>
-                            <h3 class="text-xl font-semibold mb-2">Web Development Workshop</h3>
-                            <p class="text-gray-600 mb-4">Hands-on training on modern web development with Laravel and
-                                Vue.js.</p>
-                            <a href="#"
-                                class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
-                                Learn More
-                                <i class="fas fa-arrow-right ml-2"></i>
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Event Card 3 -->
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                            alt="Seminar" class="w-full h-48 object-cover">
-                        <div class="p-6">
-                            <div class="flex items-center text-sm text-gray-500 mb-2">
-                                <i class="far fa-calendar-alt mr-2"></i>
-                                <span>July 5, 2023</span>
-                            </div>
-                            <h3 class="text-xl font-semibold mb-2">AI & Machine Learning Seminar</h3>
-                            <p class="text-gray-600 mb-4">Learn about the latest trends in AI from industry experts.</p>
-                            <a href="#"
-                                class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
-                                Learn More
-                                <i class="fas fa-arrow-right ml-2"></i>
-                            </a>
-                        </div>
+                    <div class="text-center mt-10">
+                        <a href="#"
+                            class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
+                            View All Events
+                            <i class="fas fa-arrow-right ml-2"></i>
+                        </a>
                     </div>
                 </div>
-
-                <div class="text-center mt-10">
-                    <a href="#"
-                        class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
-                        View All Events
-                        <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-            </div>
-        </section>
+            </section>
+        @endif
 
         <!-- Testimonials -->
         <section class="py-16 bg-white">
@@ -222,7 +231,7 @@
                     take
                     your skills to the next level.</p>
                 <div class="flex flex-col sm:flex-row justify-center space-y-4 sm:space-y-0 sm:space-x-4">
-                    <a href="#"
+                    <a href="{{ route('public.members.register.form') }}"
                         class="bg-white text-blue-800 px-8 py-3 rounded-lg font-medium hover:bg-gray-100 transition duration-300">Register
                         Now</a>
                     <a href="{{ route('public.contact') }}"
@@ -231,5 +240,5 @@
                 </div>
             </div>
         </section>
-        </x-slot>
+    </x-slot>
 </x-app-layout>

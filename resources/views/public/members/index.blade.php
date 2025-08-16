@@ -4,7 +4,12 @@
         <header class="pt-24 pb-12 bg-gradient-to-r from-blue-800 to-blue-600 text-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                 <h1 class="text-4xl font-bold leading-tight mb-4">Our Members</h1>
-                <p class="text-xl mb-8">Meet the talented members of BUBT IT Club</p>
+                <p class="text-xl mb-4">Meet the talented members of BUBT IT Club</p>
+                <a href="{{ route('public.members.register.form') }}"
+                    class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-blue-600 bg-white hover:bg-gray-700">
+                    Apply Now
+                    <i class="fas fa-arrow-right ml-2"></i>
+                </a>
             </div>
         </header>
 
@@ -16,19 +21,18 @@
                 <h2 class="text-2xl font-bold text-gray-900 mb-8">Executive Committee 2023</h2>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @foreach ([1, 2, 3, 4, 5, 6] as $executive)
+                    @foreach ($executiveMembers as $executive)
                         <div class="bg-gray-50 p-6 rounded-lg hover:shadow-md transition duration-300">
                             <div class="flex items-start">
                                 <img class="h-16 w-16 rounded-full"
-                                    src="https://randomuser.me/api/portraits/{{ $loop->odd ? 'men' : 'women' }}/{{ $executive }}0.jpg"
-                                    alt="Executive">
+                                    src="{{ asset('storage/' . $executive->photo_url) }}" alt="Executive">
                                 <div class="ml-4">
-                                    <h3 class="text-lg font-semibold">Executive {{ $executive }}</h3>
+                                    <h3 class="text-lg font-semibold">{{ $executive->name }}</h3>
                                     <p class="text-blue-600">
-                                        {{ ['President', 'Vice President', 'General Secretary', 'Treasurer', 'Event Coordinator', 'PR Officer'][$loop->index] }}
+                                        {{ $executive->position ?? 'Member' }}
                                     </p>
-                                    <p class="text-sm text-gray-500 mt-1">CSE Department,
-                                        Batch-20{{ 20 + $executive }}</p>
+                                    <p class="text-sm text-gray-500 mt-1">{{ $executive->department }},
+                                        Intake {{ $executive->intake }}</p>
                                 </div>
                             </div>
                         </div>
@@ -123,7 +127,7 @@
                 <h2 class="text-3xl font-bold text-gray-900 mb-4">Want to Become a Member?</h2>
                 <p class="text-lg text-gray-600 max-w-2xl mx-auto mb-8">Join our community of tech enthusiasts and
                     enhance your skills through various activities.</p>
-                <a href="{{route('public.members.register.form')}}"
+                <a href="{{ route('public.members.register.form') }}"
                     class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                     Apply Now
                     <i class="fas fa-arrow-right ml-2"></i>

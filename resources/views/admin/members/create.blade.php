@@ -135,7 +135,7 @@
                                 <select name="department" id="department" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="">Select Department</option>
-                                    @foreach (['CSE', 'EEE', 'BBA', 'English', 'LLB', 'Architecture'] as $dept)
+                                    @foreach ($departments as $dept)
                                         <option value="{{ $dept }}"
                                             {{ old('department') == $dept ? 'selected' : '' }}>
                                             {{ $dept }}
@@ -182,7 +182,7 @@
                                 <select name="position" id="position"
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                     <option value="">Select Position</option>
-                                    @foreach (['President', 'Vice President', 'General Secretary', 'Treasurer', 'Executive Member', 'Member'] as $position)
+                                    @foreach ($positions as $position)
                                         <option value="{{ $position }}"
                                             {{ old('position') == $position ? 'selected' : '' }}>
                                             {{ $position }}
@@ -237,7 +237,7 @@
                                 Favorite Categories
                             </label>
                             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-                                @foreach (['Coding', 'Design', 'Management', 'Networking', 'Content Writing', 'Graphics', 'Photography'] as $category)
+                                @foreach ($categories as $category)
                                     <div class="flex items-center">
                                         <input type="checkbox" name="favorite_categories[]"
                                             id="category_{{ strtolower($category) }}" value="{{ $category }}"

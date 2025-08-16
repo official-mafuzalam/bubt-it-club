@@ -61,6 +61,9 @@ Route::get('/blog', [WelcomeController::class, 'blog'])->name('public.blogs.inde
 Route::get('/blog/{slug}', [WelcomeController::class, 'blogDetails'])->name('public.blogs.show');
 Route::post('/blog/{slug}/comment', [WelcomeController::class, 'addComment'])->name('public.blogs.comments.store');
 
+Route::get('/privacy-policy', [WelcomeController::class, 'privacyPolicy'])->name('public.privacy.policy');
+Route::get('/terms-of-service', [WelcomeController::class, 'termsOfService'])->name('public.terms.service');
+
 
 
 

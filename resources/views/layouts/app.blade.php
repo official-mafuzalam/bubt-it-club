@@ -9,7 +9,7 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://kit.fontawesome.com/b3e3482d82.js" crossorigin="anonymous"></script>
 </head>
 
 <body class="bg-gray-50 font-sans">
@@ -191,18 +191,24 @@
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Quick Links</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Home</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">About Us</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Events</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Projects</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Members</a></li>
+                        <li><a href="{{ route('public.welcome') }}" class="text-gray-400 hover:text-white">Home</a>
+                        </li>
+                        <li><a href="{{ route('public.about') }}" class="text-gray-400 hover:text-white">About Us</a>
+                        </li>
+                        <li><a href="{{ route('public.events') }}" class="text-gray-400 hover:text-white">Events</a>
+                        </li>
+                        <li><a href="{{ route('public.projects') }}"
+                                class="text-gray-400 hover:text-white">Projects</a></li>
+                        <li><a href="{{ route('public.members.index') }}"
+                                class="text-gray-400 hover:text-white">Members</a></li>
                     </ul>
                 </div>
 
                 <div>
                     <h3 class="text-lg font-semibold mb-4">Resources</h3>
                     <ul class="space-y-2">
-                        <li><a href="#" class="text-gray-400 hover:text-white">Blog</a></li>
+                        <li><a href="{{ route('public.blogs.index') }}"
+                                class="text-gray-400 hover:text-white">Blog</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white">Tutorials</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white">Documentation</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white">Code Repository</a></li>
@@ -230,10 +236,10 @@
             </div>
 
             <div class="border-t border-gray-800 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-sm">© 2023 BUBT IT Club. All rights reserved.</p>
+                <p class="text-gray-400 text-sm">© {{ date('Y') }} BUBT IT Club. All rights reserved.</p>
                 <div class="mt-4 md:mt-0">
-                    <a href="#" class="text-gray-400 hover:text-white text-sm mr-4">Privacy Policy</a>
-                    <a href="#" class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
+                    <a href="{{ route('public.privacy.policy') }}" class="text-gray-400 hover:text-white text-sm mr-4">Privacy Policy</a>
+                    <a href="{{ route('public.terms.service') }}" class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
                 </div>
             </div>
         </div>

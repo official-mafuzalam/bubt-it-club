@@ -54,4 +54,19 @@ class Event extends Model
             return 'Completed';
         }
     }
+
+    public function scopeUpcoming($query)
+    {
+        return $query->where('start_date', '>', now());
+    }
+
+    public function scopeOngoing($query)
+    {
+        return $query->where('start_date', '<=', now())->where('end_date', '>=', now());
+    }
+
+    public function scopeCompleted($query)
+    {
+        return $query->where('end_date', '<', now());
+    }
 }
