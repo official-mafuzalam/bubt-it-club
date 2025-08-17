@@ -24,8 +24,8 @@ return new class extends Migration {
             $table->text('bio')->nullable();
             $table->string('photo_url')->nullable();
             $table->json('social_links')->nullable();
-            $table->json('favorite_categories')->nullable(); //like: ['coding', 'design', 'management'] 
-            $table->boolean('is_active')->default(true);
+            $table->json('favorite_categories')->nullable();
+            $table->boolean('is_active')->default(false);
             $table->date('joined_at');
             $table->timestamps();
             $table->softDeletes();

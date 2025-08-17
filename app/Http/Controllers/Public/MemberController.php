@@ -49,7 +49,23 @@ class MemberController extends Controller
      */
     public function showRegistrationForm()
     {
-        return view('public.members.register')->with('success', 'Registration successful! Welcome to BUBT IT Club.');
+        $departments = [
+            'CSE',
+            'EEE',
+            'Mathematics & Statistics',
+            'Textile Engineering',
+            'Civil Engineering',
+            'Architecture',
+            'BBA',
+            'English',
+            'Economics',
+            'Law & Justice',
+            'Finance',
+            'Management',
+            'Accounting',
+            'Marketing'
+        ];
+        return view('public.members.register', compact('departments'));
     }
 
     /**
