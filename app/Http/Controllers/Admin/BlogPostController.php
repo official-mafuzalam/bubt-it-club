@@ -12,6 +12,14 @@ use Illuminate\Support\Facades\Storage;
 
 class BlogPostController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:blog')->only(['index', 'show']);
+        $this->middleware('can:blog_create')->only(['create', 'store']);
+        $this->middleware('can:blog_edit')->only(['edit', 'update', 'togglePublish']);
+        $this->middleware('can:blog_delete')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */

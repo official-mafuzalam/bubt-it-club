@@ -147,15 +147,42 @@ class WelcomeController extends Controller
      */
     public function gallery(): View
     {
-        // $galleries = Gallery::query()
-        //     ->where('is_active', true)
-        //     ->orderBy('created_at', 'desc')
-        //     ->paginate(12);
+        $galleries = Gallery::published()
+            ->with([
+                'images' => function ($query) {
+                    $query->orderBy('order')->take(1); // Get first image for thumbnail
+                }
+            ])
+            ->orderBy('published_at', 'desc')
+            ->paginate(12);
 
-        $pageTitle = 'Gallery';
-        $pageDescription = 'Photos from our events and activities';
+        return view('public.galleries.index', compact('galleries'));
+    }
 
-        return view('public.gallery', compact('galleries', 'pageTitle', 'pageDescription'));
+    public function galleryDetails(Gallery $gallery)
+    {
+        // Check if gallery is published
+        if (!$gallery->is_published || $gallery->published_at > now()) {
+            abort(404);
+        }
+
+        $images = $gallery->images()
+            ->orderBy('order')
+            ->orderBy('created_at')
+            ->get();
+
+        $relatedGalleries = Gallery::published()
+            ->where('id', '!=', $gallery->id)
+            ->with([
+                'images' => function ($query) {
+                    $query->orderBy('order')->take(1);
+                }
+            ])
+            ->latest('published_at')
+            ->take(4)
+            ->get();
+
+        return view('public.galleries.show', compact('gallery', 'images', 'relatedGalleries'));
     }
 
     /**

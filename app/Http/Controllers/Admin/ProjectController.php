@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:project')->only(['index', 'show']);
+        $this->middleware('can:project_create')->only(['create', 'store']);
+        $this->middleware('can:project_edit')->only(['edit', 'update', 'togglePublish']);
+        $this->middleware('can:project_delete')->only(['destroy', 'restore', 'forceDelete']);
+    }
+
     /**
      * Display a listing of the resource.
      */

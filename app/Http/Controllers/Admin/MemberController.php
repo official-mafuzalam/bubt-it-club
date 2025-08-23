@@ -11,6 +11,14 @@ use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:member')->only(['index', 'show']);
+        $this->middleware('can:member_create')->only(['create', 'store']);
+        $this->middleware('can:member_edit')->only(['edit', 'update']);
+        $this->middleware('can:member_delete')->only(['destroy']);
+    }
+
     protected $departments = [
         'CSE',
         'EEE',

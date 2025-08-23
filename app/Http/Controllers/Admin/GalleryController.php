@@ -11,6 +11,14 @@ use Illuminate\Support\Facades\Storage;
 
 class GalleryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:gallery')->only(['index', 'show']);
+        $this->middleware('can:gallery_create')->only(['create', 'store']);
+        $this->middleware('can:gallery_edit')->only(['edit', 'update', 'togglePublish']);
+        $this->middleware('can:gallery_delete')->only(['destroy', 'restore', 'forceDelete']);
+    }
+
     /**
      * Display a listing of the resource.
      */

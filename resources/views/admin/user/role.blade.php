@@ -1,6 +1,8 @@
 <x-admin-layout>
-    @section('title', 'User Edit - ' . $user->name)
-    <x-slot name="main">    
+    <x-slot name="main">
+        @section('page-title')
+            <title>User Edit - {{ $user->name }}</title>
+        @endsection
         <div class="w-full px-4 py-6 sm:px-6 lg:px-8 space-y-6">
             <!-- User Information Card -->
             <div class="bg-white rounded-xl shadow-lg dark:bg-gray-800 overflow-hidden">

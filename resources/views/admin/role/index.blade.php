@@ -1,6 +1,8 @@
 <x-admin-layout>
-    @section('title', 'Roles Management')
     <x-slot name="main">
+        @section('page-title')
+            <title>Role Management</title>
+        @endsection
         <div class="w-full px-4 py-6 sm:px-6 lg:px-8">
             <!-- Main Card -->
             <div class="bg-white rounded-xl shadow-lg dark:bg-gray-800 overflow-hidden">
