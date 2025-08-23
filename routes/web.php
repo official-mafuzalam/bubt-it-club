@@ -90,13 +90,26 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
         Route::patch('projects/{project}/toggle-publish', [ProjectController::class, 'togglePublish'])->name('admin.projects.togglePublish');
 
         // Blogs
-        Route::resource('blogs', BlogPostController::class)->names('admin.blog.posts');
-        Route::patch('blog/posts/{post}/toggle-publish', [BlogPostController::class, 'togglePublish'])
-            ->name('admin.blog.posts.togglePublish');
         Route::resource('blog/categories', BlogCategoryController::class)->names('admin.blog.categories');
+
+        Route::resource('blogs', BlogPostController::class)->names('admin.blog.posts');
+
+        Route::patch('blog/posts/{post}/toggle-publish', [BlogPostController::class, 'togglePublish'])->name('admin.blog.posts.togglePublish');
 
         // Galleries
         Route::resource('galleries', GalleryController::class)->names('admin.galleries');
+
+        // Additional gallery routes
+        Route::patch('galleries/{gallery}/restore', [GalleryController::class, 'restore'])
+            ->name('admin.galleries.restore');
+        Route::delete('galleries/{gallery}/force-delete', [GalleryController::class, 'forceDelete'])
+            ->name('admin.galleries.forceDelete');
+        Route::patch('galleries/{gallery}/toggle-publish', [GalleryController::class, 'togglePublish'])
+            ->name('admin.galleries.togglePublish');
+        Route::delete('galleries/images/{image}', [GalleryController::class, 'deleteImage'])
+            ->name('admin.galleries.deleteImage');
+        Route::post('galleries/{gallery}/update-order', [GalleryController::class, 'updateImageOrder'])
+            ->name('admin.galleries.updateImageOrder');
 
 
         // Profile

@@ -22,7 +22,8 @@
         </div>
 
         <div class="bg-white rounded-lg shadow overflow-hidden dark:bg-gray-800">
-            <form action="{{ route('admin.blog.posts.update', $post->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.blog.posts.update', ['blog' => $post->id]) }}" method="POST"
+                enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="p-6 space-y-6">

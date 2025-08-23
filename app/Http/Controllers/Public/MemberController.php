@@ -89,7 +89,7 @@ class MemberController extends Controller
         // Handle photo upload
         $photoPath = null;
         if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('members', 'public');
+            $photoPath = $request->file('photo')->store('member-photos', 'public');
         }
 
         // Create member

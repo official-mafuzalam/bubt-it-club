@@ -68,17 +68,27 @@ class Member extends Model
                     ->orWhere('email', 'like', '%' . $search . '%')
                     ->orWhere('student_id', 'like', '%' . $search . '%');
             });
+        })->when($filters['department'] ?? null, function ($query, $department) {
+            $query->where('department', $department);
+        })->when($filters['intake'] ?? null, function ($query, $intake) {
+            $query->where('intake', $intake);
+        })->when(isset($filters['status']), function ($query) use ($filters) {
+            if ($filters['status'] === 'active') {
+                $query->where('is_active', true);
+            } elseif ($filters['status'] === 'inactive') {
+                $query->where('is_active', false);
+            }
         });
     }
 
     public function scopeExecutiveMembers($query)
     {
-        $query->where('position', '!=', 'general_member');
+        $query->where('position', '!=', 'General Member');
     }
 
     public function scopeGeneralMembers($query)
     {
-        $query->where('position', 'general_member');
+        $query->where('position', 'General Member');
     }
 
     // Add these accessor methods to ensure proper array conversion

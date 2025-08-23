@@ -52,10 +52,19 @@ class MemberController extends Controller
     public function index()
     {
         $members = Member::latest()
-            ->filter(request(['search']))
+            ->filter(request(['search', 'department', 'intake', 'status']))
             ->paginate(10);
 
-        return view('admin.members.index', compact('members'));
+        $departments = Member::select('department')
+            ->distinct()
+            ->pluck('department');
+
+        $intakes = Member::select('intake')
+            ->distinct()
+            ->orderBy('intake', 'desc')
+            ->pluck('intake');
+
+        return view('admin.members.index', compact('members', 'departments', 'intakes'));
     }
 
     /**

@@ -18,7 +18,7 @@
                     </div>
                     <div class="text-center md:text-left">
                         <h1 class="text-4xl font-bold mb-2">{{ $member->name }}</h1>
-                        <p class="text-xl mb-2">{{ $member->department }} - Batch {{ $member->batch }}</p>
+                        <p class="text-xl mb-2">{{ $member->department }} - Intake: {{ $member->intake }}</p>
                         @if ($member->position == 'general_member')
                             <p class="text-lg mb-4">General Member</p>
                         @else

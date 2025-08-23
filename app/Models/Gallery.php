@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Builder;
 
 class Gallery extends Model
 {
@@ -12,42 +13,31 @@ class Gallery extends Model
 
     protected $fillable = [
         'title',
+        'slug',
         'description',
-        'event_id',
-        'date',
-        'is_active',
-        'cover_image_url'
+        'is_published',
+        'published_at'
     ];
 
     protected $casts = [
-        'date' => 'date',
-        'is_active' => 'boolean'
+        'published_at' => 'datetime',
+        'is_published' => 'boolean'
     ];
-
-    public function event()
-    {
-        return $this->belongsTo(Event::class);
-    }
 
     public function images()
     {
         return $this->hasMany(GalleryImage::class)->orderBy('order');
     }
-}
 
-class GalleryImage extends Model
-{
-    use HasFactory;
-
-    protected $fillable = [
-        'gallery_id',
-        'image_url',
-        'caption',
-        'order'
-    ];
-
-    public function gallery()
+    public function scopePublished(Builder $query): void
     {
-        return $this->belongsTo(Gallery::class);
+        $query->where('is_published', true)
+              ->whereNotNull('published_at')
+              ->where('published_at', '<=', now());
+    }
+
+    public function getCoverImageAttribute()
+    {
+        return $this->images->first();
     }
 }
