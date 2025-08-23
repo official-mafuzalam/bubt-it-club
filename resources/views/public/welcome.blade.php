@@ -87,70 +87,27 @@
                     </div>
 
                     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <!-- Event Card 1 -->
-                        <div
-                            class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                            <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                                alt="Hackathon" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <div class="flex items-center text-sm text-gray-500 mb-2">
-                                    <i class="far fa-calendar-alt mr-2"></i>
-                                    <span>June 15, 2023</span>
+                        @foreach ($events as $item)
+                            <!-- Event Card 1 -->
+                            <div
+                                class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
+                                <img src="{{ asset('storage/' . $item->image_url) }}" alt="{{ $item->title }}"
+                                    class="w-full h-48 object-cover">
+                                <div class="p-6">
+                                    <div class="flex items-center text-sm text-gray-500 mb-2">
+                                        <i class="far fa-calendar-alt mr-2"></i>
+                                        <span>{{ $item->start_date->format('F j, Y') }}</span>
+                                    </div>
+                                    <h3 class="text-xl font-semibold mb-2">{{ $item->title }}</h3>
+                                    <p class="text-gray-600 mb-4">{{ Str::limit($item->description, 100) }}</p>
+                                    <a href="{{ route('public.events.show', $item->slug) }}"
+                                        class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
+                                        Learn More
+                                        <i class="fas fa-arrow-right ml-2"></i>
+                                    </a>
                                 </div>
-                                <h3 class="text-xl font-semibold mb-2">Annual Hackathon 2023</h3>
-                                <p class="text-gray-600 mb-4">24-hour coding competition to solve real-world problems
-                                    with
-                                    innovative solutions.</p>
-                                <a href="#"
-                                    class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
-                                    Learn More
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </a>
                             </div>
-                        </div>
-
-                        <!-- Event Card 2 -->
-                        <div
-                            class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                            <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                                alt="Workshop" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <div class="flex items-center text-sm text-gray-500 mb-2">
-                                    <i class="far fa-calendar-alt mr-2"></i>
-                                    <span>June 22, 2023</span>
-                                </div>
-                                <h3 class="text-xl font-semibold mb-2">Web Development Workshop</h3>
-                                <p class="text-gray-600 mb-4">Hands-on training on modern web development with Laravel
-                                    and
-                                    Vue.js.</p>
-                                <a href="#"
-                                    class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
-                                    Learn More
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </a>
-                            </div>
-                        </div>
-
-                        <!-- Event Card 3 -->
-                        <div
-                            class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition duration-300">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                                alt="Seminar" class="w-full h-48 object-cover">
-                            <div class="p-6">
-                                <div class="flex items-center text-sm text-gray-500 mb-2">
-                                    <i class="far fa-calendar-alt mr-2"></i>
-                                    <span>July 5, 2023</span>
-                                </div>
-                                <h3 class="text-xl font-semibold mb-2">AI & Machine Learning Seminar</h3>
-                                <p class="text-gray-600 mb-4">Learn about the latest trends in AI from industry experts.
-                                </p>
-                                <a href="#"
-                                    class="text-blue-600 font-medium hover:text-blue-800 inline-flex items-center">
-                                    Learn More
-                                    <i class="fas fa-arrow-right ml-2"></i>
-                                </a>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
 
                     <div class="text-center mt-10">
@@ -193,8 +150,8 @@
                     <div class="bg-gray-50 p-6 rounded-lg">
                         <div class="flex items-center mb-4">
                             <div class="flex-shrink-0">
-                                <img class="h-12 w-12 rounded-full"
-                                    src="https://randomuser.me/api/portraits/men/45.jpg" alt="Testimonial">
+                                <img class="h-12 w-12 rounded-full" src="https://randomuser.me/api/portraits/men/45.jpg"
+                                    alt="Testimonial">
                             </div>
                             <div class="ml-4">
                                 <h4 class="text-lg font-medium">Rakib Hasan</h4>

@@ -20,10 +20,11 @@ class Member extends Model
         'phone',
         'gender',
         'position',
+        'executive_committee_id',
         'bio',
         'photo_url',
         'social_links',
-        'favorite_categories', //like: ['coding', 'design', 'management']
+        'favorite_categories',
         'is_active',
         'joined_at'
     ];
@@ -35,6 +36,14 @@ class Member extends Model
         'is_active' => 'boolean',
         'password' => 'hashed',
     ];
+
+    /**
+     * Get the executive committee that the member belongs to.
+     */
+    public function executiveCommittee()
+    {
+        return $this->belongsTo(ExecutiveCommittee::class);
+    }
 
     public static function scopeActive($query)
     {
@@ -91,24 +100,15 @@ class Member extends Model
         $query->where('position', 'General Member');
     }
 
-    // Add these accessor methods to ensure proper array conversion
-    // public function getSocialLinksAttribute($value)
-    // {
-    //     if (is_array($value)) {
-    //         return $value;
-    //     }
+    /**
+     * Get the member's position with committee term.
+     */
+    public function getPositionWithTermAttribute()
+    {
+        if ($this->executiveCommittee) {
+            return "{$this->position} ({$this->executiveCommittee->name})";
+        }
 
-    //     $decoded = json_decode($value, true);
-    //     return is_array($decoded) ? $decoded : [];
-    // }
-
-    // public function getFavoriteCategoriesAttribute($value)
-    // {
-    //     if (is_array($value)) {
-    //         return $value;
-    //     }
-
-    //     $decoded = json_decode($value, true);
-    //     return is_array($decoded) ? $decoded : [];
-    // }
+        return $this->position;
+    }
 }

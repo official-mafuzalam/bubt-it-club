@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ExecutiveCommittee;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -243,4 +244,24 @@ class MemberController extends Controller
         return redirect()->route('admin.members.index')
             ->with('success', 'Member permanently deleted.');
     }
+
+    public function executive(Member $member)
+    {
+        $committees = ExecutiveCommittee::all();
+        return view('admin.members.executive', compact('member', 'committees'));
+    }
+
+    public function assignExecutive(Request $request, Member $member)
+    {
+        $validated = $request->validate([
+            'executive_committee_id' => 'nullable|exists:executive_committees,id',
+        ]);
+
+        $member->executive_committee_id = $validated['executive_committee_id'] ?? null;
+        $member->save();
+
+        return redirect()->route('admin.members.index')
+            ->with('success', 'Executive committee assigned successfully.');
+    }
+
 }

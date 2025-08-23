@@ -15,7 +15,11 @@
                 </p>
             </div>
 
-            <div class="mt-4 md:mt-0">
+            <div class="mt-4 md:mt-0 flex flex-col sm:flex-row gap-3">
+                <a href="{{ route('admin.executive-committees.index') }}"
+                    class="inline-flex items-center justify-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-150">
+                    Executive Committees
+                </a>
                 <a href="{{ route('admin.members.create') }}"
                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-150">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
@@ -222,8 +226,8 @@
                                             class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300">
                                             Edit
                                         </a>
-                                        <form action="{{ route('admin.members.destroy', $member->id) }}" method="POST"
-                                            class="inline">
+                                        <form action="{{ route('admin.members.destroy', $member->id) }}"
+                                            method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"

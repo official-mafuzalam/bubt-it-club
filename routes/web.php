@@ -1,42 +1,26 @@
 <?php
 
 
-use App\Http\Controllers\Admin\BlogCategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\BlogPostController;
-use App\Http\Controllers\Admin\EventController;
-use App\Http\Controllers\Admin\GalleryController;
-use App\Http\Controllers\Admin\MemberController;
-use App\Http\Controllers\Admin\ProjectController;
-use App\Http\Controllers\Admin\PermissionController;
-use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\Admin\RoleController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\
+{
+    BlogCategoryController,
+    BlogPostController,
+    EventController,
+    ExecutiveCommitteeController,
+    GalleryController,
+    MemberController,
+    ProjectController,
+    PermissionController,
+    HomeController,
+    RoleController,
+    UserController
+};
 use App\Http\Controllers\Public\WelcomeController;
 use App\Http\Controllers\Public\EventController as PublicEventController;
 use App\Http\Controllers\Public\MemberController as PublicMemberController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
-
-Route::get('/session', function () {
-
-    $session = session()->all();
-
-    echo "<pre>";
-    print_r($session);
-    echo "</pre>";
-
-});
 
 Route::get('/', [WelcomeController::class, 'index'])->name('public.welcome');
 Route::get('/about', [WelcomeController::class, 'about'])->name('public.about');
@@ -83,6 +67,10 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
 
         // Members
         Route::resource('members', MemberController::class)->names('admin.members');
+        Route::get('members/assign-executive-committees/{member}', [MemberController::class, 'executive'])->name('admin.members.executive');
+        Route::post('members/assign-executive-committees/{member}', [MemberController::class, 'assignExecutive'])->name('admin.members.assign-executive');
+
+        Route::resource('executive-committees', ExecutiveCommitteeController::class)->names('admin.executive-committees');
 
         // Projects
         Route::resource('projects', ProjectController::class)->names('admin.projects');
