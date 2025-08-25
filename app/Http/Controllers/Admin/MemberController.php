@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\MemberCreated;
 use App\Models\ExecutiveCommittee;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
@@ -111,9 +113,12 @@ class MemberController extends Controller
             'joined_at' => 'required|date',
         ]);
 
-        // Handle file upload
+        // Handle file upload with student_id as filename
         if ($request->hasFile('photo')) {
-            $validated['photo_url'] = $request->file('photo')->store('member-photos', 'public');
+            $extension = $request->file('photo')->getClientOriginalExtension();
+            $fileName = $validated['student_id'] . '.' . $extension; // student_id as filename
+            $path = $request->file('photo')->storeAs('member-photos', $fileName, 'public');
+            $validated['photo_url'] = $path;
         }
 
         // Hash password
@@ -123,11 +128,16 @@ class MemberController extends Controller
         $validated['social_links'] = $request->social_links ? json_encode($request->social_links) : null;
         $validated['favorite_categories'] = $request->favorite_categories ? json_encode($request->favorite_categories) : null;
 
-        Member::create($validated);
+        // Create member
+        $member = Member::create($validated);
+
+        // Send mail
+        Mail::to($validated['email'])->send(new MemberCreated($member));
 
         return redirect()->route('admin.members.index')
             ->with('success', 'Member created successfully.');
     }
+
 
     /**
      * Display the specified resource.
@@ -243,6 +253,19 @@ class MemberController extends Controller
 
         return redirect()->route('admin.members.index')
             ->with('success', 'Member permanently deleted.');
+    }
+
+    public function sendEmailConfirmation(Member $member)
+    {
+        $mail = Mail::to($member->email)->send(new MemberCreated($member));
+
+        if ($mail) {
+            return redirect()->route('admin.members.index')
+                ->with('success', 'Email confirmation sent successfully.');
+        }
+
+        return redirect()->route('admin.members.index')
+            ->with('error', 'Failed to send email confirmation.');
     }
 
     public function executive(Member $member)

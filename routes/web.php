@@ -50,7 +50,17 @@ Route::get('/privacy-policy', [WelcomeController::class, 'privacyPolicy'])->name
 Route::get('/terms-of-service', [WelcomeController::class, 'termsOfService'])->name('public.terms.service');
 
 
+Route::prefix('it-club-respectable-members')->group(function () {
 
+    Route::get('/login', [MemberController::class, 'login'])->name('members.login');
+    Route::post('/login', [MemberController::class, 'authenticate'])->name('members.login.authenticate');
+
+    Route::get('/', [MemberController::class, 'index'])->name('members.index');
+    Route::get('/{member}', [MemberController::class, 'show'])->name('members.show');
+    Route::get('/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
+    Route::put('/{member}', [MemberController::class, 'update'])->name('members.update');
+    Route::delete('/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
+});
 
 // For all auth user
 Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
@@ -61,12 +71,16 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
 
         // Events
         Route::resource('events', EventController::class)->names('admin.events');
+        Route::get('events/registration/{event}', [EventController::class, 'showRegister'])->name('admin.events.register');
+        Route::post('events/{registration}/attendance', [EventController::class, 'markAttendance'])->name('admin.events.attendance');
+        Route::get('events/{registration}/confirm-email/', [EventController::class, 'confirmEmail'])->name('admin.events.confirm-email');
         Route::post('events/{event}/toggle-publish', [EventController::class, 'togglePublish'])->name('admin.events.toggle-publish');
         Route::post('events/{event}/toggle-paid', [EventController::class, 'togglePaid'])->name('admin.events.toggle-paid');
         Route::post('events/{event}/toggle-registration', [EventController::class, 'toggleRegistration'])->name('admin.events.toggle-registration');
 
         // Members
         Route::resource('members', MemberController::class)->names('admin.members');
+        Route::get('members/{member}/email-confirmation', [MemberController::class, 'sendEmailConfirmation'])->name('admin.members.email-confirmation');
         Route::get('members/assign-executive-committees/{member}', [MemberController::class, 'executive'])->name('admin.members.executive');
         Route::post('members/assign-executive-committees/{member}', [MemberController::class, 'assignExecutive'])->name('admin.members.assign-executive');
 
@@ -132,7 +146,9 @@ Route::middleware(['auth', 'role:super_admin'])->group(function () {
 
 
         // Users
-        Route::get('/users', [UserController::class, 'user'])->name('admin.user');
+        Route::get('/users', [UserController::class, 'index'])->name('admin.users.index');
+        Route::get('/users/create', [UserController::class, 'create'])->name('admin.users.create');
+        Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
         Route::get('/users/{user}', [UserController::class, 'show'])->name('admin.users.show');
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
         Route::post('/users/{user}/roles', [UserController::class, 'assignRole'])->name('admin.users.roles');

@@ -78,7 +78,8 @@
                                     </span>
                                 </div>
                                 <div>
-                                    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Participants</h3>
+                                    <a href="{{ route('admin.events.register', $event->id) }}"
+                                        class="text-2xl font-medium text-blue-500 dark:text-gray-400">Participants</a>
                                     <p class="text-gray-800 dark:text-white">
                                         {{ $event->registrations->count() }} registered
                                         @if ($event->max_participants)
@@ -116,8 +117,7 @@
                                             {{ $event->is_published ? 'Unpublish' : 'Publish' }}
                                         </button>
                                     </form>
-                                    <form action="{{ route('admin.events.toggle-paid', $event->id) }}"
-                                        method="POST">
+                                    <form action="{{ route('admin.events.toggle-paid', $event->id) }}" method="POST">
                                         @csrf
                                         <button type="submit"
                                             class="inline-flex items-center px-4 py-2 bg-gray-600 border border-transparent rounded-md font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-150">

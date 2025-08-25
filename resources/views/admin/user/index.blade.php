@@ -19,7 +19,7 @@
                     <!-- Search and Action Buttons -->
                     <div class="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
                         <!-- Search Form -->
-                        <form action="{{ route('admin.user') }}" class="w-full sm:w-64">
+                        <form action="{{ route('admin.users.index') }}" class="w-full sm:w-64">
                             <div class="relative rounded-md shadow-sm">
                                 <input type="text" name="user" placeholder="Search name, mobile, email"
                                     class="block w-full rounded-md border-gray-300 pl-4 pr-10 py-2 focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400">
@@ -50,7 +50,7 @@
                             @endcan
 
                             @can('user_add')
-                                <a href="{{ route('admin.user.createPage') }}"
+                                <a href="{{ route('admin.users.create') }}"
                                     class="px-3 py-2 text-sm font-medium rounded-md bg-blue-600 text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition-colors flex items-center gap-1">
                                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -130,7 +130,7 @@
                                     </td>
 
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-200">
-                                        {{ explode('@', $user->email)[0] }}
+                                        {{ $user->email }}
                                     </td>
 
                                     <td class="px-6 py-4">

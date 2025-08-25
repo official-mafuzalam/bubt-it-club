@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Mail\MemberCreated;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
@@ -86,10 +88,12 @@ class MemberController extends Controller
             'terms' => 'required|accepted',
         ]);
 
-        // Handle photo upload
+        // Handle photo upload (filename = student_id)
         $photoPath = null;
         if ($request->hasFile('photo')) {
-            $photoPath = $request->file('photo')->store('member-photos', 'public');
+            $extension = $request->file('photo')->getClientOriginalExtension();
+            $fileName = $validated['student_id'] . '.' . $extension; // e.g. 20250001.jpg
+            $photoPath = $request->file('photo')->storeAs('member-photos', $fileName, 'public');
         }
 
         // Create member
@@ -106,12 +110,12 @@ class MemberController extends Controller
             'joined_at' => now(),
         ]);
 
-        // Log in the member (optional)
-        // auth()->login($member);
+        Mail::to($member->email)->send(new MemberCreated($member));
 
         return redirect()->route('public.members.show', $member)
             ->with('success', 'Registration successful! Welcome to BUBT IT Club.');
     }
+
 
     /**
      * Display the specified member.

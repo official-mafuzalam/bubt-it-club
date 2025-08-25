@@ -12,6 +12,22 @@ use Illuminate\Support\Facades\Mail;
 
 class EventController extends Controller
 {
+    protected $departments = [
+        'CSE',
+        'EEE',
+        'Mathematics & Statistics',
+        'Textile Engineering',
+        'Civil Engineering',
+        'Architecture',
+        'BBA',
+        'English',
+        'Economics',
+        'Law & Justice',
+        'Finance',
+        'Management',
+        'Accounting',
+        'Marketing'
+    ];
 
     /**
      * Display a listing of events.
@@ -75,6 +91,7 @@ class EventController extends Controller
 
     public function showRegistrationForm(Event $event)
     {
+        $departments = $this->departments;
         // Check if registration is possible
         if (!$event->is_registration_open) {
             return redirect()->route('public.events.show', $event->id)
@@ -91,7 +108,7 @@ class EventController extends Controller
                 ->with('error', 'This event is fully booked.');
         }
 
-        return view('public.events.register', compact('event'));
+        return view('public.events.register', compact('event', 'departments'));
     }
 
     public function register(Event $event, Request $request)
@@ -137,9 +154,9 @@ class EventController extends Controller
         ]);
 
         // Send confirmation email
-        // Mail::to($validated['email'])->send(new EventRegistrationConfirmation($event, $registration));
+        Mail::to($validated['email'])->send(new EventRegistrationConfirmation($event, $registration));
 
-        return redirect()->route('public.events.show', $event->id)
+        return redirect()->route('public.events.show', $event->slug)
             ->with('success', 'Registration successful! Check your email for confirmation.');
     }
 }

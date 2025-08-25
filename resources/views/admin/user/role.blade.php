@@ -52,7 +52,7 @@
                     <!-- Password Regenerate Button -->
                     <div class="mt-6 flex flex-wrap justify-between gap-4">
                         <!-- Back Button -->
-                        <a href="{{ route('admin.user') }}"
+                        <a href="{{ route('admin.users.index') }}"
                             class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-gray-600 hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-150">
                             ← Back to Users
                         </a>

@@ -96,16 +96,10 @@
                                     <select id="department" name="department"
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                         <option value="">Select Department</option>
-                                        <option value="CSE" {{ old('department') == 'CSE' ? 'selected' : '' }}>
-                                            Computer Science & Engineering</option>
-                                        <option value="EEE" {{ old('department') == 'EEE' ? 'selected' : '' }}>
-                                            Electrical & Electronic Engineering</option>
-                                        <option value="BBA" {{ old('department') == 'BBA' ? 'selected' : '' }}>
-                                            Business Administration</option>
-                                        <option value="MBA" {{ old('department') == 'MBA' ? 'selected' : '' }}>
-                                            Masters of Business Administration</option>
-                                        <option value="other" {{ old('department') == 'other' ? 'selected' : '' }}>
-                                            Other</option>
+                                        @foreach ($departments as $item)
+                                            <option value="{{ $item }}" {{ old('department') == $item ? 'selected' : '' }}>
+                                                {{ $item }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

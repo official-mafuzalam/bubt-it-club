@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Mail\EventRegistrationConfirmation;
 use App\Models\Event;
+use App\Models\EventRegistration;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -189,6 +192,35 @@ class EventController extends Controller
 
         return redirect()->route('admin.events.index')
             ->with('success', 'Event deleted successfully!');
+    }
+
+    public function showRegister(Event $event)
+    {
+        $registrations = $event->registrations;
+        return view('admin.events.register', compact('event', 'registrations'));
+    }
+
+    public function markAttendance(EventRegistration $registration)
+    {
+        $registration->attended = 1;
+        $registration->save();
+
+        return redirect()->route('admin.events.register', $registration->event_id)
+            ->with('success', 'Attendance marked successfully.');
+    }
+
+    public function confirmEmail(EventRegistration $registration)
+    {
+        $event = Event::find($registration->event_id);
+
+        $mail = Mail::to($registration->email)->send(new EventRegistrationConfirmation($event, $registration));
+
+        if ($mail) {
+            return redirect()->route('admin.events.register', $event->id)
+                ->with('success', 'Email confirmation sent successfully.');
+        }
+        return redirect()->route('admin.events.register', $event->id)
+            ->with('error', 'Failed to send email confirmation.');
     }
 
     public function togglePublish(Event $event)
