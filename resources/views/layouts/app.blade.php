@@ -40,8 +40,7 @@
                     <a href="{{ route('public.galleries.index') }}"
                         class="{{ request()->routeIs(['public.galleries.index', 'public.galleries.show']) ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Galleries</a>
                     <a href="{{ route('admin.index') }}"
-                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">Join
-                        Us</a>
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">Login</a>
                 </div>
                 <div class="-mr-2 flex items-center md:hidden">
                     <button type="button"
@@ -72,8 +71,7 @@
                 <a href="{{ route('public.galleries.index') }}"
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Galleries</a>
                 <a href="{{ route('admin.index') }}"
-                    class="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white">Join
-                    Us</a>
+                    class="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white">Login</a>
             </div>
         </div>
     </nav>
