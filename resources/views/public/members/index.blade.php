@@ -17,30 +17,37 @@
         <section class="py-10 bg-white">
 
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <!-- Executive Committee -->
-                <h2 class="text-2xl font-bold text-gray-900 mb-8">Executive Committee 2023</h2>
 
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    @foreach ($executiveMembers as $executive)
-                        <div class="bg-gray-50 p-6 rounded-lg hover:shadow-md transition duration-300">
-                            <div class="flex items-start">
-                                <img class="h-16 w-16 rounded-full"
-                                    src="{{ asset('storage/' . $executive->photo_url) }}" alt="Executive">
-                                <div class="ml-4">
-                                    <h3 class="text-lg font-semibold">{{ $executive->name }}</h3>
-                                    <p class="text-blue-600">
-                                        {{ $executive->position ?? 'Member' }}
-                                    </p>
-                                    <p class="text-sm text-gray-500 mt-1">{{ $executive->department }},
-                                        Intake {{ $executive->intake }}</p>
+                @foreach ($executiveCommittees as $item)
+                    <div class="bg-gray-50 p-6 rounded-lg mb-4">
+                        <h3 class="text-2xl font-bold text-gray-900">{{ $item->name }}</h3>
+                        <p class="text-sm text-gray-500">{{ $item->description }}</p>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        @foreach ($item->members as $executive)
+                            <div class="bg-gray-50 p-6 rounded-lg hover:shadow-md transition duration-300">
+                                <div class="flex items-start">
+                                    <img class="h-16 w-16 rounded-full"
+                                        src="{{ asset('storage/' . $executive->photo_url) }}" alt="Executive">
+                                    <div class="ml-4">
+                                        <h3 class="text-lg font-semibold">{{ $executive->name }}</h3>
+                                        <p class="text-blue-600">
+                                            {{ $executive->position ?? 'Member' }}
+                                        </p>
+                                        <p class="text-sm text-gray-500 mt-1">{{ $executive->department }},
+                                            Intake {{ $executive->intake }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
-                </div>
+                        @endforeach
+                    </div>
+                @endforeach
 
+                <!-- All Members Section -->
                 <!-- Filters -->
                 <div class="bg-gray-50 rounded-lg shadow mb-6 p-4 mt-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">All Members</h3>
                     <form action="{{ route('public.members.index') }}" method="GET"
                         class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div>

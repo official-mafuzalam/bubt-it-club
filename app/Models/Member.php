@@ -45,9 +45,16 @@ class Member extends Model
         return $this->belongsTo(ExecutiveCommittee::class);
     }
 
-    public static function scopeActive($query)
+    // Scope for active members
+    public function scopeActive($query)
     {
         return $query->where('is_active', true);
+    }
+
+    // Scope for inactive members
+    public function scopeInactive($query)
+    {
+        return $query->where('is_active', false);
     }
 
     public function projects()

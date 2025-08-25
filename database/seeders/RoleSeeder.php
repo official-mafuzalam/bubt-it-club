@@ -45,6 +45,7 @@ class RoleSeeder extends Seeder
             'gallery_create',
             'gallery_edit',
             'gallery_delete',
+            'contact',
             'role',
             'permission',
             'block_user',

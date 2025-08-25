@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\MemberCreated;
 use App\Models\ExecutiveCommittee;
 use App\Models\Member;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
@@ -253,6 +254,18 @@ class MemberController extends Controller
 
         return redirect()->route('admin.members.index')
             ->with('success', 'Member permanently deleted.');
+    }
+
+    public function addToUser(Member $member)
+    {
+        User::create([
+            'name' => $member->name,
+            'email' => $member->email,
+            'password' => $member->password,
+        ]);
+
+        return redirect()->route('admin.members.index')
+            ->with('success', $member->name . ' added to user successfully.');
     }
 
     public function sendEmailConfirmation(Member $member)

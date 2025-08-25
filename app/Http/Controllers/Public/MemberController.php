@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Mail\MemberCreated;
+use App\Models\ExecutiveCommittee;
 use App\Models\Member;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -34,6 +35,8 @@ class MemberController extends Controller
             ->executiveMembers()
             ->get();
 
+        $executiveCommittees = ExecutiveCommittee::all();
+
         $departments = Member::select('department')
             ->distinct()
             ->pluck('department');
@@ -43,7 +46,7 @@ class MemberController extends Controller
             ->orderBy('intake', 'desc')
             ->pluck('intake');
 
-        return view('public.members.index', compact('members', 'departments', 'intakes', 'executiveMembers'));
+        return view('public.members.index', compact('members', 'departments', 'intakes', 'executiveMembers', 'executiveCommittees'));
     }
 
     /**

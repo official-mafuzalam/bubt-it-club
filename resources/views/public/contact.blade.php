@@ -15,7 +15,8 @@
                     <div class="md:w-1/2 mb-8 md:mb-0">
                         <h2 class="text-3xl font-bold text-gray-900 mb-6">Send Us a Message</h2>
 
-                        <form class="space-y-6">
+                        <form action="{{ route('public.contact.submit') }}" method="POST" class="space-y-6">
+                            @csrf
                             <div>
                                 <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full
                                     Name</label>
@@ -63,7 +64,8 @@
                                 </div>
                                 <div class="ml-4">
                                     <h3 class="text-lg font-semibold text-gray-900">Our Location</h3>
-                                    <p class="text-gray-600">BUBT IT Club, Bangladesh University of Business and
+                                    <p class="text-gray-600">BUBT IT Club, Building: 2, Room: 501 <br>
+                                        Bangladesh University of Business and
                                         Technology, Rupnagar, Mirpur-2, Dhaka-1216</p>
                                 </div>
                             </div>
@@ -105,7 +107,8 @@
                         <div class="mt-8">
                             <h3 class="text-xl font-semibold text-gray-900 mb-4">Follow Us</h3>
                             <div class="flex space-x-4">
-                                <a href="#" class="text-gray-600 hover:text-blue-600">
+                                <a href="https://www.facebook.com/BITCofficial"
+                                    class="text-gray-600 hover:text-blue-600">
                                     <i class="fab fa-facebook-f text-2xl"></i>
                                 </a>
                                 <a href="#" class="text-gray-600 hover:text-blue-600">
@@ -132,8 +135,9 @@
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="rounded-lg overflow-hidden shadow-lg">
                     <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.835437398098!2d90.40626631543193!3d23.7908683932264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c7a0f70e53a1%3A0x97856381e88fb311!2sBangladesh%20University%20of%20Business%20and%20Technology%20(BUBT)!5e0!3m2!1sen!2sbd!4v1620000000000!5m2!1sen!2sbd"
-                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3650.189646244465!2d90.35514890407458!3d23.811854383037403!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c14dbbdea76b%3A0x7b9ca68c329e0112!2sBUBT%20IT%20CLUB!5e0!3m2!1sen!2sbd!4v1756136601682!5m2!1sen!2sbd"
+                        width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
                 </div>
             </div>
         </section>

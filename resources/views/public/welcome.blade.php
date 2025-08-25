@@ -25,8 +25,8 @@
                         </div>
                     </div>
                     <div class="md:w-1/2 mt-8 md:mt-0">
-                        <img src="https://images.unsplash.com/photo-1522542550221-31fd19575a2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80"
-                            alt="IT Club Members" class="rounded-lg shadow-xl">
+                        <img src="{{ asset('assets/logo.png') }}"
+                            alt="IT Club Logo" class="rounded-lg">
                     </div>
                 </div>
             </div>
@@ -111,7 +111,7 @@
                     </div>
 
                     <div class="text-center mt-10">
-                        <a href="#"
+                        <a href="{{ route('public.events') }}"
                             class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700">
                             View All Events
                             <i class="fas fa-arrow-right ml-2"></i>

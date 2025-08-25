@@ -11,8 +11,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use App\Http\Controllers\Controller;
+use App\Mail\ContactUs;
 use App\Models\BlogCategory;
 use App\Models\BlogComment;
+use App\Models\Contact;
+use App\Models\ExecutiveCommittee;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
 
 class WelcomeController extends Controller
 {
@@ -45,13 +50,14 @@ class WelcomeController extends Controller
             ->executiveMembers()
             ->get();
 
-        // dd($members->toArray());
+        $currentExecutive = ExecutiveCommittee::current()->first();
 
         $pageTitle = 'About BUBT IT Club';
         $pageDescription = 'Learn about our mission, vision, and the team behind BUBT IT Club';
 
-        return view('public.about', compact('pageTitle', 'pageDescription', 'members'));
+        return view('public.about', compact('pageTitle', 'pageDescription', 'members', 'currentExecutive'));
     }
+
 
     /**
      * Display the contact page.
@@ -64,6 +70,30 @@ class WelcomeController extends Controller
         $pageDescription = 'Get in touch with BUBT IT Club leadership team';
 
         return view('public.contact', compact('pageTitle', 'pageDescription'));
+    }
+
+    /**
+     * Handle the contact form submission.
+     *
+     * @param  Request  $request
+     * @return RedirectResponse
+     */
+    public function submitContactForm(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|max:1000',
+        ]);
+
+        // Store in database
+        $contact = Contact::create($validated);
+
+        Mail::to($contact->email)->send(new ContactUs($contact));
+
+        return redirect()->route('public.contact')
+            ->with('success', 'Your message has been sent successfully. We will get back to you soon.');
     }
 
     /**

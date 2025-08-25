@@ -15,7 +15,8 @@ use App\Http\Controllers\Admin\
     PermissionController,
     HomeController,
     RoleController,
-    UserController
+    UserController,
+    ContactController
 };
 use App\Http\Controllers\Public\WelcomeController;
 use App\Http\Controllers\Public\EventController as PublicEventController;
@@ -25,6 +26,7 @@ use App\Http\Controllers\Public\MemberController as PublicMemberController;
 Route::get('/', [WelcomeController::class, 'index'])->name('public.welcome');
 Route::get('/about', [WelcomeController::class, 'about'])->name('public.about');
 Route::get('/contact', [WelcomeController::class, 'contact'])->name('public.contact');
+Route::post('/contact', [WelcomeController::class, 'submitContactForm'])->name('public.contact.submit');
 
 Route::get('/events', [PublicEventController::class, 'events'])->name('public.events');
 Route::get('/events/{event}', [PublicEventController::class, 'eventDetails'])->name('public.events.show');
@@ -80,10 +82,12 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
 
         // Members
         Route::resource('members', MemberController::class)->names('admin.members');
+        Route::post('members/{member}/add-to-user', [MemberController::class, 'addToUser'])->name('admin.members.add-to-user');
         Route::get('members/{member}/email-confirmation', [MemberController::class, 'sendEmailConfirmation'])->name('admin.members.email-confirmation');
         Route::get('members/assign-executive-committees/{member}', [MemberController::class, 'executive'])->name('admin.members.executive');
         Route::post('members/assign-executive-committees/{member}', [MemberController::class, 'assignExecutive'])->name('admin.members.assign-executive');
 
+        // Executive Committees
         Route::resource('executive-committees', ExecutiveCommitteeController::class)->names('admin.executive-committees');
 
         // Projects
@@ -109,6 +113,9 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
         Route::delete('galleries/images/{image}', [GalleryController::class, 'deleteImage'])->name('admin.galleries.deleteImage');
         Route::post('galleries/{gallery}/update-order', [GalleryController::class, 'updateImageOrder'])->name('admin.galleries.updateImageOrder');
 
+        // Contact
+        Route::resource('/contact', ContactController::class)->names('admin.contacts');
+        Route::patch('/contact/read/{id}', [ContactController::class, 'markAsRead'])->name('admin.contacts.read');
 
         // Profile
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

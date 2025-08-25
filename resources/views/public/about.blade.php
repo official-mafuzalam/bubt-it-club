@@ -42,7 +42,7 @@
             </div>
         </section>
 
-        @if (!$members->isEmpty())
+        @if ($currentExecutive)
             <!-- Leadership Team -->
             <section class="py-16 bg-gray-50">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -54,7 +54,7 @@
                     </div>
 
                     <div class="grid md:grid-cols-3 gap-8">
-                        @foreach ($members as $member)
+                        @foreach ($currentExecutive->members as $member)
                             <div class="bg-white p-6 rounded-lg shadow-sm text-center">
                                 <img class="h-32 w-32 rounded-full mx-auto mb-4"
                                     src="{{ asset('storage/' . $member->photo_url) }}" alt="{{ $member->name }}">

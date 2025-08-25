@@ -35,7 +35,7 @@
         <div class="bg-white rounded-lg shadow mb-6 dark:bg-gray-800">
             <div class="p-4">
                 <form action="{{ route('admin.members.index') }}" method="GET"
-                    class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                    class="grid grid-cols-1 md:grid-cols-5 gap-4">
                     <div>
                         <label for="search" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             Search

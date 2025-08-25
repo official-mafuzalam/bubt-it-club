@@ -19,8 +19,9 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0 flex items-center">
-                        <img class="h-10 w-auto" src="{{ asset('assets/logo.png') }}" alt="BUBT IT Club Logo">
-                        <span class="ml-2 text-xl font-bold text-blue-800">BUBT IT Club</span>
+                        {{-- <img class="h-36 w-auto" src="{{ asset('assets/logo.png') }}" alt="BUBT IT Club Logo"> --}}
+                        <a href="{{ route('public.welcome') }}"><span class="ml-2 text-xl font-bold text-blue-800">BUBT
+                                IT Club</span></a>
                     </div>
                 </div>
                 <div class="hidden md:ml-6 md:flex md:items-center md:space-x-8">
@@ -242,8 +243,10 @@
             <div class="border-t border-gray-800 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
                 <p class="text-gray-400 text-sm">© {{ date('Y') }} BUBT IT Club. All rights reserved.</p>
                 <div class="mt-4 md:mt-0">
-                    <a href="{{ route('public.privacy.policy') }}" class="text-gray-400 hover:text-white text-sm mr-4">Privacy Policy</a>
-                    <a href="{{ route('public.terms.service') }}" class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
+                    <a href="{{ route('public.privacy.policy') }}"
+                        class="text-gray-400 hover:text-white text-sm mr-4">Privacy Policy</a>
+                    <a href="{{ route('public.terms.service') }}"
+                        class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
                 </div>
             </div>
         </div>
