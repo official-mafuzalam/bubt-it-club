@@ -54,6 +54,23 @@ class UserController extends Controller
         return view('admin.user.role', compact('user', 'roles', 'permissions'));
     }
 
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+        ]);
+
+        $user->update($request->only('name', 'email'));
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
+            $user->save();
+        }
+
+        return to_route('admin.users.index')->with('success', 'User updated successfully.');
+    }
+
     public function assignRole(Request $request, User $user)
     {
         if ($user->hasRole($request->role)) {

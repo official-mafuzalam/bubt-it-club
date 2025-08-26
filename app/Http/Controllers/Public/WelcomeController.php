@@ -46,16 +46,19 @@ class WelcomeController extends Controller
      */
     public function about(): View
     {
-        $members = Member::query()
-            ->executiveMembers()
-            ->get();
+        // $numberOfMembers = Member::count();
+        // $completedEvents = Event::completed()->count();
+        // $ongoingEvents = Event::ongoing()->count();
+        // $upcomingEvents = Event::upcoming()->count();
+
+        // $projects = Project::count();
 
         $currentExecutive = ExecutiveCommittee::current()->first();
 
         $pageTitle = 'About BUBT IT Club';
         $pageDescription = 'Learn about our mission, vision, and the team behind BUBT IT Club';
 
-        return view('public.about', compact('pageTitle', 'pageDescription', 'members', 'currentExecutive'));
+        return view('public.about', compact('pageTitle', 'pageDescription', 'currentExecutive'));
     }
 
 

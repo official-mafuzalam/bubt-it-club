@@ -16,7 +16,7 @@
             <div class="mt-4 md:mt-0 flex space-x-3">
                 <a href="{{ route('admin.members.executive', $member->id) }}"
                     class="inline-flex items-center px-4 py-2 bg-green-600 border border-transparent rounded-md font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-colors duration-150">
-                    Add To Executive Committee
+                    Add To Executive
                 </a>
                 <a href="{{ route('admin.members.edit', $member->id) }}"
                     class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-150">
@@ -26,6 +26,14 @@
                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-150">
                     Resend Email
                 </a>
+                <form action="{{ route('admin.members.password.reset', $member->id) }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-150">
+                        Reset Password
+                    </button>
+                </form>
+
                 <form action="{{ route('admin.members.add-to-user', $member->id) }}" method="POST">
                     @csrf
                     <button type="submit"
@@ -70,17 +78,19 @@
                                 <div class="flex flex-wrap justify-center md:justify-start gap-4">
                                     @if ($member->email)
                                         <a href="mailto:{{ $member->email }}"
-                                            class="inline-flex items-center text-blue-600">
-                                            <i class="fas fa-envelope mr-2"></i> Email
+                                            class="inline-flex items-center text-gray-500 hover:text-blue-500">
+                                            <i class="fas fa-envelope mr-2"></i>
                                         </a>
                                     @endif
                                     @if ($member->phone)
                                         <a href="tel:{{ $member->phone }}"
-                                            class="inline-flex items-center text-blue-600">
-                                            <i class="fas fa-phone mr-2"></i> Call
+                                            class="inline-flex items-center text-gray-500 hover:text-blue-500">
+                                            <i class="fas fa-phone mr-2"></i>
                                         </a>
                                     @endif
                                 </div>
+                            </div>
+                            <div class="mt-4 flex space-x-4">
                                 @php
                                     // Decode the JSON string to an array
                                     $socialLinks = json_decode($member->social_links, true) ?? [];

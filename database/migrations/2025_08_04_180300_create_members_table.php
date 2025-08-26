@@ -30,6 +30,8 @@ return new class extends Migration {
             $table->json('social_links')->nullable();
             $table->json('favorite_categories')->nullable();
             $table->boolean('is_active')->default(false);
+            $table->boolean('contact_public')->default(false);
+            $table->boolean('social_links_public')->default(false);
             $table->date('joined_at');
             $table->timestamps();
             $table->softDeletes();

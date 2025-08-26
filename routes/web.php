@@ -1,6 +1,9 @@
 <?php
 
 
+use App\Http\Controllers\Member\DashboardController;
+use App\Http\Controllers\Member\AuthController;
+use App\Http\Controllers\Member\ProfileController as MemberProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\
@@ -52,16 +55,25 @@ Route::get('/privacy-policy', [WelcomeController::class, 'privacyPolicy'])->name
 Route::get('/terms-of-service', [WelcomeController::class, 'termsOfService'])->name('public.terms.service');
 
 
+// For It Club Respectable Members
 Route::prefix('it-club-respectable-members')->group(function () {
 
-    Route::get('/login', [MemberController::class, 'login'])->name('members.login');
-    Route::post('/login', [MemberController::class, 'authenticate'])->name('members.login.authenticate');
+    // Member Login
+    Route::get('/login', [AuthController::class, 'showLoginForm'])->name('members.login');
+    Route::post('/login', [AuthController::class, 'login'])->name('members.login.submit');
+    Route::post('/logout', [AuthController::class, 'logout'])->name('members.logout');
 
-    Route::get('/', [MemberController::class, 'index'])->name('members.index');
-    Route::get('/{member}', [MemberController::class, 'show'])->name('members.show');
-    Route::get('/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
-    Route::put('/{member}', [MemberController::class, 'update'])->name('members.update');
-    Route::delete('/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
+    // Protected member routes
+    Route::middleware(['auth.member'])->group(function () {
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('members.dashboard');
+
+        Route::get('/profile', [MemberProfileController::class, 'show'])->name('members.profile');
+        Route::get('/profile/edit', [MemberProfileController::class, 'edit'])->name('members.profile.edit');
+        Route::put('/profile/edit', [MemberProfileController::class, 'update'])->name('members.profile.update');
+
+    });
+
 });
 
 // For all auth user
@@ -82,6 +94,7 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
 
         // Members
         Route::resource('members', MemberController::class)->names('admin.members');
+        Route::post('members/password/reset/{member}', [MemberController::class, 'resetPassword'])->name('admin.members.password.reset');
         Route::post('members/{member}/add-to-user', [MemberController::class, 'addToUser'])->name('admin.members.add-to-user');
         Route::get('members/{member}/email-confirmation', [MemberController::class, 'sendEmailConfirmation'])->name('admin.members.email-confirmation');
         Route::get('members/assign-executive-committees/{member}', [MemberController::class, 'executive'])->name('admin.members.executive');
@@ -157,6 +170,7 @@ Route::middleware(['auth', 'role:super_admin'])->group(function () {
         Route::get('/users/create', [UserController::class, 'create'])->name('admin.users.create');
         Route::post('/users', [UserController::class, 'store'])->name('admin.users.store');
         Route::get('/users/{user}', [UserController::class, 'show'])->name('admin.users.show');
+        Route::put('/users/{user}', [UserController::class, 'update'])->name('admin.users.update');
         Route::delete('/users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
         Route::post('/users/{user}/roles', [UserController::class, 'assignRole'])->name('admin.users.roles');
         Route::delete('/users/{user}/roles/{role}', [UserController::class, 'removeRole'])->name('admin.users.roles.remove');

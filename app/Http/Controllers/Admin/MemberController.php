@@ -111,6 +111,8 @@ class MemberController extends Controller
             'favorite_categories' => 'nullable|array',
             'favorite_categories.*' => 'string|max:255',
             'is_active' => 'boolean',
+            'contact_public' => 'boolean',
+            'social_links_public' => 'boolean',
             'joined_at' => 'required|date',
         ]);
 
@@ -165,6 +167,7 @@ class MemberController extends Controller
      */
     public function update(Request $request, Member $member)
     {
+        // dd($request->all());
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => ['required', 'email', Rule::unique('members')->ignore($member->id)],
@@ -181,16 +184,22 @@ class MemberController extends Controller
             'favorite_categories' => 'nullable|array',
             'favorite_categories.*' => 'string|max:255',
             'is_active' => 'boolean',
+            'contact_public' => 'boolean',
+            'social_links_public' => 'boolean',
             'joined_at' => 'required|date',
         ]);
 
-        // Handle file upload
+        // Handle file upload with student_id as filename
         if ($request->hasFile('photo')) {
             // Delete old photo if exists
             if ($member->photo_url) {
                 Storage::disk('public')->delete($member->photo_url);
             }
-            $validated['photo_url'] = $request->file('photo')->store('member-photos', 'public');
+
+            $extension = $request->file('photo')->getClientOriginalExtension();
+            $fileName = $validated['student_id'] . '.' . $extension; // student_id as filename
+            $path = $request->file('photo')->storeAs('member-photos', $fileName, 'public');
+            $validated['photo_url'] = $path;
         }
 
         // Update password if provided
@@ -254,6 +263,15 @@ class MemberController extends Controller
 
         return redirect()->route('admin.members.index')
             ->with('success', 'Member permanently deleted.');
+    }
+
+    public function resetPassword(Member $member)
+    {
+        $member->password = Hash::make('password');
+        $member->save();
+
+        return redirect()->route('admin.members.index')
+            ->with('success', 'Password reset successfully for ' . $member->name);
     }
 
     public function addToUser(Member $member)

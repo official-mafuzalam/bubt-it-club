@@ -39,7 +39,7 @@
                         class="{{ request()->routeIs(['public.blogs.index', 'public.blogs.show']) ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Blog</a>
                     <a href="{{ route('public.galleries.index') }}"
                         class="{{ request()->routeIs(['public.galleries.index', 'public.galleries.show']) ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} px-3 py-2 text-sm font-medium">Galleries</a>
-                    <a href="{{ route('admin.index') }}"
+                    <a href="{{ route('members.login') }}"
                         class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium">Login</a>
                 </div>
                 <div class="-mr-2 flex items-center md:hidden">
@@ -70,7 +70,7 @@
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Blog</a>
                 <a href="{{ route('public.galleries.index') }}"
                     class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Galleries</a>
-                <a href="{{ route('admin.index') }}"
+                <a href="{{ route('members.login') }}"
                     class="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white">Login</a>
             </div>
         </div>
@@ -176,13 +176,13 @@
                     <p class="text-gray-400">Empowering the future of technology at Bangladesh University of Business
                         and Technology.</p>
                     <div class="flex space-x-4 mt-4">
-                        <a href="#" class="text-gray-400 hover:text-white">
+                        <a href="https://www.facebook.com/BITCofficial" class="text-gray-400 hover:text-white">
                             <i class="fab fa-facebook-f"></i>
                         </a>
                         <a href="#" class="text-gray-400 hover:text-white">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="#" class="text-gray-400 hover:text-white">
+                        <a href="https://www.linkedin.com/company/bitcofficial/" class="text-gray-400 hover:text-white">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
                         <a href="#" class="text-gray-400 hover:text-white">
@@ -201,9 +201,11 @@
                         <li><a href="{{ route('public.events') }}" class="text-gray-400 hover:text-white">Events</a>
                         </li>
                         <li><a href="{{ route('public.projects') }}"
-                                class="text-gray-400 hover:text-white">Projects</a></li>
+                                class="text-gray-400 hover:text-white">Projects</a>
+                        </li>
                         <li><a href="{{ route('public.members.index') }}"
-                                class="text-gray-400 hover:text-white">Members</a></li>
+                                class="text-gray-400 hover:text-white">Members</a>
+                        </li>
                     </ul>
                 </div>
 
@@ -223,7 +225,8 @@
                     <ul class="space-y-2 text-gray-400">
                         <li class="flex items-start">
                             <i class="fas fa-map-marker-alt mt-1 mr-3"></i>
-                            <span>BUBT IT Club, Bangladesh University of Business and Technology, Rupnagar, Mirpur-2,
+                            <span>BUBT IT Club, Building: 3, Room: 501 <br> Bangladesh University of Business and
+                                Technology, Rupnagar, Mirpur-2,
                                 Dhaka-1216</span>
                         </li>
                         <li class="flex items-center">
@@ -239,7 +242,7 @@
             </div>
 
             <div class="border-t border-gray-800 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
-                <p class="text-gray-400 text-sm">© {{ date('Y') }} BUBT IT Club. All rights reserved.</p>
+                <a href="{{ route('admin.index') }}" class="text-gray-400 text-sm">© {{ date('Y') }} BUBT IT Club. All rights reserved.</a>
                 <div class="mt-4 md:mt-0">
                     <a href="{{ route('public.privacy.policy') }}"
                         class="text-gray-400 hover:text-white text-sm mr-4">Privacy Policy</a>

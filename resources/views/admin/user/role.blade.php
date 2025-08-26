@@ -14,7 +14,7 @@
                         </p>
                     </div>
 
-                    <form action="#" method="POST">
+                    <form action="{{ route('admin.users.update', $user) }}" method="POST">
                         @csrf
                         @method('PUT')
 

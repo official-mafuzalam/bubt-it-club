@@ -6,14 +6,15 @@
                 <div class="flex flex-col md:flex-row items-center">
                     <div class="md:mr-8 mb-6 md:mb-0">
                         <div class="h-32 w-32 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                            @if ($member->photo_url)
+                            @if ($member->contact_public == 1 && $member->photo_url)
                                 <img src="{{ asset('storage/' . $member->photo_url) }}" alt="{{ $member->name }}"
                                     class="h-full w-full object-cover">
                             @else
-                                <div class="h-full w-full bg-gray-200 flex items-center justify-center">
-                                    <i class="fas fa-user text-4xl text-gray-500"></i>
+                                <div class="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500">
+                                    <i class="fas fa-user text-4xl"></i>
                                 </div>
                             @endif
+
                         </div>
                     </div>
                     <div class="text-center md:text-left">
@@ -25,29 +26,34 @@
                             <p class="text-lg mb-4">{{ ucfirst(str_replace('_', ' ', $member->position)) }}</p>
                         @endif
                         <div class="flex flex-wrap justify-center md:justify-start gap-4">
-                            @if ($member->email)
-                                <a href="mailto:{{ $member->email }}" class="inline-flex items-center text-white">
-                                    <i class="fas fa-envelope mr-2"></i> Email
-                                </a>
+                            @if ($member->contact_public)
+                                @if ($member->email)
+                                    <a href="mailto:{{ $member->email }}" class="inline-flex items-center text-white">
+                                        <i class="fas fa-envelope mr-2"></i> Email
+                                    </a>
+                                @endif
+                                @if ($member->phone)
+                                    <a href="tel:{{ $member->phone }}" class="inline-flex items-center text-white">
+                                        <i class="fas fa-phone mr-2"></i> Call
+                                    </a>
+                                @endif
                             @endif
-                            @if ($member->phone)
-                                <a href="tel:{{ $member->phone }}" class="inline-flex items-center text-white">
-                                    <i class="fas fa-phone mr-2"></i> Call
-                                </a>
-                            @endif
-                            @php
-                                // Decode the JSON string to an array
-                                $socialLinks = json_decode($member->social_links, true) ?? [];
-                            @endphp
-                            @if (!empty($socialLinks))
-                                @foreach ($socialLinks as $platform => $link)
-                                    @if ($link)
-                                        <a href="{{ $link }}" target="_blank"
-                                            class="inline-flex items-center text-white">
-                                            <i class="fab fa-{{ $platform }} mr-2"></i> {{ ucfirst($platform) }}
-                                        </a>
-                                    @endif
-                                @endforeach
+                            @if ($member->social_links_public)
+                                @php
+                                    // Decode the JSON string to an array
+                                    $socialLinks = json_decode($member->social_links, true) ?? [];
+                                @endphp
+                                @if (!empty($socialLinks))
+                                    @foreach ($socialLinks as $platform => $link)
+                                        @if ($link)
+                                            <a href="{{ $link }}" target="_blank"
+                                                class="inline-flex items-center text-white">
+                                                <i class="fab fa-{{ $platform }} mr-2"></i>
+                                                {{ ucfirst($platform) }}
+                                            </a>
+                                        @endif
+                                    @endforeach
+                                @endif
                             @endif
                         </div>
                         {{-- Favorite Categories --}}
@@ -219,34 +225,36 @@
                             </div>
                         </div>
 
-                        <!-- Contact Information -->
-                        <div class="bg-gray-50 rounded-lg shadow-sm p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-4">Contact Information</h3>
-                            <div class="space-y-4">
-                                @if ($member->email)
-                                    <div>
-                                        <h4 class="text-sm font-medium text-gray-500">Email</h4>
-                                        <p class="text-gray-900">
-                                            <a href="mailto:{{ $member->email }}"
-                                                class="text-blue-600 hover:text-blue-800">
-                                                {{ $member->email }}
-                                            </a>
-                                        </p>
-                                    </div>
-                                @endif
-                                @if ($member->phone)
-                                    <div>
-                                        <h4 class="text-sm font-medium text-gray-500">Phone</h4>
-                                        <p class="text-gray-900">
-                                            <a href="tel:{{ $member->phone }}"
-                                                class="text-blue-600 hover:text-blue-800">
-                                                {{ $member->phone }}
-                                            </a>
-                                        </p>
-                                    </div>
-                                @endif
+                        @if ($member->contact_public)
+                            <!-- Contact Information -->
+                            <div class="bg-gray-50 rounded-lg shadow-sm p-6">
+                                <h3 class="text-xl font-bold text-gray-900 mb-4">Contact Information</h3>
+                                <div class="space-y-4">
+                                    @if ($member->email)
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500">Email</h4>
+                                            <p class="text-gray-900">
+                                                <a href="mailto:{{ $member->email }}"
+                                                    class="text-blue-600 hover:text-blue-800">
+                                                    {{ $member->email }}
+                                                </a>
+                                            </p>
+                                        </div>
+                                    @endif
+                                    @if ($member->phone)
+                                        <div>
+                                            <h4 class="text-sm font-medium text-gray-500">Phone</h4>
+                                            <p class="text-gray-900">
+                                                <a href="tel:{{ $member->phone }}"
+                                                    class="text-blue-600 hover:text-blue-800">
+                                                    {{ $member->phone }}
+                                                </a>
+                                            </p>
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>

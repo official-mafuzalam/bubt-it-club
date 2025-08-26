@@ -5,10 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-class Member extends Model
+class Member extends Authenticatable
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Notifiable;
 
     protected $fillable = [
         'name',
@@ -26,6 +28,8 @@ class Member extends Model
         'social_links',
         'favorite_categories',
         'is_active',
+        'contact_public',
+        'social_links_public',
         'joined_at'
     ];
 
@@ -34,8 +38,28 @@ class Member extends Model
         'favorite_categories' => 'array',
         'joined_at' => 'date',
         'is_active' => 'boolean',
+        'contact_public' => 'boolean',
+        'social_links_public' => 'boolean',
         'password' => 'hashed',
     ];
+
+    protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * Get the member's contact visibility.
+     */
+    public function getContactVisibilityAttribute()
+    {
+        return $this->contact_public ? 'Public' : 'Private';
+    }
+
+    /**
+     * Get the member's social links visibility.
+     */
+    public function getSocialLinksVisibilityAttribute()
+    {
+        return $this->social_links_public ? 'Public' : 'Private';
+    }
 
     /**
      * Get the executive committee that the member belongs to.

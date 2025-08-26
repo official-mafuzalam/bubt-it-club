@@ -6,6 +6,8 @@
     <x-slot name="main">
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <h2 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Welcome {{ Auth::user()->name }}!
+                </h2>
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
                     <!-- Total Members -->
@@ -22,7 +24,8 @@
                         <i class="fas fa-user-check text-green-500 text-4xl mr-4"></i>
                         <div>
                             <p class="text-gray-600 dark:text-gray-300 text-sm">Active Members</p>
-                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $numbersOfActiveMembers }}</h2>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $numbersOfActiveMembers }}
+                            </h2>
                         </div>
                     </div>
 
@@ -31,7 +34,8 @@
                         <i class="fas fa-user-times text-red-500 text-4xl mr-4"></i>
                         <div>
                             <p class="text-gray-600 dark:text-gray-300 text-sm">Inactive Members</p>
-                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $numbersOfInactiveMembers }}</h2>
+                            <h2 class="text-2xl font-bold text-gray-900 dark:text-white">{{ $numbersOfInactiveMembers }}
+                            </h2>
                         </div>
                     </div>
 
