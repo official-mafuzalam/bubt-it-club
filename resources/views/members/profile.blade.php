@@ -1,5 +1,8 @@
 <x-member-layout>
     <x-slot name="main">
+        @section('page-title')
+            <title>Profile</title>
+        @endsection
 
         <div class="max-w-4xl mx-auto space-y-6">
 

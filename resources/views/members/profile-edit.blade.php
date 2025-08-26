@@ -1,5 +1,8 @@
 <x-member-layout>
     <x-slot name="main">
+        @section('page-title')
+            <title>Profile Edit</title>
+        @endsection
 
         <div class="max-w-4xl mx-auto space-y-6">
 
@@ -180,7 +183,8 @@ $favoriteCategories = old('favorite_categories', $favoriteCategories);
                 <!-- Submit Button -->
                 <div class="pt-4 flex justify-between">
                     <div>
-                        <a href="{{ route('members.profile') }}" class="px-6 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
+                        <a href="{{ route('members.profile') }}"
+                            class="px-6 py-2 bg-gray-200 text-gray-700 rounded hover:bg-gray-300">
                             Cancel
                         </a>
                     </div>

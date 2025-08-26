@@ -68,6 +68,10 @@ Route::prefix('it-club-respectable-members')->group(function () {
 
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('members.dashboard');
 
+        Route::get('/events', [DashboardController::class, 'events'])->name('members.events.index');
+        Route::get('/events/{event}', [DashboardController::class, 'eventDetails'])->name('members.events.show');
+        Route::post('/events/register/{event}', [DashboardController::class, 'registerForEvent'])->name('members.events.register');
+
         Route::get('/profile', [MemberProfileController::class, 'show'])->name('members.profile');
         Route::get('/profile/edit', [MemberProfileController::class, 'edit'])->name('members.profile.edit');
         Route::put('/profile/edit', [MemberProfileController::class, 'update'])->name('members.profile.update');
@@ -101,6 +105,7 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
         Route::get('members/{member}/email-confirmation', [MemberController::class, 'sendEmailConfirmation'])->name('admin.members.email-confirmation');
         Route::get('members/assign-executive-committees/{member}', [MemberController::class, 'executive'])->name('admin.members.executive');
         Route::post('members/assign-executive-committees/{member}', [MemberController::class, 'assignExecutive'])->name('admin.members.assign-executive');
+        Route::post('members/{member}/toggle-activation', [MemberController::class, 'toggleActivation'])->name('admin.members.toggle-activation');
 
         // Executive Committees
         Route::resource('executive-committees', ExecutiveCommitteeController::class)->names('admin.executive-committees');

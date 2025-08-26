@@ -318,4 +318,13 @@ class MemberController extends Controller
             ->with('success', 'Executive committee assigned successfully.');
     }
 
+    public function toggleActivation(Member $member)
+    {
+        $member->is_active = !$member->is_active;
+        $member->save();
+
+        return redirect()->route('admin.members.index')
+            ->with('success', 'Member ' . ($member->is_active ? 'activated' : 'deactivated') . ' successfully.');
+    }
+
 }

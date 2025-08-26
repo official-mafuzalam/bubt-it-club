@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->string('phone');
             $table->string('student_id');
             $table->string('intake');
-            $table->integer('section');
+            $table->integer('section')->nullable();
             $table->string('department');
             $table->string('payment_method')->nullable();
             $table->string('transaction_id')->nullable();

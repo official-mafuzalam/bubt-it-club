@@ -109,7 +109,7 @@ class EventController extends Controller
         }
 
         if ($event->only_for_members) {
-            return redirect()->route('members.dashboard')
+            return redirect()->route('members.events.show', $event->id)
                 ->with('error', 'Registration is only open to BUBT IT Club members.');
         }
 

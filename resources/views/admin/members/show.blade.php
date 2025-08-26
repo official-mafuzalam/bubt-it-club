@@ -33,7 +33,13 @@
                         Reset Password
                     </button>
                 </form>
-
+                <form action="{{ route('admin.members.toggle-activation', $member->id) }}" method="POST">
+                    @csrf
+                    <button type="submit"
+                        class="inline-flex items-center px-4 py-2 {{ $member->is_active ? 'bg-gray-600 hover:bg-gray-700 focus:ring-gray-500' : 'bg-green-600 hover:bg-green-700 focus:ring-green-500' }} border border-transparent rounded-md font-medium text-white focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-150">
+                        {{ $member->is_active ? 'Deactivate' : 'Activate' }}
+                    </button>
+                </form>
                 <form action="{{ route('admin.members.add-to-user', $member->id) }}" method="POST">
                     @csrf
                     <button type="submit"

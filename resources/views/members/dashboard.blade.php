@@ -1,5 +1,9 @@
 <x-member-layout>
     <x-slot name="main">
+        @section('page-title')
+            <title>Dashboard</title>
+        @endsection
+
 
         <div class="space-y-6">
 
@@ -56,10 +60,16 @@
                             @forelse($upcomingEvents as $event)
                                 <tr class="border-b border-gray-200 dark:border-gray-700">
                                     <td class="px-4 py-2">{{ $event->title }}</td>
-                                    <td class="px-4 py-2">{{ $event->start_date }}</td>
-                                    <td class="px-4 py-2">{{ $event->end_date }}</td>
                                     <td class="px-4 py-2">
-                                        <a href="{{ route('public.events.show', $event->id) }}"
+                                        {{ $event->start_date->format('d M Y') }} -
+                                        {{ $event->start_date->format('h:i A') }}
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        {{ $event->end_date->format('d M Y') }} -
+                                        {{ $event->end_date->format('h:i A') }}
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <a href="{{ route('members.events.show', $event->id) }}"
                                             class="text-blue-500 hover:underline">View</a>
                                     </td>
                                 </tr>

@@ -5,7 +5,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BUBT IT Club - Member Dashboard</title>
+    @yield('page-title')
 
     <!-- Tailwind & Preline -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -39,6 +39,14 @@
                                 @if (request()->routeIs('members.dashboard')) bg-gray-200 dark:bg-gray-700 @else hover:bg-gray-200 dark:hover:bg-gray-700 @endif">
                             <i class="fas fa-tachometer-alt w-5 h-5 mr-3"></i>
                             Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('members.events.index') }}"
+                            class="flex items-center px-4 py-2 text-gray-700 dark:text-gray-200 rounded
+                                @if (request()->routeIs('members.events.index', 'members.events.show')) bg-gray-200 dark:bg-gray-700 @else hover:bg-gray-200 dark:hover:bg-gray-700 @endif">
+                            <i class="fas fa-calendar-alt w-5 h-5 mr-3"></i>
+                            Events
                         </a>
                     </li>
                     <li>
