@@ -126,18 +126,9 @@ class MemberController extends Controller
     public function show(Member $member)
     {
         if (!$member->is_active) {
-            abort(404);
+            return redirect()->route('public.members.index')
+                ->with('error', 'The requested member profile is not available.');
         }
-
-        // $member->load(['projects' => function ($query) {
-        //     $query->where('is_published', true)
-        //         ->orderBy('created_at', 'desc')
-        //         ->limit(5);
-        // }, 'events' => function ($query) {
-        //     $query->where('is_published', true)
-        //         ->orderBy('start_date', 'desc')
-        //         ->limit(5);
-        // }]);
 
         return view('public.members.show', compact('member'));
     }
