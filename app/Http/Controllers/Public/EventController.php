@@ -94,18 +94,23 @@ class EventController extends Controller
         $departments = $this->departments;
         // Check if registration is possible
         if (!$event->is_registration_open) {
-            return redirect()->route('public.events.show', $event->id)
+            return redirect()->route('public.events.show', $event->slug)
                 ->with('error', 'Registration for this event is closed.');
         }
 
         if ($event->start_date < now()) {
-            return redirect()->route('public.events.show', $event->id)
+            return redirect()->route('public.events.show', $event->slug)
                 ->with('error', 'This event has already occurred.');
         }
 
         if ($event->max_participants && $event->registrations()->count() >= $event->max_participants) {
-            return redirect()->route('public.events.show', $event->id)
+            return redirect()->route('public.events.show', $event->slug)
                 ->with('error', 'This event is fully booked.');
+        }
+
+        if ($event->only_for_members) {
+            return redirect()->route('members.dashboard')
+                ->with('error', 'Registration is only open to BUBT IT Club members.');
         }
 
         return view('public.events.register', compact('event', 'departments'));

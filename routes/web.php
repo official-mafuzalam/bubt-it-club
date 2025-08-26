@@ -91,6 +91,8 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
         Route::post('events/{event}/toggle-publish', [EventController::class, 'togglePublish'])->name('admin.events.toggle-publish');
         Route::post('events/{event}/toggle-paid', [EventController::class, 'togglePaid'])->name('admin.events.toggle-paid');
         Route::post('events/{event}/toggle-registration', [EventController::class, 'toggleRegistration'])->name('admin.events.toggle-registration');
+        Route::post('events/{event}/toggle-only-for-members', [EventController::class, 'toggleOnlyForMembers'])->name('admin.events.toggle-only-for-members');
+
 
         // Members
         Route::resource('members', MemberController::class)->names('admin.members');

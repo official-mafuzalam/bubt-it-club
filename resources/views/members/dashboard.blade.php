@@ -39,37 +39,40 @@
                 </div>
             </div>
 
-            <!-- Recent Projects Table -->
-            {{-- <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
-                <h2 class="text-lg font-bold mb-4">Recent Projects</h2>
+            <!-- Upcoming Events Table -->
+            <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+                <h2 class="text-lg font-bold mb-4">Upcoming Events</h2>
                 <div class="overflow-x-auto">
                     <table class="w-full table-auto text-left border-collapse">
                         <thead>
                             <tr class="bg-gray-100 dark:bg-gray-700">
-                                <th class="px-4 py-2">Project Name</th>
-                                <th class="px-4 py-2">Role</th>
-                                <th class="px-4 py-2">Contribution</th>
-                                <th class="px-4 py-2">Joined At</th>
+                                <th class="px-4 py-2">Event Name</th>
+                                <th class="px-4 py-2">Start</th>
+                                <th class="px-4 py-2">End</th>
+                                <th class="px-4 py-2">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($member->projects as $project)
+                            @forelse($upcomingEvents as $event)
                                 <tr class="border-b border-gray-200 dark:border-gray-700">
-                                    <td class="px-4 py-2">{{ $project->name }}</td>
-                                    <td class="px-4 py-2">{{ $project->pivot->role }}</td>
-                                    <td class="px-4 py-2">{{ $project->pivot->contribution }}</td>
-                                    <td class="px-4 py-2">{{ $project->created_at->format('d M, Y') }}</td>
+                                    <td class="px-4 py-2">{{ $event->title }}</td>
+                                    <td class="px-4 py-2">{{ $event->start_date }}</td>
+                                    <td class="px-4 py-2">{{ $event->end_date }}</td>
+                                    <td class="px-4 py-2">
+                                        <a href="{{ route('public.events.show', $event->id) }}"
+                                            class="text-blue-500 hover:underline">View</a>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
                                     <td colspan="4" class="px-4 py-2 text-center text-gray-500 dark:text-gray-400">No
-                                        projects found</td>
+                                        upcoming events found</td>
                                 </tr>
                             @endforelse
                         </tbody>
                     </table>
                 </div>
-            </div> --}}
+            </div>
 
             <!-- Social Links -->
             <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">

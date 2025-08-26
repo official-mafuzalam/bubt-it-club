@@ -11,6 +11,8 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/preline@1.5.0/dist/preline.js"></script>
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/logo.png') }}" />
+
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/b3e3482d82.js" crossorigin="anonymous"></script>
 

@@ -22,6 +22,7 @@ class Event extends Model
         'is_published',
         'is_registration_open',
         'is_paid',
+        'only_for_members',
         'max_participants',
         'registered_count'
     ];
@@ -29,7 +30,8 @@ class Event extends Model
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
-        'is_published' => 'boolean'
+        'is_published' => 'boolean',
+        'only_for_members' => 'boolean'
     ];
 
     public function registrations()

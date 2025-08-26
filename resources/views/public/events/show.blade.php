@@ -87,7 +87,11 @@
                         <!-- Registration Panel -->
                         @if ($event->is_registration_open)
                             <div class="bg-gray-50 rounded-lg shadow-sm p-6">
-                                <h3 class="text-xl font-bold text-gray-900 mb-4">Event Registration</h3>
+                                <h3 class="text-xl font-bold text-gray-900 mb-4">Event Registration @if ($event->only_for_members)
+                                        (<span class="text-sm font-medium text-gray-500"> BUBT IT Club Members
+                                            Only</span>)
+                                    @endif
+                                </h3>
 
                                 @if ($event->start_date < now())
                                     <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">

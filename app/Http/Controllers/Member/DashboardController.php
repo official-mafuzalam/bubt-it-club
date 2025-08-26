@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Member;
 
 use App\Http\Controllers\Controller;
+use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Member;
@@ -14,9 +15,8 @@ class DashboardController extends Controller
         // Get the currently logged-in member
         $member = Auth::guard('member')->user();
 
-        // Eager load projects and events (optional, if you want counts)
-        // $member->load(['projects', 'events']);
+        $upcomingEvents = Event::upcoming()->get();
 
-        return view('members.dashboard', compact('member'));
+        return view('members.dashboard', compact('member', 'upcomingEvents'));
     }
 }

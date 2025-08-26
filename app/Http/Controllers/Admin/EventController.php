@@ -249,4 +249,14 @@ class EventController extends Controller
         return redirect()->route('admin.events.index')
             ->with('success', 'Event registration status updated successfully!');
     }
+
+    public function toggleOnlyForMembers(Event $event)
+    {
+        $event->only_for_members = !$event->only_for_members;
+        $event->save();
+
+        return redirect()->route('admin.events.index')
+            ->with('success', 'Event visibility status updated successfully!');
+    }
+
 }

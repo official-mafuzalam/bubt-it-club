@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BUBT IT Club - Bangladesh University of Business and Technology</title>
 
+    <link rel="icon" type="image/x-icon" href="{{ asset('assets/logo.png') }}" />
+    
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Font Awesome -->

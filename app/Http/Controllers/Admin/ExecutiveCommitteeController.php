@@ -36,7 +36,7 @@ class ExecutiveCommitteeController extends Controller
             'name' => 'required|string|max:255',
             'term_start' => 'required|date',
             'term_end' => 'required|date|after:term_start',
-            'description' => 'nullable|string|max:1000',
+            'description' => 'required|string|max:1000',
         ]);
 
         ExecutiveCommittee::create($validated);
@@ -51,7 +51,7 @@ class ExecutiveCommitteeController extends Controller
     public function show(ExecutiveCommittee $executiveCommittee): View
     {
         $executiveCommittee->load('members');
-        return view('admin.executive-committees.show', compact('executiveCommittee'));
+        return view('admin.members.executive.show', compact('executiveCommittee'));
     }
 
     /**
