@@ -11,12 +11,17 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-    
+
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/b3e3482d82.js" crossorigin="anonymous"></script>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- <link rel="preload" as="style" href="{{ asset('build/assets/app-0111b33a.css') }}" />
+    <link rel="stylesheet" href="{{ asset('build/assets/app-0111b33a.css') }}" />
+    <link rel="modulepreload" href="{{ asset('build/assets/preline-90866586.js') }}" />
+    <script type="module" src="{{ asset('build/assets/preline-90866586.js') }}"></script> --}}
 </head>
 
 <body class="bg-gray-200 dark:bg-slate-900">
