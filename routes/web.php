@@ -71,6 +71,7 @@ Route::prefix('it-club-respectable-members')->group(function () {
         Route::get('/events', [DashboardController::class, 'events'])->name('members.events.index');
         Route::get('/events/{event}', [DashboardController::class, 'eventDetails'])->name('members.events.show');
         Route::get('/events/{event}/register', [DashboardController::class, 'showRegistrationForm'])->name('members.events.register.form');
+        Route::post('/events/{event}/register', [DashboardController::class, 'completeRegistration'])->name('members.events.register.store');
         Route::post('/events/register/{event}', [DashboardController::class, 'registerForEvent'])->name('members.events.register');
 
         Route::get('/profile', [MemberProfileController::class, 'show'])->name('members.profile');

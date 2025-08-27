@@ -97,7 +97,8 @@
                                         class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                         <option value="">Select Department</option>
                                         @foreach ($departments as $item)
-                                            <option value="{{ $item }}" {{ old('department') == $item ? 'selected' : '' }}>
+                                            <option value="{{ $item }}"
+                                                {{ old('department') == $item ? 'selected' : '' }}>
                                                 {{ $item }}</option>
                                         @endforeach
                                     </select>
@@ -112,6 +113,8 @@
                                         <p class="text-sm text-gray-600">Please provide your payment details to complete
                                             the
                                             registration.</p>
+                                        <h2 class="text-md font-medium text-gray-900 mt-2">Ticket Price
+                                            {{ $event->ticket_price }}</h2>
                                     </div>
 
                                     <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -121,14 +124,29 @@
                                         <select id="payment_method" name="payment_method" required
                                             class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                             <option value="">Select Payment Method</option>
-                                            <option value="bKash"
-                                                {{ old('payment_method') == 'bKash' ? 'selected' : '' }}>bKash</option>
-                                            <option value="Nagad"
-                                                {{ old('payment_method') == 'Nagad' ? 'selected' : '' }}>Nagad</option>
+                                            @php
+                                                $methods = $event->payment_methods ?? [];
+                                            @endphp
+
+                                            <!-- Loop through saved payment methods -->
+                                            @foreach ($methods as $method)
+                                                <option value="{{ $method['type'] }}"
+                                                    {{ old('payment_method') == $method['type'] ? 'selected' : '' }}>
+                                                    {{ ucfirst($method['type']) }} - {{ $method['number'] }}
+                                                </option>
+                                            @endforeach
+
+                                            <!-- Add Hand Cash option -->
                                             <option value="hand_cash"
-                                                {{ old('payment_method') == 'hand_cash' ? 'selected' : '' }}>Hand Cash
+                                                {{ old('payment_method') == 'hand_cash' ? 'selected' : '' }}>
+                                                Hand Cash
                                             </option>
                                         </select>
+                                    </div>
+
+                                    <div class="mt-1 sm:mt-0 sm:col-span-2">
+                                        <label for="payment_amount" class="block text-sm font-medium text-gray-700">Payment Amount <span class="text-red-500">*</span></label>
+                                        <input type="number" id="payment_amount" name="payment_amount" value="{{ old('payment_amount') }}" required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                                     </div>
 
                                     <div class="mt-1 sm:mt-0 sm:col-span-2">

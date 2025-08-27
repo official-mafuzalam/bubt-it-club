@@ -35,12 +35,14 @@
                 </div>
             @endif
 
-            <form action="{{ route('members.events.register', $event->slug) }}" method="POST" class="space-y-6">
+            <form action="{{ route('members.events.register.store', $event->id) }}" method="POST" class="space-y-6">
                 @csrf
 
                 @if ($event->is_paid)
                     <div class="border-t pt-4">
-                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Payment Information: Ticket Price {{ $event->ticket_price }}</h3>
+                        <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Payment Information</h3>
+                        <h4 class="text-lg font-semibold text-green-500 dark:text-white mb-2">Ticket Price
+                            {{ $event->ticket_price }}</h4>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 

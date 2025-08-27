@@ -14,6 +14,12 @@
                     View and manage all event registrations
                 </p>
             </div>
+            <div class="mt-4 md:mt-0">
+                <a href="{{ route('admin.events.show', $event->id) }}"
+                    class="inline-block px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800">
+                    Back to Events
+                </a>
+            </div>
         </div>
 
         <!-- Filters -->
@@ -147,11 +153,11 @@
                                                 <span>Hand Cash</span>
                                             @break
 
-                                            @case('Nagad')
+                                            @case('nagad')
                                                 <span>Nagad</span>
                                             @break
 
-                                            @case('bKash')
+                                            @case('bkash')
                                                 <span>bKash</span>
                                             @break
 
@@ -184,29 +190,29 @@
                                     </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <div class="flex justify-end space-x-2">
-                                        <a href="{{ route('admin.events.confirm-email', $registration->id) }}"
-                                            class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
-                                            Sent Mail
-                                        </a>
-                                        @if ($registration->attended == 0)
-                                            <form action="{{ route('admin.events.attendance', $registration->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit"
-                                                    class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">
-                                                    Mark Attendance
-                                                </button>
-                                            </form>
-                                        @endif
-                                        <form action="{{ route('admin.events.cancel', $registration->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this registration?');">
+                                    <a href="{{ route('admin.events.confirm-email', $registration->id) }}"
+                                        class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300">
+                                        Sent Mail
+                                    </a>
+                                    @if ($registration->attended == 0)
+                                        <form action="{{ route('admin.events.attendance', $registration->id) }}"
+                                            method="POST">
                                             @csrf
-                                            @method('PATCH')
                                             <button type="submit"
-                                                class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300">
-                                                Cancel Registration
+                                                class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300">
+                                                Mark Attendance
                                             </button>
                                         </form>
-                                    </div>
+                                    @endif
+                                    <form action="{{ route('admin.events.cancel', $registration->id) }}" method="POST"
+                                        onsubmit="return confirm('Are you sure you want to cancel this registration?');">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit"
+                                            class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300">
+                                            Cancel Registration
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             @empty
