@@ -21,10 +21,7 @@ return new class extends Migration {
             $table->string('phone')->nullable();
             $table->enum('gender', ['male', 'female', 'other']);
             $table->string('position')->default('General Member');
-            $table->foreignId('executive_committee_id')
-                ->nullable()
-                ->constrained('executive_committees')
-                ->onDelete('cascade');
+            $table->foreignId('executive_committee_id')->nullable()->constrained('executive_committees')->onDelete('cascade');
             $table->text('bio')->nullable();
             $table->string('photo_url')->nullable();
             $table->json('social_links')->nullable();
@@ -32,6 +29,7 @@ return new class extends Migration {
             $table->boolean('is_active')->default(false);
             $table->boolean('contact_public')->default(false);
             $table->boolean('social_links_public')->default(false);
+            $table->boolean('is_verified')->default(false);
             $table->date('joined_at');
             $table->timestamps();
             $table->softDeletes();

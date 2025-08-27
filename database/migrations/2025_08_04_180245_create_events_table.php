@@ -22,10 +22,12 @@ return new class extends Migration {
             $table->enum('category', ['workshop', 'seminar', 'hackathon', 'competition', 'other']);
             $table->boolean('is_published')->default(false);
             $table->boolean('is_registration_open')->default(false);
-            $table->boolean('is_paid')->default(false);
             $table->boolean('only_for_members')->default(false);
             $table->integer('max_participants')->nullable();
             $table->integer('registered_count')->default(0);
+            $table->boolean('is_paid')->default(false);
+            $table->json('payment_methods')->nullable();
+            $table->decimal('ticket_price', 10, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

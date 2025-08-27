@@ -21,22 +21,39 @@ class Event extends Model
         'category',
         'is_published',
         'is_registration_open',
-        'is_paid',
         'only_for_members',
         'max_participants',
-        'registered_count'
+        'registered_count',
+        'is_paid',
+        'payment_methods',
+        'ticket_price'
     ];
 
     protected $casts = [
         'start_date' => 'datetime',
         'end_date' => 'datetime',
         'is_published' => 'boolean',
-        'only_for_members' => 'boolean'
+        'only_for_members' => 'boolean',
+        'is_paid' => 'boolean',
+        'payment_methods' => 'array',
+        'ticket_price' => 'decimal:2'
     ];
 
     public function registrations()
     {
         return $this->hasMany(EventRegistration::class);
+    }
+
+    public function attendees()
+    {
+        return $this->hasManyThrough(
+            Member::class,
+            EventRegistration::class,
+            'event_id',        // Foreign key on registrations
+            'student_id',      // Foreign key on members
+            'id',              // Local key on events
+            'student_id'       // Local key on registrations
+        );
     }
 
     public function getRemainingSeatsAttribute()

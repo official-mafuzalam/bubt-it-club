@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Mail\MemberCreated;
+use App\Models\Event;
 use App\Models\ExecutiveCommittee;
 use App\Models\Member;
 use App\Models\User;
@@ -147,8 +148,13 @@ class MemberController extends Controller
      */
     public function show(Member $member)
     {
-        return view('admin.members.show', compact('member'));
+        // Get all event registrations for this member
+        $registrations = $member->registrations()->with('event')->get();
+
+        return view('admin.members.show', compact('member', 'registrations'));
     }
+
+
 
     /**
      * Show the form for editing the specified resource.
@@ -323,8 +329,30 @@ class MemberController extends Controller
         $member->is_active = !$member->is_active;
         $member->save();
 
-        return redirect()->route('admin.members.index')
+        return redirect()->back()
             ->with('success', 'Member ' . ($member->is_active ? 'activated' : 'deactivated') . ' successfully.');
     }
+
+    public function toggleVerification(Member $member)
+    {
+        $member->is_verified = !$member->is_verified;
+        $member->save();
+
+        return redirect()->back()
+            ->with('success', 'Member ' . ($member->is_verified ? 'verified' : 'unverified') . ' successfully.');
+    }
+
+    public function updatePaymentStatus(Member $member)
+    {
+        $latestPayment = $member->payments()->latest()->first();
+
+        if ($latestPayment) {
+            $latestPayment->status = $latestPayment->status === 'completed' ? 'pending' : 'completed';
+            $latestPayment->save();
+        }
+
+        return redirect()->back()->with('success', 'Payment status ' . ($latestPayment->status === 'completed' ? 'completed' : 'pending') . ' updated successfully.');
+    }
+
 
 }

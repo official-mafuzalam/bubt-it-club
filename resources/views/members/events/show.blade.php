@@ -93,27 +93,56 @@
                                 </p>
                             </div>
 
+                            <!-- Payment Info -->
+                            @if ($event->is_paid)
+                                <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
+                                    <h3 class="text-sm font-medium text-gray-500 dark:text-gray-400">Payment Info</h3>
+                                    <p class="text-gray-800 dark:text-white">Ticket Price: ৳
+                                        {{ number_format($event->ticket_price, 2) }}</p>
+
+
+                                    <h3 class="mt-4 text-sm font-medium text-gray-500 dark:text-gray-400">Payment Method</h3>
+                                    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 mt-2">
+                                        @foreach ($event->payment_methods as $method => $details)
+                                            <div>
+                                                <p class="text-gray-800 dark:text-white">Type:
+                                                    {{ $details['type'] ?? $method }}</p>
+                                                <p class="text-gray-800 dark:text-white">Number:
+                                                    {{ $details['number'] ?? 'N/A' }}</p>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endif
+
                             <div class="pt-4 border-t border-gray-200 dark:border-gray-700">
                                 @if ($event->registrations->contains('email', $member->email))
                                     <p class="text-2xl text-red-500 dark:text-gray-400">You are registered for this
                                         event.</p>
                                 @else
-                                    <form action="{{ route('members.events.register', $event->id) }}" method="POST">
-                                        @csrf
-                                        @method('POST')
-                                        <button type="submit"
-                                            onclick="return confirm('Are you sure you want to register for this event?')"
+                                    @if ($event->is_paid)
+                                        <a href="{{ route('members.events.register.form', $event->id) }}"
                                             class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-150">
-                                            Register for Event
-                                        </button>
-                                    </form>
+                                            Complete Payment
+                                        </a>
+                                    @else
+                                        <form action="{{ route('members.events.register', $event->id) }}"
+                                            method="POST">
+                                            @csrf
+                                            @method('POST')
+                                            <button type="submit"
+                                                onclick="return confirm('Are you sure you want to register for this event?')"
+                                                class="inline-flex items-center px-4 py-2 bg-red-600 border border-transparent rounded-md font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors duration-150">
+                                                Register for Event
+                                            </button>
+                                        </form>
+                                    @endif
                                 @endif
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </x-slot>
 </x-member-layout>

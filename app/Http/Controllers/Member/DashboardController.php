@@ -37,6 +37,13 @@ class DashboardController extends Controller
         return view('members.events.show', compact('event', 'member'));
     }
 
+    public function showRegistrationForm(Event $event)
+    {
+        $member = Auth::guard('member')->user();
+
+        return view('members.events.register', compact('event', 'member'));
+    }
+
     public function registerForEvent(Event $event)
     {
         $member = Auth::guard('member')->user();

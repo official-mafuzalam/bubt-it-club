@@ -70,6 +70,7 @@ Route::prefix('it-club-respectable-members')->group(function () {
 
         Route::get('/events', [DashboardController::class, 'events'])->name('members.events.index');
         Route::get('/events/{event}', [DashboardController::class, 'eventDetails'])->name('members.events.show');
+        Route::get('/events/{event}/register', [DashboardController::class, 'showRegistrationForm'])->name('members.events.register.form');
         Route::post('/events/register/{event}', [DashboardController::class, 'registerForEvent'])->name('members.events.register');
 
         Route::get('/profile', [MemberProfileController::class, 'show'])->name('members.profile');
@@ -89,9 +90,10 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
 
         // Events
         Route::resource('events', EventController::class)->names('admin.events');
-        Route::get('events/registration/{event}', [EventController::class, 'showRegister'])->name('admin.events.register');
+        Route::get('events/registration/{event}', [EventController::class, 'showRegister'])->name('admin.events.participants');
         Route::post('events/{registration}/attendance', [EventController::class, 'markAttendance'])->name('admin.events.attendance');
         Route::get('events/{registration}/confirm-email/', [EventController::class, 'confirmEmail'])->name('admin.events.confirm-email');
+        Route::patch('events/{registration}/cancel', [EventController::class, 'cancelRegistration'])->name('admin.events.cancel');
         Route::post('events/{event}/toggle-publish', [EventController::class, 'togglePublish'])->name('admin.events.toggle-publish');
         Route::post('events/{event}/toggle-paid', [EventController::class, 'togglePaid'])->name('admin.events.toggle-paid');
         Route::post('events/{event}/toggle-registration', [EventController::class, 'toggleRegistration'])->name('admin.events.toggle-registration');
@@ -100,12 +102,20 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
 
         // Members
         Route::resource('members', MemberController::class)->names('admin.members');
-        Route::post('members/password/reset/{member}', [MemberController::class, 'resetPassword'])->name('admin.members.password.reset');
-        Route::post('members/{member}/add-to-user', [MemberController::class, 'addToUser'])->name('admin.members.add-to-user');
-        Route::get('members/{member}/email-confirmation', [MemberController::class, 'sendEmailConfirmation'])->name('admin.members.email-confirmation');
-        Route::get('members/assign-executive-committees/{member}', [MemberController::class, 'executive'])->name('admin.members.executive');
-        Route::post('members/assign-executive-committees/{member}', [MemberController::class, 'assignExecutive'])->name('admin.members.assign-executive');
-        Route::post('members/{member}/toggle-activation', [MemberController::class, 'toggleActivation'])->name('admin.members.toggle-activation');
+
+        Route::prefix('members')->name('admin.members.')->group(function () {
+
+            // Always use POST for actions that modify data
+            Route::post('{member}/password-reset', [MemberController::class, 'resetPassword'])->name('password.reset');
+            Route::post('{member}/add-to-user', [MemberController::class, 'addToUser'])->name('add-to-user');
+            Route::post('{member}/send-email-confirmation', [MemberController::class, 'sendEmailConfirmation'])->name('email-confirmation');
+            Route::get('assign-executive-committees/{member}', [MemberController::class, 'executive'])->name('executive'); // view
+            Route::post('assign-executive-committees/{member}', [MemberController::class, 'assignExecutive'])->name('assign-executive');
+            Route::post('{member}/toggle-activation', [MemberController::class, 'toggleActivation'])->name('toggle-activation');
+            Route::post('{member}/toggle-verification', [MemberController::class, 'toggleVerification'])->name('toggle-verification');
+            Route::patch('{member}/update-payment-status', [MemberController::class, 'updatePaymentStatus'])->name('payments');
+        });
+
 
         // Executive Committees
         Route::resource('executive-committees', ExecutiveCommitteeController::class)->names('admin.executive-committees');

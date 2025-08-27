@@ -19,7 +19,7 @@
         <!-- Filters -->
         <div class="bg-white rounded-lg shadow mb-6 dark:bg-gray-800">
             <div class="p-4">
-                <form action="{{ route('admin.events.register', $event) }}" method="GET"
+                <form action="{{ route('admin.events.participants', $event) }}" method="GET"
                     class="grid grid-cols-1 md:grid-cols-4 gap-4">
                     <div>
                         <label for="date_from" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -198,6 +198,14 @@
                                                 </button>
                                             </form>
                                         @endif
+                                        <form action="{{ route('admin.events.cancel', $registration->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to cancel this registration?');">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="text-yellow-600 hover:text-yellow-900 dark:text-yellow-400 dark:hover:text-yellow-300">
+                                                Cancel Registration
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

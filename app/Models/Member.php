@@ -30,7 +30,8 @@ class Member extends Authenticatable
         'is_active',
         'contact_public',
         'social_links_public',
-        'joined_at'
+        'joined_at',
+        'is_verified'
     ];
 
     protected $casts = [
@@ -44,6 +45,32 @@ class Member extends Authenticatable
     ];
 
     protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * A member can have many membership payments.
+     */
+    public function payments()
+    {
+        return $this->hasMany(MembershipPayment::class, 'member_id');
+    }
+
+    public function registrations()
+    {
+        return $this->hasMany(EventRegistration::class, 'student_id', 'student_id');
+    }
+
+    public function attendedEvents()
+    {
+        return $this->hasManyThrough(
+            Event::class,
+            EventRegistration::class,
+            'student_id',      // Foreign key on event_registrations table
+            'id',              // Foreign key on events table
+            'student_id',      // Local key on members table
+            'event_id'         // Local key on event_registrations table
+        );
+    }
+
 
     /**
      * Get the member's contact visibility.

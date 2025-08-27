@@ -118,8 +118,8 @@ class EventController extends Controller
 
     public function register(Event $event, Request $request)
     {
-        // Validate registration data
-        $validated = $request->validate([
+        // Base validation rules
+        $rules = [
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'required|string|max:20',
@@ -127,10 +127,19 @@ class EventController extends Controller
             'intake' => 'required|string|max:50',
             'section' => 'required|integer|min:1|max:10',
             'department' => 'required|string|max:100',
-            'payment_method' => 'nullable|string|max:50',
-            'transaction_id' => 'nullable|string|max:50',
             'additional_info' => 'nullable|string',
-        ]);
+        ];
+
+        // If the event requires payment, payment fields are required
+        if ($event->is_paid) {
+            $rules['payment_method'] = 'required|string|max:50';
+            $rules['transaction_id'] = 'required|string|max:50';
+        } else {
+            $rules['payment_method'] = 'nullable|string|max:50';
+            $rules['transaction_id'] = 'nullable|string|max:50';
+        }
+
+        $validated = $request->validate($rules);
 
         // Check if already registered
         if ($event->registrations()->where('email', $validated['email'])->exists()) {
@@ -145,18 +154,7 @@ class EventController extends Controller
         }
 
         // Create registration
-        $registration = $event->registrations()->create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phone' => $validated['phone'],
-            'student_id' => $validated['student_id'],
-            'intake' => $validated['intake'],
-            'section' => $validated['section'],
-            'department' => $validated['department'],
-            'payment_method' => $validated['payment_method'],
-            'transaction_id' => $validated['transaction_id'],
-            'additional_info' => $validated['additional_info'],
-        ]);
+        $registration = $event->registrations()->create($validated);
 
         // Send confirmation email
         Mail::to($validated['email'])->send(new EventRegistrationConfirmation($event, $registration));
@@ -164,4 +162,7 @@ class EventController extends Controller
         return redirect()->route('public.events.show', $event->slug)
             ->with('success', 'Registration successful! Check your email for confirmation.');
     }
+
+
+
 }

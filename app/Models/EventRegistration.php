@@ -47,6 +47,10 @@ class EventRegistration extends Model
     {
         return $this->belongsTo(Event::class);
     }
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'student_id', 'student_id');
+    }
 
     /**
      * Get the user that made the registration.

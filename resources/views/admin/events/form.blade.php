@@ -52,7 +52,7 @@
         <div>
             <label for="start_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Start Date
                 *</label>
-            <input type="datetime-local" name="start_date" id="start_date" required
+            <input type="datetime-local" name="start_date" id="start_date" required onclick="this.showPicker()"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 value="{{ old('start_date', $event?->start_date ? $event->start_date->format('Y-m-d\TH:i') : '') }}">
             @error('start_date')
@@ -63,7 +63,7 @@
         <!-- End Date -->
         <div>
             <label for="end_date" class="block text-sm font-medium text-gray-700 dark:text-gray-300">End Date *</label>
-            <input type="datetime-local" name="end_date" id="end_date" required
+            <input type="datetime-local" name="end_date" id="end_date" required onclick="this.showPicker()"
                 class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
                 value="{{ old('end_date', $event?->end_date ? $event->end_date->format('Y-m-d\TH:i') : '') }}">
             @error('end_date')
@@ -119,13 +119,76 @@
         @enderror
     </div>
 
-    <!-- Published Status -->
-    <div class="flex items-center">
-        <input id="is_published" name="is_published" type="checkbox"
-            class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
-            {{ old('is_published', $event?->is_published) ? 'checked' : '' }}>
-        <label for="is_published" class="ml-2 block text-sm text-gray-700 dark:text-gray-300">
-            Publish this event
-        </label>
+    <!-- Payment Information -->
+    @php
+        // old input first
+        $paymentMethods = old('payment_methods');
+
+        if (!$paymentMethods && !empty($event->payment_methods)) {
+            // decode if string
+            $rawMethods = is_string($event->payment_methods)
+                ? json_decode($event->payment_methods, true)
+                : $event->payment_methods;
+
+            // convert numeric indexed array to associative by type
+            $paymentMethods = [];
+            foreach ($rawMethods as $method) {
+                if (isset($method['type'])) {
+                    $paymentMethods[$method['type']] = [
+                        'number' => $method['number'] ?? '',
+                    ];
+                }
+            }
+        }
+
+        // fallback
+        $paymentMethods = $paymentMethods ?? [];
+    @endphp
+
+
+    <div>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-2">Payment Information</h3>
+
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+            <!-- Is Paid Checkbox -->
+            <div class="flex items-center space-x-2">
+                <input type="hidden" name="is_paid" value="0">
+                <input type="checkbox" name="is_paid" id="is_paid" value="1"
+                    class="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
+                    {{ old('is_paid', $event->is_paid ?? 0) ? 'checked' : '' }}>
+                <label for="is_paid" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Is Paid
+                    Event?</label>
+            </div>
+
+            <!-- Ticket Price -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Ticket Price</label>
+                <input type="number" name="ticket_price" id="ticket_price" step="0.01"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                    value="{{ old('ticket_price', $event->ticket_price ?? '') }}">
+            </div>
+        </div>
+
+        <!-- Payment Methods -->
+        <div class="mt-4">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">Payment Methods</label>
+
+            @foreach (['bkash', 'nagad', 'rocket'] as $item)
+                <div class="grid grid-cols-2 gap-2 mb-2">
+                    <input type="hidden" name="payment_methods[{{ $item }}][type]"
+                        value="{{ $item }}">
+                    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300">{{ ucfirst($item) }}
+                        Number</label>
+                    <input type="text" name="payment_methods[{{ $item }}][number]"
+                        id="payment_methods_{{ $item }}"
+                        class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+                        value="{{ $paymentMethods[$item]['number'] ?? '' }}">
+                </div>
+            @endforeach
+
+        </div>
     </div>
+
+
+
 </div>

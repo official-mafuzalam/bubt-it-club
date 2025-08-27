@@ -63,7 +63,7 @@ class EventController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the request
+        // Validate request
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -71,19 +71,30 @@ class EventController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'location' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'category' => 'required|in:workshop,seminar,hackathon,competition,other',
+            'category' => 'required|string|max:255',
             'max_participants' => 'nullable|integer|min:1',
-            'is_published' => 'nullable|in:on,off',
+            'is_paid' => 'nullable|boolean',
+            'ticket_price' => 'nullable|numeric|min:0|required_if:is_paid,1',
+            'payment_methods' => 'nullable|array|required_if:is_paid,1',
+            'payment_methods.*.type' => 'required|string',
+            'payment_methods.*.number' => 'required|string',
         ]);
 
-        // Begin database transaction
         DB::beginTransaction();
 
         try {
-            // Handle file upload
-            $imagePath = null;
-            if ($request->hasFile('image')) {
-                $imagePath = $request->file('image')->store('events', 'public');
+            // Handle image upload
+            $imagePath = $request->hasFile('image') ? $request->file('image')->store('events', 'public') : null;
+
+            // Prepare payment methods JSON
+            $paymentMethods = [];
+            if (!empty($validated['payment_methods']) && $request->has('is_paid')) {
+                foreach ($validated['payment_methods'] as $method) {
+                    $paymentMethods[] = [
+                        'type' => $method['type'],
+                        'number' => $method['number'],
+                    ];
+                }
             }
 
             // Create event
@@ -97,28 +108,24 @@ class EventController extends Controller
                 'image_url' => $imagePath,
                 'category' => $validated['category'],
                 'max_participants' => $validated['max_participants'],
-                'is_published' => $request->boolean('is_published'),
+                'is_paid' => $request->has('is_paid') ? 1 : 0,
+                'ticket_price' => $validated['ticket_price'] ?? null,
+                'payment_methods' => $paymentMethods ?: null,
             ]);
 
-            // Commit transaction
             DB::commit();
 
-            return redirect()->route('admin.events.index')
-                ->with('success', 'Event created successfully!');
+            return redirect()->route('admin.events.index')->with('success', 'Event created successfully!');
 
         } catch (\Exception $e) {
-            // Rollback transaction on error
             DB::rollBack();
-
-            // Delete uploaded file if event creation failed
-            if (isset($imagePath)) {
+            if (isset($imagePath))
                 Storage::disk('public')->delete($imagePath);
-            }
 
-            return back()->withInput()
-                ->with('error', 'Error creating event: ' . $e->getMessage());
+            return back()->withInput()->with('error', 'Error creating event: ' . $e->getMessage());
         }
     }
+
 
     /**
      * Display the specified event.
@@ -141,7 +148,7 @@ class EventController extends Controller
      */
     public function update(Request $request, Event $event)
     {
-        // dd($request->all());
+        // Validate input
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -151,26 +158,45 @@ class EventController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'category' => 'required|in:workshop,seminar,hackathon,competition,other',
             'max_participants' => 'nullable|integer|min:1',
-            'is_published' => 'nullable|in:on,off',
+            'is_paid' => 'nullable|boolean',
+            'ticket_price' => 'nullable|numeric|min:0',
+            'payment_methods' => 'nullable|array',
+            'payment_methods.bkash.number' => 'required_if:is_paid,1|string|max:20',
+            'payment_methods.nagad.number' => 'required_if:is_paid,1|string|max:20',
+            'payment_methods.rocket.number' => 'required_if:is_paid,1|string|max:20',
         ]);
 
+        // Update basic fields
         $event->title = $validated['title'];
         $event->description = $validated['description'];
         $event->start_date = $validated['start_date'];
         $event->end_date = $validated['end_date'];
         $event->location = $validated['location'];
         $event->category = $validated['category'];
-        $event->max_participants = $validated['max_participants'];
-        $event->is_published = $request->has('is_published');
+        $event->max_participants = $validated['max_participants'] ?? null;
+        $event->is_paid = $request->has('is_paid');
+        $event->ticket_price = $validated['ticket_price'] ?? null;
 
+        // Handle payment methods
+        if ($event->is_paid && !empty($validated['payment_methods'])) {
+            $methods = [];
+            foreach (['bkash', 'nagad', 'rocket'] as $method) {
+                $methods[] = [
+                    'type' => $method,
+                    'number' => $validated['payment_methods'][$method]['number'] ?? null
+                ];
+            }
+            $event->payment_methods = $methods;
+        } else {
+            $event->payment_methods = null; // clear payment info if not paid
+        }
+
+        // Handle image upload
         if ($request->hasFile('image')) {
-            // Delete old image if exists
             if ($event->image_url) {
                 Storage::disk('public')->delete($event->image_url);
             }
-
-            $path = $request->file('image')->store('events', 'public');
-            $event->image_url = $path;
+            $event->image_url = $request->file('image')->store('events', 'public');
         }
 
         $event->save();
@@ -178,6 +204,7 @@ class EventController extends Controller
         return redirect()->route('admin.events.index')
             ->with('success', 'Event updated successfully!');
     }
+
 
     /**
      * Remove the specified event from storage.
@@ -221,6 +248,16 @@ class EventController extends Controller
         }
         return redirect()->route('admin.events.register', $event->id)
             ->with('error', 'Failed to send email confirmation.');
+    }
+
+    public function cancelRegistration(EventRegistration $registration)
+    {
+        $registration->delete();
+
+        $registration->event()->decrement('registered_count');
+
+        return redirect()->route('admin.events.register', $registration->event_id)
+            ->with('success', 'Registration cancelled successfully.');
     }
 
     public function togglePublish(Event $event)

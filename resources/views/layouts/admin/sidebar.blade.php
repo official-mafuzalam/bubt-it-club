@@ -24,7 +24,7 @@
             @can('event')
                 <li>
                     <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white
-                {{ in_array(Route::currentRouteName(), ['admin.events.index', 'admin.events.create', 'admin.events.edit', 'admin.events.show', 'admin.events.register']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
+                {{ in_array(Route::currentRouteName(), ['admin.events.index', 'admin.events.create', 'admin.events.edit', 'admin.events.show', 'admin.events.participants']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
                         href="{{ route('admin.events.index') }}">
                         <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                             <path fill-rule="evenodd"

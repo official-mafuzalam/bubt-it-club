@@ -205,11 +205,23 @@
                                             ? 'bg-green-100 text-green-800'
                                             : 'bg-gray-100 text-gray-800';
                                         $statusText = $member->is_active ? 'Active' : 'Inactive';
+                                        $verifiedClass = $member->is_verified
+                                            ? 'bg-blue-100 text-blue-800'
+                                            : 'bg-gray-100 text-gray-800';
+                                        $verifiedText = $member->is_verified ? 'Verified' : 'Unverified';
                                     @endphp
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClass }}">
-                                        {{ $statusText }}
-                                    </span>
+
+                                    <div class="flex flex-col space-y-1">
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $statusClass }}">
+                                            {{ $statusText }}
+                                        </span>
+
+                                        <span
+                                            class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full {{ $verifiedClass }}">
+                                            {{ $verifiedText }}
+                                        </span>
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900 dark:text-white">
