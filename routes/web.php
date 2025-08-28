@@ -1,6 +1,8 @@
 <?php
 
 
+use App\Http\Controllers\Admin\Accounts\ExpenseCategoryController;
+use App\Http\Controllers\Admin\Accounts\IncomeCategoryController;
 use App\Http\Controllers\Member\DashboardController;
 use App\Http\Controllers\Member\AuthController;
 use App\Http\Controllers\Member\ProfileController as MemberProfileController;
@@ -8,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\
 {
+    AccountController,
     AnnouncementController,
     BlogCategoryController,
     BlogPostController,
@@ -20,7 +23,7 @@ use App\Http\Controllers\Admin\
     HomeController,
     RoleController,
     UserController,
-    ContactController
+    ContactController,
 };
 use App\Http\Controllers\Public\WelcomeController;
 use App\Http\Controllers\Public\EventController as PublicEventController;
@@ -92,6 +95,15 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
     Route::prefix('admin')->group(function () {
 
         Route::get('/', [HomeController::class, 'index'])->name('admin.index');
+
+        // Accounts section
+        Route::resource('accounts', AccountController::class)->names('admin.accounts');
+
+        // Income Categories
+        Route::resource('income-categories', IncomeCategoryController::class)->names('admin.income-categories');
+
+        // Expenses Categories
+        Route::resource('expense-categories', ExpenseCategoryController::class)->names('admin.expense-categories');
 
         // Events
         Route::resource('events', EventController::class)->names('admin.events');

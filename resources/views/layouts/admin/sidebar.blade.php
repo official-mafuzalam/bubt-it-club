@@ -21,6 +21,20 @@
                     Dashboard
                 </a>
             </li>
+            <li>
+                <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white
+                {{ in_array(Route::currentRouteName(), ['admin.accounts.index', 'admin.accounts.create', 'admin.accounts.edit', 'admin.accounts.show', 'admin.income-categories.index', 'admin.income-categories.create', 'admin.income-categories.edit', 'admin.income-categories.show', 'admin.expense-categories.index', 'admin.expense-categories.create', 'admin.expense-categories.edit', 'admin.expense-categories.show']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
+                    href="{{ route('admin.accounts.index') }}">
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 4a1 1 0 10-2 0v1.07A3.001 3.001 0 0010 15a3 3 0 001-5.83V8a1 1 0 10-2 0v1.17A3.001 3.001 0 0010 5a3 3 0 001 5.83V12a1 1 0 102 0v-1.07A3.001 3.001 0 0010 5z"
+                            clip-rule="evenodd" />
+                        <text x="7" y="14" font-size="6" fill="currentColor">$</text>
+                    </svg>
+                    Accounts Section
+                </a>
+            </li>
+
             @can('event')
                 <li>
                     <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white
