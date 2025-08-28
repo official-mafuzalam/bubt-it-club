@@ -66,21 +66,6 @@
                                     class="text-xl text-blue-500 font-semibold mb-1 block">{{ $member->name }}</a>
                                 <p class="text-blue-600 mb-2">{{ $member->position }}</p>
                                 <p class="text-gray-600">{{ $member->department }}, Batch-{{ $member->intake }}</p>
-                                <div class="flex justify-center space-x-3 mt-4">
-                                    @php
-                                        $socialLinks = $member->social_links ?? [];
-                                    @endphp
-                                    @if (!empty($socialLinks))
-                                        @foreach ($socialLinks as $platform => $link)
-                                            @if ($link)
-                                                <a href="{{ $link }}" target="_blank"
-                                                    class="inline-flex items-center text-blue-500 hover:text-blue-700">
-                                                    <i class="fab fa-{{ $platform }} mr-2"></i>
-                                                </a>
-                                            @endif
-                                        @endforeach
-                                    @endif
-                                </div>
                             </div>
                         @endforeach
                     </div>

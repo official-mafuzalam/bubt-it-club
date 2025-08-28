@@ -1,10 +1,7 @@
 <x-app-layout>
     <x-slot name="main">
-        {{-- <div class="container mx-auto px-4">
-            <h1 class="text-4xl font-bold text-center mb-8">Welcome to BUBT IT Club</h1>
-            <p class="text-lg text-center mb-12">Empowering the future of technology at Bangladesh University of Business
-                and Technology</p>
-        </div> --}}
+
+        <x-announcement-modal :announcement="$announcement" />
 
         <!-- Hero Section -->
         <header class="pt-24 pb-12 bg-gradient-to-r from-blue-800 to-blue-600 text-white">
@@ -25,8 +22,7 @@
                         </div>
                     </div>
                     <div class="md:w-1/2 mt-8 md:mt-0">
-                        <img src="{{ asset('assets/logo.png') }}"
-                            alt="IT Club Logo" class="rounded-lg">
+                        <img src="{{ asset('assets/logo.png') }}" alt="IT Club Logo" class="rounded-lg">
                     </div>
                 </div>
             </div>

@@ -35,6 +35,20 @@
                     </a>
                 </li>
             @endcan
+            @can('event')
+                <li>
+                    <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white
+                {{ in_array(Route::currentRouteName(), ['admin.announcements.index', 'admin.announcements.create', 'admin.announcements.edit', 'admin.announcements.show']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
+                        href="{{ route('admin.announcements.index') }}">
+                        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd"
+                                d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        Announcements
+                    </a>
+                </li>
+            @endcan
             @can('member')
                 <li>
                     <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white

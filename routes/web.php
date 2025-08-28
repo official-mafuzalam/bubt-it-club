@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\
 {
+    AnnouncementController,
     BlogCategoryController,
     BlogPostController,
     EventController,
@@ -79,10 +80,13 @@ Route::prefix('it-club-respectable-members')->group(function () {
         Route::put('/profile/edit', [MemberProfileController::class, 'update'])->name('members.profile.update');
 
     });
-
 });
 
-// For all auth user
+
+
+/**
+ * Routes for all authenticated users
+ */
 Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
 
     Route::prefix('admin')->group(function () {
@@ -101,12 +105,19 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
         Route::post('events/{event}/toggle-only-for-members', [EventController::class, 'toggleOnlyForMembers'])->name('admin.events.toggle-only-for-members');
 
 
+        // Announcement
+        Route::get('/announcements', [AnnouncementController::class, 'index'])->name('admin.announcements.index');
+        Route::get('/announcements/create', [AnnouncementController::class, 'create'])->name('admin.announcements.create');
+        Route::post('/announcements/create', [AnnouncementController::class, 'store'])->name('admin.announcements.store');
+        Route::patch('/announcements/status', [AnnouncementController::class, 'toggleStatus'])->name('admin.announcements.toggle-status');
+
+
+        // Executive Committees
+        Route::resource('executive-committees', ExecutiveCommitteeController::class)->names('admin.executive-committees');
+
         // Members
         Route::resource('members', MemberController::class)->names('admin.members');
-
         Route::prefix('members')->name('admin.members.')->group(function () {
-
-            // Always use POST for actions that modify data
             Route::post('{member}/password-reset', [MemberController::class, 'resetPassword'])->name('password.reset');
             Route::post('{member}/add-to-user', [MemberController::class, 'addToUser'])->name('add-to-user');
             Route::post('{member}/send-email-confirmation', [MemberController::class, 'sendEmailConfirmation'])->name('email-confirmation');
@@ -118,26 +129,24 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
         });
 
 
-        // Executive Committees
-        Route::resource('executive-committees', ExecutiveCommitteeController::class)->names('admin.executive-committees');
-
         // Projects
         Route::resource('projects', ProjectController::class)->names('admin.projects');
         Route::patch('projects/{project}/restore', [ProjectController::class, 'restore'])->name('admin.projects.restore');
         Route::delete('projects/{project}/force-delete', [ProjectController::class, 'forceDelete'])->name('admin.projects.forceDelete');
         Route::patch('projects/{project}/toggle-publish', [ProjectController::class, 'togglePublish'])->name('admin.projects.togglePublish');
 
-        // Blogs
+
+        // Blogs categories
         Route::resource('blog/categories', BlogCategoryController::class)->names('admin.blog.categories');
 
+        // Blog Posts
         Route::resource('blogs', BlogPostController::class)->names('admin.blog.posts');
-
+        Route::patch('blog/posts/{post}/restore', [BlogPostController::class, 'restore'])->name('admin.blog.posts.restore');
+        Route::delete('blog/posts/{post}/force-delete', [BlogPostController::class, 'forceDelete'])->name('admin.blog.posts.forceDelete');
         Route::patch('blog/posts/{post}/toggle-publish', [BlogPostController::class, 'togglePublish'])->name('admin.blog.posts.togglePublish');
 
         // Galleries
         Route::resource('galleries', GalleryController::class)->names('admin.galleries');
-
-        // Additional gallery routes
         Route::patch('galleries/{gallery}/restore', [GalleryController::class, 'restore'])->name('admin.galleries.restore');
         Route::delete('galleries/{gallery}/force-delete', [GalleryController::class, 'forceDelete'])->name('admin.galleries.forceDelete');
         Route::patch('galleries/{gallery}/toggle-publish', [GalleryController::class, 'togglePublish'])->name('admin.galleries.togglePublish');

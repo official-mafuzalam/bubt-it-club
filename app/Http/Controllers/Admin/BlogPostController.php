@@ -25,12 +25,12 @@ class BlogPostController extends Controller
      */
     public function index()
     {
-        $posts = BlogPost::with(['author', 'categories'])
+        $blogs = BlogPost::with(['author', 'categories'])
             ->withTrashed()
             ->latest()
             ->get();
 
-        return view('admin.blog.posts.index', compact('posts'));
+        return view('admin.blog.posts.index', compact('blogs'));
     }
 
     /**
@@ -87,29 +87,29 @@ class BlogPostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(BlogPost $post)
+    public function show(BlogPost $blog)
     {
-        $post->load(['author', 'categories', 'comments']);
+        $blog->load(['author', 'categories', 'comments']);
 
-        return view('admin.blog.posts.show', compact('post'));
+        return view('admin.blog.posts.show', compact('blog'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(BlogPost $post)
+    public function edit(BlogPost $blog)
     {
         $categories = BlogCategory::all();
         $authors = Member::active()->get();
-        $selectedCategories = $post->categories->pluck('id')->toArray();
+        $selectedCategories = $blog->categories->pluck('id')->toArray();
 
-        return view('admin.blog.posts.edit', compact('post', 'categories', 'authors', 'selectedCategories'));
+        return view('admin.blog.posts.edit', compact('blog', 'categories', 'authors', 'selectedCategories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, BlogPost $post)
+    public function update(Request $request, BlogPost $blog)
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
@@ -126,28 +126,28 @@ class BlogPostController extends Controller
         // Handle featured image upload
         if ($request->hasFile('featured_image')) {
             // Delete old image if exists
-            if ($post->featured_image) {
-                Storage::disk('public')->delete($post->featured_image);
+            if ($blog->featured_image) {
+                Storage::disk('public')->delete($blog->featured_image);
             }
             $validated['featured_image'] = $request->file('featured_image')->store('blog/posts', 'public');
         }
 
         // Generate slug if title changed
-        if ($post->title !== $validated['title']) {
+        if ($blog->title !== $validated['title']) {
             $validated['slug'] = Str::slug($validated['title']);
         }
 
-        // Update the post
-        $post->update($validated);
+        // Update the blog
+        $blog->update($validated);
 
         // Sync categories
-        $post->categories()->sync($request->categories);
+        $blog->categories()->sync($request->categories);
 
         // Handle publishing
-        if ($request->is_published && !$post->published_at) {
-            $post->update(['published_at' => now()]);
-        } elseif (!$request->is_published && $post->published_at) {
-            $post->update(['published_at' => null]);
+        if ($request->is_published && !$blog->published_at) {
+            $blog->update(['published_at' => now()]);
+        } elseif (!$request->is_published && $blog->published_at) {
+            $blog->update(['published_at' => null]);
         }
 
         return redirect()->route('admin.blog.posts.index')
@@ -157,9 +157,9 @@ class BlogPostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(BlogPost $post)
+    public function destroy(BlogPost $blog)
     {
-        $post->delete();
+        $blog->delete();
 
         return redirect()->route('admin.blog.posts.index')
             ->with('success', 'Blog post moved to trash.');
@@ -170,8 +170,8 @@ class BlogPostController extends Controller
      */
     public function restore($id)
     {
-        $post = BlogPost::withTrashed()->findOrFail($id);
-        $post->restore();
+        $blog = BlogPost::withTrashed()->findOrFail($id);
+        $blog->restore();
 
         return redirect()->route('admin.blog.posts.index')
             ->with('success', 'Blog post restored successfully.');
@@ -182,14 +182,14 @@ class BlogPostController extends Controller
      */
     public function forceDelete($id)
     {
-        $post = BlogPost::withTrashed()->findOrFail($id);
+        $blog = BlogPost::withTrashed()->findOrFail($id);
 
         // Delete featured image if exists
-        if ($post->featured_image) {
-            Storage::disk('public')->delete($post->featured_image);
+        if ($blog->featured_image) {
+            Storage::disk('public')->delete($blog->featured_image);
         }
 
-        $post->forceDelete();
+        $blog->forceDelete();
 
         return redirect()->route('admin.blog.posts.index')
             ->with('success', 'Blog post permanently deleted.');
@@ -198,13 +198,13 @@ class BlogPostController extends Controller
     /**
      * Toggle publish status
      */
-    public function togglePublish(BlogPost $post)
+    public function togglePublish(BlogPost $blog)
     {
-        if ($post->is_published) {
-            $post->update(['is_published' => false, 'published_at' => null]);
+        if ($blog->is_published) {
+            $blog->update(['is_published' => false, 'published_at' => null]);
             $message = 'Blog post unpublished successfully.';
         } else {
-            $post->update(['is_published' => true, 'published_at' => now()]);
+            $blog->update(['is_published' => true, 'published_at' => now()]);
             $message = 'Blog post published successfully.';
         }
 

@@ -18,9 +18,12 @@ use App\Models\Contact;
 use App\Models\ExecutiveCommittee;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 
 class WelcomeController extends Controller
 {
+    private $filePath = 'announcement.json';
+
     /**
      * Display the about page.
      *
@@ -33,10 +36,17 @@ class WelcomeController extends Controller
             ->take(3)
             ->get();
 
-        $pageTitle = 'Welcome to BUBT IT Club';
-        $pageDescription = 'Explore our mission, vision, and the latest updates from BUBT IT Club';
+        $announcement = $this->getAnnouncement();
 
-        return view('public.welcome', compact('events', 'pageTitle', 'pageDescription'));
+        return view('public.welcome', compact('events', 'announcement'));
+    }
+
+    private function getAnnouncement()
+    {
+        if (Storage::exists($this->filePath)) {
+            return json_decode(Storage::get($this->filePath), true);
+        }
+        return null;
     }
 
     /**

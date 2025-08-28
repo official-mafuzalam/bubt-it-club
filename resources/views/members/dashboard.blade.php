@@ -4,12 +4,13 @@
             <title>Dashboard</title>
         @endsection
 
+        <x-announcement-modal :announcement="$announcement" />
 
         <div class="space-y-6">
 
             <!-- Stats Cards -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white dark:bg-gray-800 p-6 rounded shadow flex items-center justify-between">
+                {{-- <div class="bg-white dark:bg-gray-800 p-6 rounded shadow flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-500 dark:text-gray-400">Projects</p>
                         <p class="text-2xl font-bold text-gray-800 dark:text-gray-200">
@@ -30,7 +31,7 @@
                     <div class="text-green-500">
                         <i class="fas fa-calendar-alt fa-2x"></i>
                     </div>
-                </div>
+                </div> --}}
                 <div class="bg-white dark:bg-gray-800 p-6 rounded shadow flex items-center justify-between">
                     <div>
                         <p class="text-sm text-gray-500 dark:text-gray-400">Status</p>

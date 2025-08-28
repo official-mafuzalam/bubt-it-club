@@ -7,11 +7,11 @@
     <title>BUBT IT Club - Bangladesh University of Business and Technology</title>
 
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/logo.png') }}" />
-    
+
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <!-- Font Awesome -->
-    {{-- <script src="https://kit.fontawesome.com/b3e3482d82.js" crossorigin="anonymous"></script> --}}
+    <script src="https://kit.fontawesome.com/b3e3482d82.js" crossorigin="anonymous"></script>
 
     {{-- <link rel="preload" as="style" href="{{ asset('build/assets/app-0111b33a.css') }}" />
     <link rel="stylesheet" href="{{ asset('build/assets/app-0111b33a.css') }}" />
@@ -64,19 +64,19 @@
         <div class="md:hidden hidden" id="mobile-menu">
             <div class="pt-2 pb-3 space-y-1">
                 <a href="{{ route('public.welcome') }}"
-                    class="bg-blue-50 text-blue-800 block px-3 py-2 rounded-md text-base font-medium">Home</a>
+                    class="{{ request()->routeIs('public.welcome') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} bg-blue-50 block px-3 py-2 rounded-md text-base font-medium">Home</a>
                 <a href="{{ route('public.about') }}"
-                    class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">About</a>
+                    class="{{ request()->routeIs('public.about') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} block px-3 py-2 rounded-md text-base font-medium">About</a>
                 <a href="{{ route('public.events') }}"
-                    class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Events</a>
+                    class="{{ request()->routeIs('public.events') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} block px-3 py-2 rounded-md text-base font-medium">Events</a>
                 <a href="{{ route('public.projects') }}"
-                    class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+                    class="{{ request()->routeIs('public.projects') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} block px-3 py-2 rounded-md text-base font-medium">Projects</a>
                 <a href="{{ route('public.members.index') }}"
-                    class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Members</a>
+                    class="{{ request()->routeIs('public.members.index') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} block px-3 py-2 rounded-md text-base font-medium">Members</a>
                 <a href="{{ route('public.blogs.index') }}"
-                    class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Blog</a>
+                    class="{{ request()->routeIs('public.blogs.index') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} block px-3 py-2 rounded-md text-base font-medium">Blog</a>
                 <a href="{{ route('public.galleries.index') }}"
-                    class="text-gray-700 hover:bg-gray-50 hover:text-blue-600 block px-3 py-2 rounded-md text-base font-medium">Galleries</a>
+                    class="{{ request()->routeIs('public.galleries.index') ? 'text-blue-800 border-b-2 border-blue-600' : 'text-gray-700 hover:text-blue-600' }} block px-3 py-2 rounded-md text-base font-medium">Galleries</a>
                 <a href="{{ route('members.login') }}"
                     class="block px-3 py-2 rounded-md text-base font-medium bg-blue-600 text-white">Login</a>
             </div>
@@ -189,7 +189,8 @@
                         <a href="#" class="text-gray-400 hover:text-white">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="https://www.linkedin.com/company/bitcofficial/" class="text-gray-400 hover:text-white">
+                        <a href="https://www.linkedin.com/company/bitcofficial/"
+                            class="text-gray-400 hover:text-white">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
                         <a href="#" class="text-gray-400 hover:text-white">
@@ -222,8 +223,11 @@
                         <li><a href="{{ route('public.blogs.index') }}"
                                 class="text-gray-400 hover:text-white">Blog</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white">Tutorials</a></li>
-                        <li><a href="#" class="text-gray-400 hover:text-white">Documentation</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-white">Code Repository</a></li>
+                        <li><a href="{{ route('public.privacy.policy') }}"
+                                class="text-gray-400 hover:text-white">Privacy Policy</a></li>
+                        <li><a href="{{ route('public.terms.service') }}"
+                                class="text-gray-400 hover:text-white">Terms of Service</a></li>
                     </ul>
                 </div>
 
@@ -249,12 +253,12 @@
             </div>
 
             <div class="border-t border-gray-800 mt-8 pt-6 flex flex-col md:flex-row justify-between items-center">
-                <a href="{{ route('admin.index') }}" class="text-gray-400 text-sm">© {{ date('Y') }} BUBT IT Club. All rights reserved.</a>
+                <a href="{{ route('admin.index') }}" class="text-gray-400 text-sm">© {{ date('Y') }} BUBT IT
+                    Club. All rights reserved.</a>
                 <div class="mt-4 md:mt-0">
-                    <a href="{{ route('public.privacy.policy') }}"
-                        class="text-gray-400 hover:text-white text-sm mr-4">Privacy Policy</a>
-                    <a href="{{ route('public.terms.service') }}"
-                        class="text-gray-400 hover:text-white text-sm">Terms of Service</a>
+                    Developed by
+                    <a href="https://www.facebook.com/official.mafuz.alam" target="_blank"
+                        class="text-gray-400 hover:text-white text-sm mr-4">Mafuz Alam</a>
                 </div>
             </div>
         </div>

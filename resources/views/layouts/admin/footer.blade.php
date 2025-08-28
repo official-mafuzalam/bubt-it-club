@@ -1,4 +1,3 @@
-
 <script>
     const HSThemeAppearance = {
         init() {

@@ -22,7 +22,7 @@
         </div>
 
         <div class="bg-white rounded-lg shadow overflow-hidden dark:bg-gray-800">
-            <form action="{{ route('admin.blog.posts.update', ['blog' => $post->id]) }}" method="POST"
+            <form action="{{ route('admin.blog.posts.update', ['blog' => $blog->id]) }}" method="POST"
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -37,7 +37,7 @@
                                 </label>
                                 <input type="text" name="title" id="title" required
                                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    value="{{ old('title', $post->title) }}">
+                                    value="{{ old('title', $blog->title) }}">
                                 @error('title')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -49,7 +49,7 @@
                                     Excerpt <span class="text-red-500">*</span>
                                 </label>
                                 <textarea name="excerpt" id="excerpt" rows="2" required
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('excerpt', $post->excerpt) }}</textarea>
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('excerpt', $blog->excerpt) }}</textarea>
                                 @error('excerpt')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -61,7 +61,7 @@
                                     Content <span class="text-red-500">*</span>
                                 </label>
                                 <textarea name="content" id="content" rows="10" required
-                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('content', $post->content) }}</textarea>
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">{{ old('content', $blog->content) }}</textarea>
                                 @error('content')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
@@ -80,7 +80,7 @@
                                     <option value="">Select Author</option>
                                     @foreach ($authors as $author)
                                         <option value="{{ $author->id }}"
-                                            {{ old('author_id', $post->author_id) == $author->id ? 'selected' : '' }}>
+                                            {{ old('author_id', $blog->author_id) == $author->id ? 'selected' : '' }}>
                                             {{ $author->name }}
                                         </option>
                                     @endforeach
@@ -95,10 +95,10 @@
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     Featured Image
                                 </label>
-                                @if ($post->featured_image)
+                                @if ($blog->featured_image)
                                     <div class="mb-2">
-                                        <img src="{{ asset('storage/' . $post->featured_image) }}"
-                                            alt="{{ $post->title }}" class="w-full h-32 object-cover rounded-md">
+                                        <img src="{{ asset('storage/' . $blog->featured_image) }}"
+                                            alt="{{ $blog->title }}" class="w-full h-32 object-cover rounded-md">
                                         <div class="mt-2 text-sm text-gray-500 dark:text-gray-400">
                                             <label class="inline-flex items-center">
                                                 <input type="checkbox" name="remove_featured_image" value="1"
@@ -147,7 +147,7 @@
                                     </label>
                                     <input type="datetime-local" name="published_at" id="published_at"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                        value="{{ old('published_at', $post->published_at ? $post->published_at->format('Y-m-d\TH:i') : '') }}">
+                                        value="{{ old('published_at', $blog->published_at ? $blog->published_at->format('Y-m-d\TH:i') : '') }}">
                                     @error('published_at')
                                         <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                     @enderror
@@ -156,7 +156,7 @@
                                 <div class="flex items-center">
                                     <input type="checkbox" name="is_published" id="is_published" value="1"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                        {{ old('is_published', $post->is_published) ? 'checked' : '' }}>
+                                        {{ old('is_published', $blog->is_published) ? 'checked' : '' }}>
                                     <label for="is_published"
                                         class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                         Publish post
@@ -181,7 +181,7 @@
             </form>
         </div>
 
-        @push('scripts')
+        {{-- @push('scripts')
             <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
             <script>
                 // Initialize datetime picker
@@ -190,6 +190,6 @@
                     dateFormat: "Y-m-d H:i",
                 });
             </script>
-        @endpush
+        @endpush --}}
     </x-slot>
 </x-admin-layout>

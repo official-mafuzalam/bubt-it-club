@@ -14,7 +14,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('assets/logo.png') }}" />
 
     <!-- Font Awesome -->
-    {{-- <script src="https://kit.fontawesome.com/b3e3482d82.js" crossorigin="anonymous"></script> --}}
+    <script src="https://kit.fontawesome.com/b3e3482d82.js" crossorigin="anonymous"></script>
 
     {{-- <link rel="preload" as="style" href="{{ asset('build/assets/app-0111b33a.css') }}" />
     <link rel="stylesheet" href="{{ asset('build/assets/app-0111b33a.css') }}" />

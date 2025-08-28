@@ -32,7 +32,7 @@
                                         src="{{ $executive->contact_public == 1 && $executive->photo_url
                                             ? asset('storage/' . $executive->photo_url)
                                             : 'https://ui-avatars.com/api/?name=' . urlencode($executive->name) }}"
-                                        alt="Executive">
+                                        alt="{{ $executive->name }}">
 
                                     <div class="ml-4">
                                         <h3 class="text-lg font-semibold">{{ $executive->name }}</h3>
@@ -96,17 +96,12 @@
                             class="bg-white rounded-lg shadow-sm overflow-hidden hover:shadow-md transition duration-300">
                             <div class="p-6 text-center">
                                 <div
-                                    class="mx-auto h-32 w-32 rounded-full overflow-hidden border-4 border-blue-100 mb-4">
-                                    @if ($member->contact_public == 1 && $member->photo_url)
-                                        <img src="{{ asset('storage/' . $member->photo_url) }}"
-                                            alt="{{ $member->name }}" class="h-full w-full object-cover">
-                                    @else
-                                        <div
-                                            class="h-full w-full bg-gray-200 flex items-center justify-center text-gray-500">
-                                            <i class="fas fa-user text-4xl"></i>
-                                        </div>
-                                    @endif
-
+                                    class="mx-auto h-32 w-32 rounded-full overflow-hidden border-4 border-blue-100 mb-4 flex items-center justify-center">
+                                    <img class="h-full w-full object-cover object-center"
+                                        src="{{ $member->contact_public == 1 && $member->photo_url
+                                            ? asset('storage/' . $member->photo_url)
+                                            : 'https://ui-avatars.com/api/?name=' . urlencode($member->name) }}"
+                                        alt="{{ $member->name }}">
                                 </div>
                                 <h3 class="text-lg font-semibold text-gray-900">{{ $member->name }}</h3>
                                 <p class="text-blue-600">{{ $member->department }} - Intake {{ $member->intake }}</p>

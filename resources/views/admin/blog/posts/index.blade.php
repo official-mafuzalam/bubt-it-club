@@ -53,7 +53,7 @@
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200 dark:bg-gray-800 dark:divide-gray-700">
-                        @forelse ($posts as $post)
+                        @forelse ($blogs as $post)
                             <tr class="{{ $post->trashed() ? 'bg-gray-100 dark:bg-gray-900' : '' }}">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center">

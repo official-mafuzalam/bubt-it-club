@@ -10,17 +10,28 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 use App\Models\Member;
 use Exception;
+use Illuminate\Support\Facades\Storage;
 
 class DashboardController extends Controller
 {
+    private $filePath = 'announcement.json';
+
     public function index()
     {
         // Get the currently logged-in member
         $member = Auth::guard('member')->user();
-
         $upcomingEvents = Event::upcoming()->get();
+        $announcement = $this->getAnnouncement();
 
-        return view('members.dashboard', compact('member', 'upcomingEvents'));
+        return view('members.dashboard', compact('member', 'upcomingEvents', 'announcement'));
+    }
+
+    private function getAnnouncement()
+    {
+        if (Storage::exists($this->filePath)) {
+            return json_decode(Storage::get($this->filePath), true);
+        }
+        return null;
     }
 
     public function events()
