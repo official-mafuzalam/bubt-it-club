@@ -99,10 +99,8 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
         // Accounts section
         Route::resource('accounts', AccountController::class)->names('admin.accounts');
 
-        // Income Categories
+        // Income, Expense Categories
         Route::resource('income-categories', IncomeCategoryController::class)->names('admin.income-categories');
-
-        // Expenses Categories
         Route::resource('expense-categories', ExpenseCategoryController::class)->names('admin.expense-categories');
 
         // Events
@@ -115,6 +113,10 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
         Route::post('events/{event}/toggle-paid', [EventController::class, 'togglePaid'])->name('admin.events.toggle-paid');
         Route::post('events/{event}/toggle-registration', [EventController::class, 'toggleRegistration'])->name('admin.events.toggle-registration');
         Route::post('events/{event}/toggle-only-for-members', [EventController::class, 'toggleOnlyForMembers'])->name('admin.events.toggle-only-for-members');
+
+        Route::post('/events/{event}/income', [EventController::class, 'storeIncome'])->name('events.income.store');
+        Route::post('/events/{event}/expense', [EventController::class, 'storeExpense'])->name('events.expense.store');
+
 
 
         // Announcement

@@ -61,6 +61,15 @@
                         {{ $event->only_for_members ? 'For Everyone' : 'IT Club Members Only' }}
                     </button>
                 </form>
+
+                <x-primary-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'income-add')">
+                    {{ __('Add Income') }}
+                </x-primary-button>
+
+                <x-danger-button x-data="" x-on:click.prevent="$dispatch('open-modal', 'expense-add')">
+                    {{ __('Add Expense') }}
+                </x-danger-button>
+
             </div>
         </div>
 
@@ -160,5 +169,185 @@
                 </div>
             </div>
         </div>
+
+        <!-- Income & Expense Details -->
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Incomes -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Event Incomes</h3>
+                @if ($event->incomes->count())
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                    Category</th>
+                                <th
+                                    class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                    Amount</th>
+                                <th
+                                    class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                    Description</th>
+                                <th
+                                    class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                    Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach ($event->incomes as $income)
+                                <tr>
+                                    <td class="px-3 py-2 text-sm text-gray-800 dark:text-gray-200">
+                                        {{ $income->incomeCategory->name ?? 'N/A' }}</td>
+                                    <td class="px-3 py-2 text-sm text-green-600 dark:text-green-400">
+                                        ৳{{ number_format($income->amount, 2) }}</td>
+                                    <td class="px-3 py-2 text-sm text-gray-700 dark:text-gray-300">
+                                        {{ $income->description }}</td>
+                                    <td class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+                                        {{ $income->created_at->format('M d, Y') }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="mt-4 text-right font-semibold text-gray-800 dark:text-white">
+                        Total Income: ৳{{ number_format($event->incomes->sum('amount'), 2) }}
+                    </div>
+                @else
+                    <p class="text-gray-500 dark:text-gray-400">No income records found for this event.</p>
+                @endif
+            </div>
+
+            <!-- Expenses -->
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow p-6">
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-white mb-4">Event Expenses</h3>
+                @if ($event->expenses->count())
+                    <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                        <thead>
+                            <tr>
+                                <th
+                                    class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                    Category</th>
+                                <th
+                                    class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                    Amount</th>
+                                <th
+                                    class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                    Description</th>
+                                <th
+                                    class="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase dark:text-gray-400">
+                                    Date</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                            @foreach ($event->expenses as $expense)
+                                <tr>
+                                    <td class="px-3 py-2 text-sm text-gray-800 dark:text-gray-200">
+                                        {{ $expense->expenseCategory->name ?? 'N/A' }}</td>
+                                    <td class="px-3 py-2 text-sm text-red-600 dark:text-red-400">
+                                        ৳{{ number_format($expense->amount, 2) }}</td>
+                                    <td class="px-3 py-2 text-sm text-gray-700 dark:text-gray-300">
+                                        {{ $expense->description }}</td>
+                                    <td class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+                                        {{ $expense->created_at->format('M d, Y') }}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    <div class="mt-4 text-right font-semibold text-gray-800 dark:text-white">
+                        Total Expense: ৳{{ number_format($event->expenses->sum('amount'), 2) }}
+                    </div>
+                @else
+                    <p class="text-gray-500 dark:text-gray-400">No expense records found for this event.</p>
+                @endif
+            </div>
+        </div>
+
+        <!-- Net Profit/Loss -->
+        <div class="mt-6 mb-6 bg-gray-50 dark:bg-gray-700 p-4 rounded-lg shadow text-right">
+            @php
+                $net = $event->incomes->sum('amount') - $event->expenses->sum('amount');
+            @endphp
+            <span
+                class="text-lg font-bold {{ $net >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400' }}">
+                Net {{ $net >= 0 ? 'Profit' : 'Loss' }}: ৳{{ number_format($net, 2) }}
+            </span>
+        </div>
+
+
+        <x-modal name="income-add" :show="$errors->hasBag('incomeStore')" focusable>
+            <form method="post" action="{{ route('events.income.store', $event) }}" class="p-6">
+                @csrf
+
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    {{ __('Add Income') }}
+                </h2>
+
+                <div class="mt-4">
+                    <x-input-label for="income_category_id" :value="__('Income Category')" />
+                    <select name="income_category_id" id="income_category_id" class="block w-full mt-1">
+                        <option value="">{{ __('Select Category') }}</option>
+                        @foreach ($incomeCategories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->incomeStore->get('income_category_id')" class="mt-2" />
+                </div>
+
+                <div class="mt-4">
+                    <x-input-label for="amount" :value="__('Amount')" />
+                    <x-text-input id="amount" name="amount" type="number" class="block w-full mt-1"
+                        step="0.01" />
+                    <x-input-error :messages="$errors->incomeStore->get('amount')" class="mt-2" />
+                </div>
+
+                <div class="mt-4">
+                    <x-input-label for="description" :value="__('Description')" />
+                    <textarea name="description" id="description" class="block w-full mt-1"></textarea>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <x-secondary-button x-on:click="$dispatch('close')">{{ __('Cancel') }}</x-secondary-button>
+                    <x-primary-button class="ml-3">{{ __('Save Income') }}</x-primary-button>
+                </div>
+            </form>
+        </x-modal>
+
+        <x-modal name="expense-add" :show="$errors->hasBag('expenseStore')" focusable>
+            <form method="post" action="{{ route('events.expense.store', $event) }}" class="p-6">
+                @csrf
+
+                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                    {{ __('Add Expense') }}
+                </h2>
+
+                <div class="mt-4">
+                    <x-input-label for="expense_category_id" :value="__('Expense Category')" />
+                    <select name="expense_category_id" id="expense_category_id" class="block w-full mt-1">
+                        <option value="">{{ __('Select Category') }}</option>
+                        @foreach ($expenseCategories as $category)
+                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->expenseStore->get('expense_category_id')" class="mt-2" />
+                </div>
+
+                <div class="mt-4">
+                    <x-input-label for="amount" :value="__('Amount')" />
+                    <x-text-input id="amount" name="amount" type="number" class="block w-full mt-1"
+                        step="0.01" />
+                    <x-input-error :messages="$errors->expenseStore->get('amount')" class="mt-2" />
+                </div>
+
+                <div class="mt-4">
+                    <x-input-label for="description" :value="__('Description')" />
+                    <textarea name="description" id="description" class="block w-full mt-1"></textarea>
+                </div>
+
+                <div class="mt-6 flex justify-end">
+                    <x-secondary-button x-on:click="$dispatch('close')">{{ __('Cancel') }}</x-secondary-button>
+                    <x-primary-button class="ml-3">{{ __('Save Expense') }}</x-primary-button>
+                </div>
+            </form>
+        </x-modal>
+
     </x-slot>
 </x-admin-layout>

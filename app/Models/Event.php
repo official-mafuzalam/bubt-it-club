@@ -39,6 +39,17 @@ class Event extends Model
         'ticket_price' => 'decimal:2'
     ];
 
+    public function incomes()
+    {
+        return $this->hasMany(EventIncome::class);
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(EventExpense::class);
+    }
+
+
     public function registrations()
     {
         return $this->hasMany(EventRegistration::class);

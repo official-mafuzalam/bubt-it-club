@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Mail\EventRegistrationConfirmation;
 use App\Models\Event;
 use App\Models\EventRegistration;
+use App\Models\ExpenseCategory;
+use App\Models\IncomeCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -132,8 +134,14 @@ class EventController extends Controller
      */
     public function show(Event $event)
     {
-        return view('admin.events.show', compact('event'));
+        $incomeCategories = IncomeCategory::all();
+        $expenseCategories = ExpenseCategory::all();
+
+        $event->load(['incomes.incomeCategory', 'expenses.expenseCategory']);
+
+        return view('admin.events.show', compact('event', 'incomeCategories', 'expenseCategories'));
     }
+
 
     /**
      * Show the form for editing the specified event.
@@ -295,5 +303,42 @@ class EventController extends Controller
         return redirect()->route('admin.events.index')
             ->with('success', 'Event visibility status updated successfully!');
     }
+
+    public function storeIncome(Request $request, Event $event)
+    {
+        $request->validate([
+            'income_category_id' => 'required|exists:income_categories,id',
+            'amount' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+        ]);
+
+        $event->incomes()->create([
+            'event_id' => $event->id,
+            'income_category_id' => $request->income_category_id,
+            'amount' => $request->amount,
+            'description' => $request->description,
+        ]);
+
+        return back()->with('success', 'Income added successfully.');
+    }
+
+    public function storeExpense(Request $request, Event $event)
+    {
+        $request->validate([
+            'expense_category_id' => 'required|exists:expense_categories,id',
+            'amount' => 'required|numeric|min:0',
+            'description' => 'nullable|string',
+        ]);
+
+        $event->expenses()->create([
+            'event_id' => $event->id,
+            'expense_category_id' => $request->expense_category_id,
+            'amount' => $request->amount,
+            'description' => $request->description,
+        ]);
+
+        return back()->with('success', 'Expense added successfully.');
+    }
+
 
 }
