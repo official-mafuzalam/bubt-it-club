@@ -63,4 +63,15 @@ class User extends Authenticatable
         $this->status = 'active';
         $this->save();
     }
+
+    public function incomes()
+    {
+        return $this->hasMany(Income::class, 'inserted_by');
+    }
+
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class, 'inserted_by');
+    }
+
 }

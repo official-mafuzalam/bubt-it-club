@@ -15,4 +15,12 @@ class ExpenseCategory extends Model
     {
         return $query->where('is_active', true);
     }
+
+    /**
+     * Get all expenses under this category.
+     */
+    public function expenses()
+    {
+        return $this->hasMany(Expense::class, 'category_id');
+    }
 }

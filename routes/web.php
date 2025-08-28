@@ -25,6 +25,8 @@ use App\Http\Controllers\Admin\
     UserController,
     ContactController,
 };
+use App\Http\Controllers\Admin\Accounts\ExpenseController;
+use App\Http\Controllers\Admin\Accounts\IncomeController;
 use App\Http\Controllers\Public\WelcomeController;
 use App\Http\Controllers\Public\EventController as PublicEventController;
 use App\Http\Controllers\Public\MemberController as PublicMemberController;
@@ -102,6 +104,11 @@ Route::middleware(['auth', 'role:super_admin|admin|user'])->group(function () {
         // Income, Expense Categories
         Route::resource('income-categories', IncomeCategoryController::class)->names('admin.income-categories');
         Route::resource('expense-categories', ExpenseCategoryController::class)->names('admin.expense-categories');
+
+        // Incomes, Expenses
+        Route::resource('incomes', IncomeController::class)->names('admin.incomes');
+        Route::resource('expenses', ExpenseController::class)->names('admin.expenses');
+
 
         // Events
         Route::resource('events', EventController::class)->names('admin.events');

@@ -15,4 +15,12 @@ class IncomeCategory extends Model
     {
         return $query->where('is_active', true);
     }
+
+    /**
+     * Get all incomes under this category.
+     */
+    public function incomes()
+    {
+        return $this->hasMany(Income::class, 'category_id');
+    }
 }
