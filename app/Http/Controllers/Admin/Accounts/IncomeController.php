@@ -12,14 +12,27 @@ class IncomeController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // $incomes = auth()->user()->incomes;
+        $query = Income::query();
 
-        $incomes = Income::all();
+        if ($request->filled('from_date')) {
+            $query->whereDate('date', '>=', $request->from_date);
+        }
+        if ($request->filled('to_date')) {
+            $query->whereDate('date', '<=', $request->to_date);
+        }
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
 
-        return view('admin.accounts.incomes.index', compact('incomes'));
+        $incomes = $query->with('category')->latest()->paginate(10);
+        $categories = IncomeCategory::all();
+        $totalIncome = $query->sum('amount');
+
+        return view('admin.accounts.incomes.index', compact('incomes', 'categories', 'totalIncome'));
     }
+
 
     /**
      * Show the form for creating a new resource.

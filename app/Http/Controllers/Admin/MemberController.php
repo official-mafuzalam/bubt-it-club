@@ -7,6 +7,7 @@ use App\Mail\MemberCreated;
 use App\Models\Event;
 use App\Models\ExecutiveCommittee;
 use App\Models\Member;
+use App\Models\MembershipPayment;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -96,6 +97,7 @@ class MemberController extends Controller
      */
     public function store(Request $request)
     {
+        // 1. Validate request
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:members,email',
@@ -115,33 +117,45 @@ class MemberController extends Controller
             'contact_public' => 'boolean',
             'social_links_public' => 'boolean',
             'joined_at' => 'required|date',
+            'payment_method' => 'required|string|in:bkash,rocket,nagad,hand_cash',
+            'amount' => 'required|numeric|min:0',
+            'transaction_id' => 'required|string|max:255',
         ]);
 
-        // Handle file upload with student_id as filename
+        // 2. Handle file upload (use student_id as filename)
         if ($request->hasFile('photo')) {
             $extension = $request->file('photo')->getClientOriginalExtension();
-            $fileName = $validated['student_id'] . '.' . $extension; // student_id as filename
+            $fileName = $validated['student_id'] . '.' . $extension;
             $path = $request->file('photo')->storeAs('member-photos', $fileName, 'public');
             $validated['photo_url'] = $path;
         }
 
-        // Hash password
+        // 3. Hash password
         $validated['password'] = Hash::make($validated['password']);
 
-        // Convert arrays to JSON
+        // 4. Convert arrays to JSON for database storage
         $validated['social_links'] = $request->social_links ? json_encode($request->social_links) : null;
         $validated['favorite_categories'] = $request->favorite_categories ? json_encode($request->favorite_categories) : null;
 
-        // Create member
+        // 5. Create member
         $member = Member::create($validated);
 
-        // Send mail
+        // 6. Record initial membership payment
+        MembershipPayment::create([
+            'member_id' => $member->id,
+            'amount' => $validated['amount'],
+            'status' => 'pending',
+            'payment_method' => $validated['payment_method'],
+            'transaction_id' => $validated['transaction_id'],
+        ]);
+
+        // 7. Send notification email
         Mail::to($validated['email'])->send(new MemberCreated($member));
 
+        // 8. Redirect with success message
         return redirect()->route('admin.members.index')
             ->with('success', 'Member created successfully.');
     }
-
 
     /**
      * Display the specified resource.

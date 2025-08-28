@@ -78,7 +78,7 @@
                                         class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                         Publish Date
                                     </label>
-                                    <input type="datetime-local" name="published_at" id="published_at"
+                                    <input type="datetime-local" name="published_at" id="published_at" onclick="this.showPicker()"
                                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         value="{{ old('published_at') }}">
                                     @error('published_at')

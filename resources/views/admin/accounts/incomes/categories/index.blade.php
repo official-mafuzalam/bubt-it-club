@@ -14,9 +14,9 @@
                 </p>
             </div>
             <div class="mt-4 md:mt-0">
-                <a href="{{ route('admin.accounts.index') }}"
-                    class="inline-flex items-center px-4 py-2 bg-gray-200 border border-transparent rounded-md font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-150">
-                    Accounts
+                <a href="{{ route('admin.incomes.index') }}"
+                    class="inline-flex items-center px-4 py-2 bg-gray-400 border border-transparent rounded-md font-medium text-gray-700 hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 transition-colors duration-150">
+                    Income Overview
                 </a>
                 <a href="{{ route('admin.income-categories.create') }}"
                     class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-150">

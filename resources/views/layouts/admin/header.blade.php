@@ -191,7 +191,7 @@
             <!-- End Navigation Toggle -->
 
             <!-- Breadcrumb -->
-            <ol class="ml-3 flex items-center whitespace-nowrap min-w-0" aria-label="Breadcrumb">
+            {{-- <ol class="ml-3 flex items-center whitespace-nowrap min-w-0" aria-label="Breadcrumb">
                 <li class="flex items-center text-sm text-gray-800 dark:text-gray-400">
                     Application Layout
                     <svg class="flex-shrink-0 mx-3 overflow-visible h-2.5 w-2.5 text-gray-400 dark:text-gray-600"
@@ -204,7 +204,7 @@
                 <li class="text-sm font-semibold text-gray-800 truncate dark:text-gray-400" aria-current="page">
                     Dashboard
                 </li>
-            </ol>
+            </ol> --}}
             <!-- End Breadcrumb -->
         </div>
     </div>

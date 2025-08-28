@@ -23,13 +23,33 @@
             </li>
             <li>
                 <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-md hover:bg-gray-100 dark:bg-gray-900 dark:text-white
-                {{ in_array(Route::currentRouteName(), ['admin.accounts.index', 'admin.accounts.create', 'admin.accounts.edit', 'admin.accounts.show', 'admin.income-categories.index', 'admin.income-categories.create', 'admin.income-categories.edit', 'admin.income-categories.show', 'admin.expense-categories.index', 'admin.expense-categories.create', 'admin.expense-categories.edit', 'admin.expense-categories.show']) ? 'bg-gray-200 dark:bg-gray-900' : 'text-slate-700' }}"
+                {{ in_array(Route::currentRouteName(), [
+                    'admin.accounts.index',
+                    'admin.accounts.create',
+                    'admin.accounts.edit',
+                    'admin.accounts.show',
+                    'admin.income-categories.index',
+                    'admin.income-categories.create',
+                    'admin.income-categories.edit',
+                    'admin.income-categories.show',
+                    'admin.expense-categories.index',
+                    'admin.expense-categories.create',
+                    'admin.expense-categories.edit',
+                    'admin.expense-categories.show',
+                    'admin.incomes.index',
+                    'admin.expenses.index',
+                    'admin.incomes.create',
+                    'admin.expenses.create',
+                    'admin.incomes.edit',
+                    'admin.expenses.edit',
+                ])
+                    ? 'bg-gray-200 dark:bg-gray-900'
+                    : 'text-slate-700' }}"
                     href="{{ route('admin.accounts.index') }}">
-                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-5 h-5">
                         <path fill-rule="evenodd"
-                            d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 4a1 1 0 10-2 0v1.07A3.001 3.001 0 0010 15a3 3 0 001-5.83V8a1 1 0 10-2 0v1.17A3.001 3.001 0 0010 5a3 3 0 001 5.83V12a1 1 0 102 0v-1.07A3.001 3.001 0 0010 5z"
+                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm.75-11a.75.75 0 00-1.5 0v.25c-.8.07-1.52.34-2.03.78a2.06 2.06 0 00-.72 1.62c0 .92.64 1.61 1.42 1.99.66.33 1.52.53 2.33.66.7.12 1.31.24 1.7.44.39.19.55.39.55.69 0 .31-.18.53-.45.7-.31.2-.77.31-1.29.31-.52 0-.99-.1-1.32-.29a.75.75 0 10-.76 1.3c.54.31 1.23.47 1.96.5v.25a.75.75 0 001.5 0v-.26c.77-.1 1.46-.38 1.95-.8.53-.45.85-1.06.85-1.75 0-.91-.63-1.57-1.38-1.94-.67-.33-1.54-.52-2.36-.65-.67-.11-1.28-.23-1.66-.43-.38-.19-.54-.39-.54-.68 0-.3.16-.51.4-.67.28-.19.69-.29 1.17-.29.48 0 .92.1 1.2.28a.75.75 0 10.78-1.29 3.68 3.68 0 00-1.48-.43V7z"
                             clip-rule="evenodd" />
-                        <text x="7" y="14" font-size="6" fill="currentColor">$</text>
                     </svg>
                     Accounts Section
                 </a>

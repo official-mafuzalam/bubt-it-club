@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Expense;
+use App\Models\Income;
 use Illuminate\Http\Request;
 
 class AccountController extends Controller
@@ -12,8 +14,19 @@ class AccountController extends Controller
      */
     public function index()
     {
-        return view('admin.accounts.index');
+        $totalIncome = Income::sum('amount');
+        $totalExpense = Expense::sum('amount');
+        $incomeCount = Income::count();
+        $expenseCount = Expense::count();
+
+        return view('admin.accounts.index', compact(
+            'totalIncome',
+            'totalExpense',
+            'incomeCount',
+            'expenseCount'
+        ));
     }
+
 
     /**
      * Show the form for creating a new resource.

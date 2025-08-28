@@ -15,11 +15,12 @@ class Member extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
+        'birthdate',
         'password',
         'student_id',
         'department',
         'intake',
-        'phone',
         'gender',
         'position',
         'executive_committee_id',
@@ -35,6 +36,7 @@ class Member extends Authenticatable
     ];
 
     protected $casts = [
+        'birthdate' => 'date',
         'social_links' => 'array',
         'favorite_categories' => 'array',
         'joined_at' => 'date',

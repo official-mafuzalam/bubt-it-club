@@ -12,11 +12,30 @@ class ExpenseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $expenses = Expense::all();
-        return view('admin.accounts.expenses.index', compact('expenses'));
+        $query = Expense::query();
+
+        // Filters
+        if ($request->filled('from_date')) {
+            $query->whereDate('date', '>=', $request->from_date);
+        }
+
+        if ($request->filled('to_date')) {
+            $query->whereDate('date', '<=', $request->to_date);
+        }
+
+        if ($request->filled('category_id')) {
+            $query->where('category_id', $request->category_id);
+        }
+
+        $expenses = $query->with('category')->latest()->paginate(10);
+        $categories = ExpenseCategory::all();
+        $totalExpense = $query->sum('amount'); // Total based on filters
+
+        return view('admin.accounts.expenses.index', compact('expenses', 'categories', 'totalExpense'));
     }
+
 
     /**
      * Show the form for creating a new resource.
