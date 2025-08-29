@@ -12,81 +12,83 @@
                     View all information about {{ $member->name }}
                 </p>
             </div>
+            <a href="{{ route('admin.members.index') }}"
+                class="px-4 py-2 bg-gray-400 text-gray-700 rounded-md hover:bg-gray-300 transition duration-150">
+                Back to Members
+            </a>
         </div>
 
         <!-- Profile Section -->
         <div class="bg-white rounded-lg shadow overflow-hidden dark:bg-gray-800 p-6 mb-4">
             <div class="flex flex-wrap gap-2 mt-4">
-                <a href="{{ route('admin.members.executive', $member->id) }}"
-                    class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-150">
-                    Add To Executive
-                </a>
 
-                <a href="{{ route('admin.members.edit', $member->id) }}"
-                    class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-150">
-                    Edit Member
-                </a>
+                @can('member_create')
+                    <a href="{{ route('admin.members.executive', $member->id) }}"
+                        class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition duration-150">
+                        Add To Executive
+                    </a>
 
-                <form action="{{ route('admin.members.email-confirmation', $member->id) }}" method="POST">
-                    @csrf
-                    <button type="submit"
-                        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-150">
-                        Resend Email
-                    </button>
-                </form>
+                    <a href="{{ route('admin.members.edit', $member->id) }}"
+                        class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 transition duration-150">
+                        Edit Member
+                    </a>
 
-                <form action="{{ route('admin.members.password.reset', $member->id) }}" method="POST">
-                    @csrf
-                    <button type="submit"
-                        class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-150">
-                        Reset Password
-                    </button>
-                </form>
+                    <form action="{{ route('admin.members.email-confirmation', $member->id) }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition duration-150">
+                            Resend Email
+                        </button>
+                    </form>
 
-                <form action="{{ route('admin.members.toggle-activation', $member->id) }}" method="POST">
-                    @csrf
-                    <button type="submit"
-                        class="px-4 py-2 rounded-md text-white transition duration-150 
+                    <form action="{{ route('admin.members.password.reset', $member->id) }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition duration-150">
+                            Reset Password
+                        </button>
+                    </form>
+
+                    <form action="{{ route('admin.members.toggle-activation', $member->id) }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="px-4 py-2 rounded-md text-white transition duration-150 
                     {{ $member->is_active ? 'bg-gray-600 hover:bg-gray-700' : 'bg-green-600 hover:bg-green-700' }}">
-                        {{ $member->is_active ? 'Deactivate' : 'Activate' }}
-                    </button>
-                </form>
+                            {{ $member->is_active ? 'Deactivate' : 'Activate' }}
+                        </button>
+                    </form>
 
-                <form action="{{ route('admin.members.toggle-verification', $member->id) }}" method="POST">
-                    @csrf
-                    <button type="submit"
-                        class="px-4 py-2 rounded-md text-white transition duration-150 
+                    <form action="{{ route('admin.members.toggle-verification', $member->id) }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="px-4 py-2 rounded-md text-white transition duration-150 
                     {{ $member->is_verified ? 'bg-gray-600 hover:bg-gray-700' : 'bg-blue-600 hover:bg-blue-700' }}">
-                        {{ $member->is_verified ? 'Unverify' : 'Verify' }}
-                    </button>
-                </form>
+                            {{ $member->is_verified ? 'Unverify' : 'Verify' }}
+                        </button>
+                    </form>
 
-                @php
-                    $latestPayment = $member->payments()->latest()->first();
-                    $isPaid = $latestPayment && $latestPayment->status === 'completed';
-                @endphp
-                <form action="{{ route('admin.members.payments', $member->id) }}" method="POST">
-                    @csrf
-                    @method('PATCH')
-                    <button type="submit"
-                        class="px-4 py-2 rounded-md text-white transition duration-150
+                    @php
+                        $latestPayment = $member->payments()->latest()->first();
+                        $isPaid = $latestPayment && $latestPayment->status === 'completed';
+                    @endphp
+                    <form action="{{ route('admin.members.payments', $member->id) }}" method="POST">
+                        @csrf
+                        @method('PATCH')
+                        <button type="submit"
+                            class="px-4 py-2 rounded-md text-white transition duration-150
                     {{ $isPaid ? 'bg-green-600 hover:bg-green-700' : 'bg-yellow-600 hover:bg-yellow-700' }}">
-                        {{ $isPaid ? 'Mark as Pending' : 'Mark as Paid' }}
-                    </button>
-                </form>
+                            {{ $isPaid ? 'Mark as Pending' : 'Mark as Paid' }}
+                        </button>
+                    </form>
 
-                <form action="{{ route('admin.members.add-to-user', $member->id) }}" method="POST">
-                    @csrf
-                    <button type="submit"
-                        class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition duration-150">
-                        Add To User
-                    </button>
-                </form>
-
-                <a href="{{ route('admin.members.index') }}"
-                    class="px-4 py-2 bg-gray-400 text-gray-700 rounded-md hover:bg-gray-300 transition duration-150">
-                    Back to Members
-                </a>
+                    <form action="{{ route('admin.members.add-to-user', $member->id) }}" method="POST">
+                        @csrf
+                        <button type="submit"
+                            class="px-4 py-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700 transition duration-150">
+                            Add To User
+                        </button>
+                    </form>
+                @endcan
             </div>
         </div>
 
