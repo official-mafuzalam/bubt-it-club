@@ -12,12 +12,14 @@
                     Manage the single announcement in the system.
                 </p>
             </div>
-            <div class="mt-4 md:mt-0">
-                <a href="{{ route('admin.announcements.create') }}"
-                    class="inline-flex items-center px-4 py-2 bg-blue-600 rounded-md text-white font-medium hover:bg-blue-700 focus:outline-none">
-                    {{ $announcement ? 'Edit Announcement' : 'Create Announcement' }}
-                </a>
-            </div>
+            @can('announcement_create')
+                <div class="mt-4 md:mt-0">
+                    <a href="{{ route('admin.announcements.create') }}"
+                        class="inline-flex items-center px-4 py-2 bg-blue-600 rounded-md text-white font-medium hover:bg-blue-700 focus:outline-none">
+                        {{ $announcement ? 'Edit Announcement' : 'Create Announcement' }}
+                    </a>
+                </div>
+            @endcan
         </div>
 
         @if ($announcement)
@@ -52,12 +54,14 @@
                     </a>
                 @endif
 
-                <div class="flex justify-end space-x-2">
-                    <a href="{{ route('admin.announcements.create') }}"
-                        class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
-                        Edit
-                    </a>
-                </div>
+                @can('announcement_create')
+                    <div class="flex justify-end space-x-2">
+                        <a href="{{ route('admin.announcements.create') }}"
+                            class="px-4 py-2 bg-yellow-500 text-white rounded-md hover:bg-yellow-600">
+                            Edit
+                        </a>
+                    </div>
+                @endcan
 
                 <p class="text-sm text-gray-500 dark:text-gray-400">Created at: {{ $announcement['created_at'] }}</p>
             </div>

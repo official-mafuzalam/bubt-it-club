@@ -10,7 +10,10 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
-    //
+    public function __construct()
+    {
+        $this->middleware('can:permission')->only(['checkPer', 'permission', 'permissionCreatePage', 'permissionCreate', 'permissionEditPage', 'permissionUpdate']);
+    }
 
     public function permission()
     {

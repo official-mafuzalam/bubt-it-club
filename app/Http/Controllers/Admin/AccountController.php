@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:accounts')->only(['index']);
+    }
+
     /**
      * Display a listing of the resource.
      */

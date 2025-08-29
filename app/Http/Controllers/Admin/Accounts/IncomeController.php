@@ -9,6 +9,13 @@ use Illuminate\Http\Request;
 
 class IncomeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:income')->only(['index', 'show']);
+        $this->middleware('can:income_create')->only(['create', 'store']);
+        $this->middleware('can:income_edit')->only(['edit', 'update']);
+        $this->middleware('can:income_delete')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */

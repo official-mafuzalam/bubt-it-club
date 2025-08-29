@@ -10,8 +10,10 @@ use App\Models\User;
 
 class RoleController extends Controller
 {
-    //
-
+    public function __construct()
+    {
+        $this->middleware('can:role')->only(['role', 'roleCreatePage', 'create', 'roleEditPage', 'roleUpdate', 'givePermission', 'revokePermission']);
+    }
     public function role()
     {
         $roles = Role::paginate(10);

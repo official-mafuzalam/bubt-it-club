@@ -10,6 +10,13 @@ use Illuminate\View\View;
 
 class ExecutiveCommitteeController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:member')->only(['index', 'show', 'current']);
+        $this->middleware('can:member_create')->only(['create', 'store']);
+        $this->middleware('can:member_edit')->only(['edit', 'update']);
+        $this->middleware('can:member_delete')->only(['destroy']);
+    }
     /**
      * Display a listing of the resource.
      */

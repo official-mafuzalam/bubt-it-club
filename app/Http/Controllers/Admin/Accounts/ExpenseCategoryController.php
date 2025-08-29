@@ -8,6 +8,14 @@ use Illuminate\Http\Request;
 
 class ExpenseCategoryController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:expense')->only(['index']);
+        $this->middleware('can:expense_create')->only(['create', 'store']);
+        $this->middleware('can:expense_edit')->only(['edit', 'update']);
+        $this->middleware('can:expense_delete')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */

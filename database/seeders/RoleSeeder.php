@@ -25,6 +25,17 @@ class RoleSeeder extends Seeder
         }
 
         $permissions = [
+            'announcement',
+            'announcement_create',
+            'accounts',
+            'income',
+            'income_create',
+            'income_edit',
+            'income_delete',
+            'expense',
+            'expense_create',
+            'expense_edit',
+            'expense_delete',
             'event',
             'event_create',
             'event_edit',
@@ -48,12 +59,13 @@ class RoleSeeder extends Seeder
             'contact',
             'role',
             'permission',
-            'block_user',
-            'user_add',
-            'user_assign_role',
-            'user_assign_permission',
+            'user',
+            'user_create',
             'user_edit',
-            'user_delete'
+            'user_delete',
+            'user_block',
+            'user_assign_role',
+            'user_assign_permission'
         ];
         foreach ($permissions as $permission) {
             Permission::create(['name' => $permission]);

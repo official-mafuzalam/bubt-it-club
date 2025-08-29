@@ -10,6 +10,12 @@ class AnnouncementController extends Controller
 {
     private $filePath = 'announcement.json';
 
+    public function __construct()
+    {
+        $this->middleware('can:announcement')->only(['index']);
+        $this->middleware('can:announcement_create')->only(['create', 'store', 'edit', 'update', 'toggleStatus']);
+    }
+    
     /**
      * Display the current announcement.
      */

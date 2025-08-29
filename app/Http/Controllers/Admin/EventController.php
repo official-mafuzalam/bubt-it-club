@@ -19,11 +19,11 @@ class EventController extends Controller
     public function __construct()
     {
         $this->middleware('can:event')->only(['index', 'show']);
-        $this->middleware('can:event_create')->only(['create', 'store']);
-        $this->middleware('can:event_edit')->only(['edit', 'update', 'togglePublish', 'togglePaid', 'toggleRegistration']);
+        $this->middleware('can:event_create')->only(['create', 'store', 'storeIncome', 'storeExpense']);
+        $this->middleware('can:event_edit')->only(['edit', 'update', 'togglePublish', 'togglePaid', 'toggleRegistration', 'toggleOnlyForMembers',]);
         $this->middleware('can:event_delete')->only(['destroy']);
     }
-
+    
     /**
      * Display a listing of events.
      */
